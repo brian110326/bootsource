@@ -15,6 +15,7 @@ public class SampleController {
 
     // 404 : 경로 없음(controller의 mapping 주소를 확인)
     // 500 : ex) TemplateInputException: Error resolving template [sample/basic],
+    // 400 : Bad Request, status=400
     // template might not exist or might not be accessible by any of the configured
     // Template Resolvers
     // ==> templates 폴더를 확인해본다
