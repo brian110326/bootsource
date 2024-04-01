@@ -14,4 +14,5 @@ import lombok.ToString;
 public class AddDto {
     private int num1;
     private int num2;
+    private int result;
 }

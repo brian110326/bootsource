@@ -1,6 +1,7 @@
 package com.example.web1.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,12 +49,15 @@ public class AddController {
     // }
 
     @PostMapping("/add")
-    public void addPost(AddDto dto) {
+    public void addPost(AddDto dto, Model model) {
         // getParameter로 하면 원래 String으로 오는데
         // 타입변환을 자동적으로 해줌
         log.info("/calc/add post 주소 요청");
         log.info("num1 = {}", dto.getNum1());
         log.info("num2 = {}", dto.getNum2());
+
+        // dto.setResult(dto.getNum1() + dto.getNum2());
+        model.addAttribute("result", dto.getNum1() + dto.getNum2());
     }
 
     // 데이터 전송
