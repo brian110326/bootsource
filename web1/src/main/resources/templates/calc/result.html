@@ -8,9 +8,17 @@
   <body>
     <ul>
       <li>Num1 : <span th:text="${rulesDto?.num1}"></span></li>
-      <li>Operation : <span th:text="${operation}"></span></li>
+      <li>Operation : <span th:text="${op}"></span></li>
       <li>Num2 : <span th:text="${rulesDto?.num2}"></span></li>
       <li>Result : <span th:text="${result}"></span></li>
     </ul>
+
+    <div>
+      <input type="text" name="" id="" size="5" th:value="${rulesDto?.num1}" />
+      <span th:text="${op}"></span>
+      <input type="text" name="" id="" size="5" th:value="${rulesDto?.num2}" />
+      =
+      <input type="text" name="" id="" size="5" th:value="${result}" />
+    </div>
   </body>
 </html>

@@ -30,8 +30,6 @@ public class RulesController {
         log.info("operation : {}", op);
         log.info("num2 : {}", dto.getNum2());
 
-        model.addAttribute("operation", op);
-
         if (op.equals("+")) {
             model.addAttribute("result", dto.getNum1() + dto.getNum2());
         } else if (op.equals("-")) {
