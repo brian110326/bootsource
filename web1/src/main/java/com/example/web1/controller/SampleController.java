@@ -1,9 +1,16 @@
 package com.example.web1.controller;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.web1.dto.SampleDto;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -31,14 +38,48 @@ public class SampleController {
 
     // http://localhost:8080/sample/basic 요청
     @GetMapping("/basic")
-    public void basic() {
+    public void basic(Model model) {
         log.info("/sample/basic 주소 요청");
+
+        model.addAttribute("name", "홍길동");
+
+        // SampleDto sampleDto = new SampleDto();
+        // sampleDto.setFirst("first");
+        // sampleDto.setId(1L);
+        // sampleDto.setLast("last");
+        // sampleDto.setRegTime(LocalDateTime.now());
+
+        // lombok Builder pattern 이용
+        SampleDto sampleDto = SampleDto.builder()
+                .first("first")
+                .id(1L)
+                .last("last")
+                .regTime(LocalDateTime.now())
+                .build();
+
+        model.addAttribute("dto", sampleDto);
+
+        List<SampleDto> list = new ArrayList<>();
+        for (Long i = 1L; i < 21; i++) {
+            SampleDto dto = SampleDto.builder()
+                    .first("first" + i)
+                    .id(i)
+                    .last("last" + i)
+                    .regTime(LocalDateTime.now())
+                    .build();
+
+            list.add(dto);
+        }
+
+        model.addAttribute("list", list);
+
     }
 
     // http://localhost:8080/sample/ex1
     @GetMapping("/ex1")
-    public void ex1() {
+    public void ex1(Model model) {
         log.info("/sample/ex1 주소 요청");
+        model.addAttribute("result", "SUCCESS");
     }
 
     @GetMapping("/ex2")
