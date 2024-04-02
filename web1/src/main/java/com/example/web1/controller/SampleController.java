@@ -89,4 +89,19 @@ public class SampleController {
         return "/index";
     }
 
+    @GetMapping("/ex3")
+    public void ex3() {
+        log.info("/ex3 주소 요청");
+    }
+
+    @GetMapping("/ex4")
+    public void ex4(String param1, String param2, Model model) {
+        log.info("/ex4 주소 요청");
+        log.info("param1 = {}", param1);
+        log.info("param2 = {}", param2);
+
+        model.addAttribute("param1", param1);
+        model.addAttribute("param2", param2);
+    }
+
 }

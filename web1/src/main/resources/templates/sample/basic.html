@@ -48,7 +48,9 @@
       <tbody>
         <tr th:each="dto : ${list}">
           <td th:text="${dto.id}"></td>
-          <td th:text="${dto.first}"></td>
+          <td>
+            <a th:href="@{ex1(id=${dto.id})}" th:text="${dto.first}"></a>
+          </td>
           <td th:text="${dto.last}"></td>
           <!-- https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#dates -->
           <td th:text="${#temporals.format(dto.regTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
