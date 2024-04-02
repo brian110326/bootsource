@@ -2,6 +2,8 @@ package com.example.web1.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -72,6 +74,11 @@ public class SampleController {
         }
 
         model.addAttribute("list", list);
+
+        model.addAttribute("now", new Date());
+        model.addAttribute("price", 123456789);
+        model.addAttribute("title", "This is just a sample");
+        model.addAttribute("options", Arrays.asList("AAAA", "BBBB", "CCCC", "DDDD"));
 
     }
 

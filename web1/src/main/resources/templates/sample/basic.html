@@ -134,5 +134,18 @@
         <span th:case="false" th:text="${dto.last}"></span>
       </li>
     </ul>
+
+    <h4>thymeleaf 유틸리티 객체</h4>
+    <div th:text="${now}"></div>
+    <div th:text="${#dates.format(now, 'yyyy-MM-dd')}"></div>
+
+    <div th:text="${price}"></div>
+    <div th:text="${#numbers.formatInteger(price,3,'COMMA')}"></div>
+
+    <div th:text="${title}"></div>
+    <div th:utext="${#strings.replace(title,'s','<b>s</b>')}"></div>
+    <div th:utext="${#strings.startsWith(title,'This')}"></div>
+
+    <div th:text="${options}"></div>
   </body>
 </html>
