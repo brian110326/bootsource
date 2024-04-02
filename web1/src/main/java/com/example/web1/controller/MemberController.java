@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.web1.dto.LoginDto;
+import com.example.web1.dto.MemberDto;
 
 import jakarta.validation.Valid;
 
@@ -73,5 +74,20 @@ public class MemberController {
 
     // 데이터 전송
     // request.setAttribute("이름",값) ==> Model
+
+    @GetMapping("/join")
+    public void join(MemberDto memberDto) {
+        log.info("/member/join 주소 요청");
+    }
+
+    @PostMapping("/join")
+    public String joinPost(@Valid MemberDto memberDto, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "/member/join";
+        }
+
+        return "redirect:/member/login";
+    }
 
 }
