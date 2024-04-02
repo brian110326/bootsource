@@ -6,8 +6,10 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>ex4</h1>
-    <div th:text="${param1}"></div>
-    <div th:text="${param2}"></div>
+    <!-- header 영역 불러오기 -->
+    <div th:replace="/fragments/seperate :: header"></div>
+    <h1>EX5</h1>
+    <div th:insert="/fragments/seperate :: content"></div>
+    <div th:insert="/fragments/seperate :: footer"></div>
   </body>
 </html>

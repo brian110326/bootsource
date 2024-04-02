@@ -104,4 +104,16 @@ public class SampleController {
         model.addAttribute("param2", param2);
     }
 
+    @GetMapping("/ex5")
+    public void ex5() {
+        log.info("/ex5 주소 요청");
+
+    }
+
+    @GetMapping("/ex6")
+    public void ex6() {
+        log.info("/ex6 주소 요청");
+
+    }
+
 }
