@@ -22,6 +22,7 @@ public class MemberRepositoryTest {
         IntStream.rangeClosed(1, 10).forEach(i -> {
             Member member = Member.builder().id("member" + i).age(30 + i).roleType(RoleType.USER)
                     .createdDate(LocalDateTime.now()).lastModifiedDate(LocalDateTime.now())
+                    .userName("Mark")
                     .description("Description" + i)
                     .build();
 
@@ -39,6 +40,12 @@ public class MemberRepositoryTest {
         System.out.println("============================");
 
         memberRepository.findAll().forEach(member -> {
+            System.out.println(member);
+        });
+
+        System.out.println("========================================");
+        // 특정이름을 조회
+        memberRepository.findByUserName("Mark").forEach(member -> {
             System.out.println(member);
         });
     }
