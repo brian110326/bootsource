@@ -13,7 +13,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Table(name = "membertbl", uniqueConstraints = {
         @UniqueConstraint(name = "NAME_AGE_UNIQUE", columnNames = { "name", "age" }) })
 @Entity
