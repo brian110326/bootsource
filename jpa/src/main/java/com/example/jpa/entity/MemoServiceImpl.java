@@ -35,6 +35,11 @@ public class MemoServiceImpl {
 
         return mDto;
     }
+
+    public MemoDto getMemo(Long mno) {
+        Memo entity = memoRepository.findById(mno).get();
+        return entityToDto(entity);
+    }
 }
 
 // @Service
