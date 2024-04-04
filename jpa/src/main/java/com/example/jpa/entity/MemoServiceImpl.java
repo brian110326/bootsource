@@ -36,10 +36,39 @@ public class MemoServiceImpl {
         return mDto;
     }
 
+    private Memo dtoToEntity(MemoDto mDto) {
+        Memo entity = Memo.builder().mno(mDto.getMno()).memoText(mDto.getMemoText()).build();
+
+        return entity;
+    }
+
     public MemoDto getMemo(Long mno) {
         Memo entity = memoRepository.findById(mno).get();
         return entityToDto(entity);
     }
+
+    public MemoDto updateMemo(MemoDto mDto) {
+        // update 대상 찾기
+        Memo entity = memoRepository.findById(mDto.getMno()).get();
+        // 변경
+        entity.setMemoText(mDto.getMemoText());
+
+        // 변경될 값을 전달
+        return entityToDto(memoRepository.save(entity));
+    }
+
+    public void deleteMemo(Long mno) {
+        // Memo entity = memoRepository.findById(mno).get();
+        // memoRepository.delete(entity);
+
+        memoRepository.deleteById(mno);
+    }
+
+    public void insertMemo(MemoDto mDto) {
+        // dto ==> entity로
+        memoRepository.save(dtoToEntity(mDto));
+    }
+
 }
 
 // @Service
