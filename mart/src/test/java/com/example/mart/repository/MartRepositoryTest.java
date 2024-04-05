@@ -8,6 +8,7 @@ import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.mart.entity.Item;
 import com.example.mart.entity.Member;
@@ -110,5 +111,45 @@ public class MartRepositoryTest {
         Order order = orderRepository.findById(1L).get();
         order.setOrderStatus(OrderStatus.CANCEL);
         orderRepository.save(order);
+    }
+
+    @Test
+    public void deleteTest() {
+        // 주문(부모) 제거 시 주문 아이템도(자식) 같이 제거 가능?
+        // 주문 조회시 주문 아이템 조회 가능?
+        // orderRepository.deleteById(1L); ==> 주문아이템이 아직 존재하기 때문에 error
+
+        // 주문아이템 제거 -> 주문 제거
+        orderItemRepository.delete(OrderItem.builder().id(1L).build());
+        orderRepository.deleteById(1L);
+    }
+
+    @Test
+    // @Transactional
+    public void readTest2() {
+        // @OneToMany를 이용해 조회 => 관련있는 엔티티를 처음부터 가지고 오지 않음
+        // Order : OrderItem
+
+        Order order = orderRepository.findById(1L).get();
+        System.out.println(order); // error발생
+
+        // Order를 기준으로 OrderItem 조회
+        // 1) Transacional
+        // 2) FetchType.EAGER로 변경
+        System.out.println(order.getOrderItems());
+
+    }
+
+    @Test
+    // @Transactional
+    public void readTest3() {
+        // @OneToMany를 이용해 조회 => 관련있는 엔티티를 처음부터 가지고 오지 않음
+        // Member : Order
+        // 멤버를 통해 해당 주문내역을 조회
+
+        Member member = memberRepository.findById(1L).get();
+        System.out.println(member);
+
+        System.out.println(member.getOrders());
     }
 }
