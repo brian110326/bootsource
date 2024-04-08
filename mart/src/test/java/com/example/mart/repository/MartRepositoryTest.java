@@ -194,4 +194,13 @@ public class MartRepositoryTest {
         System.out.println(order.getDelivery().getZipcode());
 
     }
+
+    @Test
+    public void deliveryOrderGet() {
+        // delivery쪽에서 order를 조회하기
+        Delivery delivery = deliveryRepository.findById(1L).get();
+        System.out.println(delivery);
+
+        System.out.println(delivery.getOrder());
+    }
 }

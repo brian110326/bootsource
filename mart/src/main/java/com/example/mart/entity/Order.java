@@ -29,7 +29,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "orderItems")
+@ToString(exclude = { "orderItems", "delivery" })
 // ToString에는 Order, OrderItems가 같이 들어있으니 오류가 남
 @Table(name = "orders") // 테이블명 order 사용불가
 @Entity

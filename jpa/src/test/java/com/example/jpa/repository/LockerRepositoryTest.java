@@ -43,4 +43,12 @@ public class LockerRepositoryTest {
         System.out.println(member);
         System.out.println(member.getLocker());
     }
+
+    @Test
+    public void lockerMemberGet() {
+        Locker locker = lockerRepository.findById(1L).get();
+        System.out.println(locker);
+
+        System.out.println(locker.getSportsMember());
+    }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = "sportsMember")
 @Entity
 public class Locker {
 
@@ -27,4 +28,7 @@ public class Locker {
     private Long id;
 
     private String name;
+
+    @OneToOne(mappedBy = "locker") // locker를 기준으로 sportsmember조회
+    private SportsMember sportsMember;
 }
