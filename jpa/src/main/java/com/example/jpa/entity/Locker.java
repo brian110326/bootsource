@@ -19,7 +19,7 @@ import lombok.ToString;
 @Builder
 @ToString(exclude = "sportsMember")
 @Entity
-public class Locker {
+public class Locker extends BaseEntity {
 
     @Id
     @Column(name = "locker_id")

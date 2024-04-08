@@ -1,4 +1,4 @@
-package com.example.jpa.entity;
+package com.example.mart.entity;
 
 import java.time.LocalDateTime;
 

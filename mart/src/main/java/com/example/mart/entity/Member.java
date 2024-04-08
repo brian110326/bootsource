@@ -24,7 +24,7 @@ import lombok.ToString;
 @ToString(exclude = "orders")
 @Table(name = "mart_member")
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "mart_member_seq_gen", sequenceName = "mart_member_seq", allocationSize = 1)
@@ -39,7 +39,7 @@ public class Member {
 
     private String street;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER) // 반대편에 있는 Member 변수명
+    @OneToMany(mappedBy = "member") // 반대편에 있는 Member 변수명
     @Builder.Default
     private List<Order> orders = new ArrayList<>();
 }

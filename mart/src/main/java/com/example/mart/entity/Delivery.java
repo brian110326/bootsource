@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +22,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(exclude = "order") // 참조관계에 있는 것들은 일단 exclude먼저 시키기
 @Entity
-public class Delivery {
+public class Delivery extends BaseEntity {
 
     @Id
     @Column(name = "delivery_id")
@@ -41,6 +42,6 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;
 }

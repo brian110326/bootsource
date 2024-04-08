@@ -33,7 +33,7 @@ import lombok.ToString;
 // ToString에는 Order, OrderItems가 같이 들어있으니 오류가 남
 @Table(name = "orders") // 테이블명 order 사용불가
 @Entity
-public class Order {
+public class Order extends BaseEntity {
 
     @Id
     @Column(name = "order_id")
@@ -52,7 +52,7 @@ public class Order {
     private OrderStatus orderStatus;
 
     // deleteTest하기 위해서
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     @Builder.Default
     private List<OrderItem> orderItems = new ArrayList<>();
 

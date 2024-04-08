@@ -146,7 +146,7 @@ public class MartRepositoryTest {
     }
 
     @Test
-    // @Transactional
+    @Transactional
     public void readTest3() {
         // @OneToMany를 이용해 조회 => 관련있는 엔티티를 처음부터 가지고 오지 않음
         // Member : Order

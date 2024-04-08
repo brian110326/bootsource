@@ -27,13 +27,20 @@ public class LockerRepositoryTest {
             lockerRepository.save(locker);
         });
 
-        LongStream.rangeClosed(1, 3).forEach(i -> {
+        LongStream.rangeClosed(7, 9).forEach(i -> {
             SportsMember sportsMember = SportsMember.builder().name("user" + i).locker(Locker.builder().id(i).build())
                     .build();
 
             sportsMemberRepository.save(sportsMember);
         });
 
+    }
+
+    @Test
+    public void updateTest() {
+        SportsMember sportsMember = sportsMemberRepository.findById(6L).get();
+        sportsMember.setName("Brian");
+        sportsMemberRepository.save(sportsMember);
     }
 
     @Test
