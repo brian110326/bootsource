@@ -40,7 +40,7 @@ public class ParentRepositoryTest {
     public void insertCascadeTest() {
         // 부모1명에 자식 2명
 
-        Parent parent = Parent.builder().name("Parent2").build();
+        Parent parent = Parent.builder().name("Parent3").build();
 
         LongStream.rangeClosed(1, 2).forEach(i -> {
             Child child = Child.builder().name("child" + i).parent(parent).build();
@@ -88,20 +88,15 @@ public class ParentRepositoryTest {
     }
 
     @Test
-    @Transactional
+    // @Transactional
     public void deleteOrphanTest() {
 
-        Parent parent = parentRepository.findById(2L).get();
+        Parent p = parentRepository.findById(102L).get();
 
-        // FetchTpye이 LAZAY인 경우 오류발생
-        // System.out.println(parent.getChildList());
+        System.out.println(p.getChildList());
 
-        LongStream.rangeClosed(1, 2).forEach(i -> {
-            Child child = Child.builder().name("child" + i).parent(parent).build();
-            childRepository.save(child);
-        });
-
-        // parentRepository.save(parent);
+        p.getChildList().remove(0); // 인덱스 제거 => childList에서 제거(고아객체) => 엔티티 제거
+        parentRepository.save(p);
 
     }
 }

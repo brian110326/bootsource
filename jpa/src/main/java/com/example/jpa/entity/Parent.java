@@ -20,7 +20,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "childList")
 @Builder
 public class Parent {
 
@@ -31,7 +31,7 @@ public class Parent {
     private String name;
 
     // orphanRemoval : 부모하고 연관관계가 끊어진 경우(고아객체) 자동으로 삭제
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Child> childList = new ArrayList<>();
 

@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "parent")
 @Builder
 public class Child {
 
