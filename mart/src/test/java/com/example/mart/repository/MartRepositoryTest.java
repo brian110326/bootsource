@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.mart.entity.Delivery;
+import com.example.mart.entity.DeliveryStatus;
 import com.example.mart.entity.Item;
 import com.example.mart.entity.Member;
 import com.example.mart.entity.Order;
@@ -30,6 +32,9 @@ public class MartRepositoryTest {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private DeliveryRepository deliveryRepository;
 
     @Test
     public void insertTest() {
@@ -151,5 +156,42 @@ public class MartRepositoryTest {
         System.out.println(member);
 
         System.out.println(member.getOrders());
+    }
+
+    @Test
+    public void orderInsertDeliveryTest() {
+        // 누가 주문하는지
+        Member member = Member.builder().id(1L).build();
+        // 어떤 상품을 주문하는지
+        Item item = Item.builder().id(2L).build();
+
+        // 배송지 입력
+        Delivery delivery = Delivery.builder().city("NY").street("55powerStreet").zipcode("09876")
+                .deliveryStatus(DeliveryStatus.READY)
+                .build();
+        deliveryRepository.save(delivery);
+
+        // 주문 + 주문상품
+        Order order = Order.builder().member(member).orderDate(LocalDateTime.now()).orderStatus(OrderStatus.ORDER)
+                .delivery(delivery)
+                .build();
+
+        orderRepository.saveAndFlush(order);
+
+        OrderItem orderItem = OrderItem.builder().item(item).order(order).orderPrice(20000).count(2).build();
+
+        orderItemRepository.save(orderItem);
+
+    }
+
+    @Test
+    public void orderView() {
+        Order order = orderRepository.findById(2L).get();
+        System.out.println(order);
+
+        System.out.println(order.getDelivery().getCity());
+        System.out.println(order.getDelivery().getStreet());
+        System.out.println(order.getDelivery().getZipcode());
+
     }
 }
