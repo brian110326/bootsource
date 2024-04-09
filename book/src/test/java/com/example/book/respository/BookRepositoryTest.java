@@ -1,0 +1,99 @@
+package com.example.book.respository;
+
+import java.util.stream.IntStream;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.book.entity.Book;
+import com.example.book.entity.Category;
+import com.example.book.entity.Publisher;
+import com.example.book.repository.BookRepository;
+import com.example.book.repository.CategoryRepository;
+import com.example.book.repository.PublisherRepository;
+
+@SpringBootTest
+public class BookRepositoryTest {
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private PublisherRepository publisherRepository;
+
+    @Test
+    public void insertTest() {
+        Category category1 = Category.builder().name("컴퓨터").build();
+        Category category2 = Category.builder().name("경제/경영").build();
+        Category category3 = Category.builder().name("인문").build();
+        Category category4 = Category.builder().name("소설").build();
+        Category category5 = Category.builder().name("자기계발").build();
+
+        categoryRepository.save(category1);
+        categoryRepository.save(category2);
+        categoryRepository.save(category3);
+        categoryRepository.save(category4);
+        categoryRepository.save(category5);
+
+        Publisher publisher1 = Publisher.builder().name("로드북").build();
+        Publisher publisher2 = Publisher.builder().name("다산").build();
+        Publisher publisher3 = Publisher.builder().name("웅진지식하우스").build();
+        Publisher publisher4 = Publisher.builder().name("비룡소").build();
+        Publisher publisher5 = Publisher.builder().name("을유문화사").build();
+
+        publisherRepository.save(publisher1);
+        publisherRepository.save(publisher2);
+        publisherRepository.save(publisher3);
+        publisherRepository.save(publisher4);
+        publisherRepository.save(publisher5);
+
+        IntStream.rangeClosed(1, 4).forEach(i -> {
+            Book book = Book.builder().title("Title" + i).writer("Writer" + i).price(2000 + 5000 * i)
+                    .salePrice(20000 + i)
+                    .category(category1)
+                    .publisher(publisher1).build();
+
+            bookRepository.save(book);
+        });
+
+        IntStream.rangeClosed(5, 8).forEach(i -> {
+            Book book = Book.builder().title("Title" + i).writer("Writer" + i).price(2000 + 5000 * i)
+                    .salePrice(20000 + i)
+                    .category(category2)
+                    .publisher(publisher2).build();
+
+            bookRepository.save(book);
+        });
+
+        IntStream.rangeClosed(9, 12).forEach(i -> {
+            Book book = Book.builder().title("Title" + i).writer("Writer" + i).price(2000 + 5000 * i)
+                    .salePrice(20000 + i)
+                    .category(category3)
+                    .publisher(publisher3).build();
+
+            bookRepository.save(book);
+        });
+
+        IntStream.rangeClosed(13, 16).forEach(i -> {
+            Book book = Book.builder().title("Title" + i).writer("Writer" + i).price(2000 + 5000 * i)
+                    .salePrice(20000 + i)
+                    .category(category4)
+                    .publisher(publisher4).build();
+
+            bookRepository.save(book);
+        });
+
+        IntStream.rangeClosed(17, 20).forEach(i -> {
+            Book book = Book.builder().title("Title" + i).writer("Writer" + i).price(2000 + 5000 * i)
+                    .salePrice(20000 + i)
+                    .category(category5)
+                    .publisher(publisher5).build();
+
+            bookRepository.save(book);
+        });
+    }
+}
