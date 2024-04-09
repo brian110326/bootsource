@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.todo.dto.TodoDto;
+import com.example.todo.service.TodoService;
 import com.example.todo.service.TodoServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/todo")
 public class TodoController {
 
-    private final TodoServiceImpl service;
+    private final TodoService service;
 
     // 멤버변수 초기화 : 1) 생성자 2) setter
     // @RequiredArgsConstructor : spring framework가 생성자 자동 생성(의존성 주입 : DI)

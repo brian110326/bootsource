@@ -12,7 +12,7 @@ public class TodoServiceTest {
     // servie가 잘만들어졌는지 test
     // Service <==> Repository 동작 확인
     @Autowired
-    private TodoServiceImpl service;
+    private TodoService service;
 
     @Test
     public void serviceList() {
