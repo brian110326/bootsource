@@ -64,4 +64,14 @@ public class TodoController {
         model.addAttribute("todo", todo);
     }
 
+    @GetMapping("/done")
+    public void getCompleted(Model model) {
+        log.info("/todo/done 주소 요청");
+
+        List<TodoDto> list = service.getCompletedList();
+
+        model.addAttribute("list", list);
+
+    }
+
 }

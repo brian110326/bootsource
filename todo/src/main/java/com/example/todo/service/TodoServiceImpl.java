@@ -21,7 +21,8 @@ public class TodoServiceImpl {
     private final TodoRepository todoRepository;
 
     public List<TodoDto> getList() {
-        List<Todo> list = todoRepository.findAll();
+        // 미완료 목록
+        List<Todo> list = todoRepository.findByCompleted(false);
         // todo entity를 dto로 넘겨주기
         List<TodoDto> todoList = new ArrayList<>();
 
