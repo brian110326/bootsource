@@ -38,7 +38,7 @@
       </div>
     </div>
     <!-- id 값을 보낼 폼 -->
-    <form method="post" id="completedForm">
+    <form method="post" id="completedForm" th:action="@{/todo/update}">
       <input type="hidden" name="id" value="" />
     </form>
   </main>

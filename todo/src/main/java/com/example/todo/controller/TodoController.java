@@ -74,4 +74,19 @@ public class TodoController {
 
     }
 
+    @PostMapping("/update")
+    public String listPost(Long id, RedirectAttributes rttr) {
+        Long id2 = service.todoUpdate(id);
+
+        rttr.addAttribute("id", id2);
+
+        return "redirect:/todo/read";
+    }
+
+    @PostMapping("/delete")
+    public String deletePost(Long id) {
+        service.delete(id);
+        return "redirect:/todo/list";
+    }
+
 }

@@ -57,6 +57,20 @@ public class TodoServiceImpl {
         return list;
     }
 
+    public Long todoUpdate(Long id) {
+        // 업데이트 완료 후 id만 return
+        Todo entity = todoRepository.findById(id).get();
+        entity.setCompleted(true);
+        Todo todo = todoRepository.save(entity);
+
+        return todo.getId();
+
+    }
+
+    public void delete(Long id) {
+        todoRepository.deleteById(id);
+    }
+
     private TodoDto entityToDto(Todo entity) {
         return TodoDto.builder().id(entity.getId()).completed(entity.getCompleted()).important(entity.getImportant())
                 .title(entity.getTitle()).createdDate(entity.getCreatedDate())

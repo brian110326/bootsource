@@ -11,4 +11,8 @@ document.querySelector(".list-group").addEventListener("click", (e) => {
   console.log("이벤트를 감지한 대상 " + e.currentTarget);
 
   //   location.href = "/todo/update?id=" + e.target.value; ==> Get방식
+
+  const form = document.querySelector("#completedForm");
+  form.querySelector("[name='id']").value = e.target.value;
+  form.submit();
 });

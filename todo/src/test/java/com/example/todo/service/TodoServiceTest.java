@@ -36,4 +36,9 @@ public class TodoServiceTest {
     public void completedListTest() {
         System.out.println(service.getCompletedList());
     }
+
+    @Test
+    public void deleteTest() {
+        service.delete(13L);
+    }
 }
