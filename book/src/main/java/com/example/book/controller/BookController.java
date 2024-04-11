@@ -74,4 +74,12 @@ public class BookController {
 
     }
 
+    @PostMapping("/modify")
+    public String postMethodName(BookDto dto, RedirectAttributes rttr) {
+        Long id = service.update(dto);
+        rttr.addAttribute("id", id);
+
+        return "redirect:/book/read";
+    }
+
 }

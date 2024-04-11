@@ -69,4 +69,21 @@ public class BookServiceImpl implements BookService {
         return entityToDto(book);
     }
 
+    @Override
+    public Long update(BookDto dto) {
+        Book book = bookRepository.findById(dto.getId()).get();
+
+        book.setPrice(dto.getPrice());
+        book.setSalePrice(dto.getSalePrice());
+
+        bookRepository.save(book);
+
+        return entityToDto(book).getId();
+    }
+
+    @Override
+    public void delete(Long id) {
+        bookRepository.deleteById(id);
+    }
+
 }

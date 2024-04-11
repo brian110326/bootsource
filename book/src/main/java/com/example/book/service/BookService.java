@@ -21,6 +21,10 @@ public interface BookService {
 
     BookDto getRow(Long id);
 
+    Long update(BookDto dto);
+
+    void delete(Long id);
+
     public default BookDto entityToDto(Book book) {
         return BookDto.builder().id(book.getId()).title(book.getTitle()).writer(book.getWriter())
                 .categoryName(book.getCategory().getName())
