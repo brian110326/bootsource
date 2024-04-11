@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
@@ -94,6 +95,15 @@ public class BookRepositoryTest {
                     .publisher(publisher5).build();
 
             bookRepository.save(book);
+        });
+    }
+
+    @Test
+    @Transactional
+    public void testBookList() {
+        bookRepository.findAll().forEach(book -> {
+            System.out.println(book.getPublisher());
+            System.out.println(book.getCategory());
         });
     }
 }

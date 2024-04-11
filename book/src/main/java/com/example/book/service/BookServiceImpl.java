@@ -2,11 +2,14 @@ package com.example.book.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.book.dto.BookDto;
 import com.example.book.entity.Book;
+import com.example.book.entity.Category;
+import com.example.book.entity.Publisher;
 import com.example.book.repository.BookRepository;
 import com.example.book.repository.CategoryRepository;
 import com.example.book.repository.PublisherRepository;
@@ -15,30 +18,38 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class BookServiceImpl {
+public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
     private final PublisherRepository publisherRepository;
 
+    @Override
     public List<BookDto> getList() {
-        List<Book> entities = bookRepository.findAll();
-        List<BookDto> list = new ArrayList<>();
+        List<Book> books = bookRepository.findAll();
 
-        entities.forEach(entity -> {
-            list.add(entityToDto(entity));
-        });
+        // books.forEach(book -> {
+        // list.add(entityToDto(book));
+        // });
+
+        List<BookDto> list = books.stream().map(book -> entityToDto(book)).collect(Collectors.toList());
 
         return list;
     }
 
-    private BookDto entityToDto(Book entity) {
-        BookDto dto = BookDto.builder().id(entity.getId()).title(entity.getTitle()).writer(entity.getWriter())
-                .publisher(entity.getPublisher())
-                .category(entity.getCategory())
-                .build();
+    @Override
+    public Long bookCreate(BookDto dto) {
+        Category category = categoryRepository.findByName(dto.getCategoryName()).get();
+        Publisher publisher = publisherRepository.findByName(dto.getPublisherName()).get();
 
-        return dto;
+        Book book = dtoToEntity(dto);
+        book.setCategory(category);
+        book.setPublisher(publisher);
+
+        Book newBook = bookRepository.save(book);
+
+        return newBook.getId();
+
     }
 
 }
