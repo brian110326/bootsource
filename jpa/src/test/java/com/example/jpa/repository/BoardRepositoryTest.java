@@ -1,6 +1,7 @@
 package com.example.jpa.repository;
 
 import java.util.stream.LongStream;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,28 @@ public class BoardRepositoryTest {
             boardRepository.delete(board);
             System.out.println("삭제된 board : " + boardRepository.findById(499L));
         });
+    }
+
+    @Test
+    public void queryMethodTest() {
+        // where b1_0.title=?
+        List<Board> list = boardRepository.findByTitle("Title");
+
+        System.out.println("findByTitle : " + list.size());
+
+        List<Board> list2 = boardRepository.findByTitleLike("Title");
+        System.out.println("findByTitleLike : " + list2.size());
+
+        List<Board> list3 = boardRepository.findByTitleStartingWith("Title");
+        System.out.println("findByTitleStartingWith : " + list3.size());
+
+        List<Board> list4 = boardRepository.findByTitleEndingWith("Title");
+        System.out.println("findByTitleEndingWith : " + list4.size());
+
+        List<Board> list5 = boardRepository.findByTitleContaining("Title");
+        System.out.println("findByTitleContaining : " + list5.size());
+
+        List<Board> list6 = boardRepository.findByWriterStartingWith("user");
+        System.out.println("findByWriterStartingWith " + list6.size());
     }
 }
