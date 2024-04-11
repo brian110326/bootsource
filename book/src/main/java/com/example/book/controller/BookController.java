@@ -57,7 +57,7 @@ public class BookController {
 
         Long id = service.bookCreate(dto);
 
-        rttr.addFlashAttribute("id", id);
+        rttr.addFlashAttribute("result", id);
 
         return "redirect:/book/list";
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.book.dto.BookDto;
@@ -26,7 +27,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getList() {
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookRepository.findAll(Sort.by("id").descending());
 
         // books.forEach(book -> {
         // list.add(entityToDto(book));

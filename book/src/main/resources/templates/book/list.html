@@ -45,4 +45,13 @@
       </ul>
     </nav>
   </div>
+
+  <th:block layout:fragment="script">
+    <script>
+      const result = "[[${result}]]";
+      if (result) {
+        alert("입력 성공");
+      }
+    </script>
+  </th:block>
 </html>
