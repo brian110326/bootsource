@@ -53,13 +53,13 @@
    	   그래서 따로 빼버림
      -->
     <form action="" method="post" id="actionForm">
-      <input type="hidden" name="id" />
+      <input type="hidden" name="id" th:value="${dto.id}" />
       <input type="hidden" name="page" />
       <input type="hidden" name="type" />
       <input type="hidden" name="keyword" />
     </form>
   </div>
   <th:block layout:fragment="script">
-    <script src=""></script>
+    <script th:src="@{/js/modify.js}"></script>
   </th:block>
 </html>
