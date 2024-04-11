@@ -19,7 +19,7 @@
           <th scope="row" th:text="${dto.id}"></th>
           <td th:text="${dto.categoryName}"></td>
           <td>
-            <a class="text-decoration-none text-reset" th:text="${dto.title}"></a>
+            <a class="text-decoration-none text-reset" th:text="${dto.title}" th:href="@{/book/read(id=${dto.id})}"></a>
           </td>
           <td th:text="${dto.writer}"></td>
           <td th:text="${dto.publisherName}"></td>

@@ -39,20 +39,25 @@ public class BookController {
     }
 
     @GetMapping("/create")
-    public void createGet(BookDto dto) {
+    public void createGet(BookDto dto, Model model) {
         log.info("/book/create 주소 요청");
         // Post에서 Valid를 주면 get방식에도 null dto형태로 같이 보내야함
+
+        // 테이블에 있는 카테고리 명 보여주기
+        model.addAttribute("categories", service.categoryNameList());
 
     }
 
     @PostMapping("/create")
-    public String createPost(@Valid BookDto dto, BindingResult result, RedirectAttributes rttr) {
+    public String createPost(@Valid BookDto dto, BindingResult result, RedirectAttributes rttr, Model model) {
 
         // @ModelAttribute : 이름 바꾸거나 model.addAttribute, 혹은 매개변수로 예를들어 int page 개별로 가져왔을
         // 때 필요 다른 페이지에서 사용X
 
         if (result.hasErrors()) {
+            model.addAttribute("categories", service.categoryNameList());
             return "/book/create";
+
         }
 
         Long id = service.bookCreate(dto);
@@ -60,6 +65,13 @@ public class BookController {
         rttr.addFlashAttribute("result", id);
 
         return "redirect:/book/list";
+    }
+
+    @GetMapping("/read")
+    public void readGet(Long id, Model model) {
+        BookDto dto = service.getRow(id);
+        model.addAttribute("dto", dto);
+
     }
 
 }

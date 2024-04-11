@@ -53,4 +53,20 @@ public class BookServiceImpl implements BookService {
 
     }
 
+    @Override
+    public List<String> categoryNameList() {
+        List<Category> list = categoryRepository.findAll();
+
+        List<String> cateList = list.stream().map(entity -> entity.getName()).collect(Collectors.toList());
+
+        return cateList;
+    }
+
+    @Override
+    public BookDto getRow(Long id) {
+        Book book = bookRepository.findById(id).get();
+
+        return entityToDto(book);
+    }
+
 }

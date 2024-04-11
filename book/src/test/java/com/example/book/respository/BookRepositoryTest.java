@@ -1,5 +1,8 @@
 package com.example.book.respository;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -105,5 +108,24 @@ public class BookRepositoryTest {
             System.out.println(book.getPublisher());
             System.out.println(book.getCategory());
         });
+    }
+
+    @Test
+    public void testCategoryNameList() {
+        List<Category> list = categoryRepository.findAll();
+
+        list.forEach(category -> {
+            System.out.println(category);
+        });
+
+        // Category(id=1, name=컴퓨터) 이름만 추출
+        // List<String> cateList = new ArrayList<>();
+
+        // list.forEach(category -> {
+        // cateList.add(category.getName());
+        // });
+        List<String> cateList = list.stream().map(entity -> entity.getName()).collect(Collectors.toList());
+
+        cateList.forEach(System.out::println);
     }
 }

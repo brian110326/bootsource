@@ -15,7 +15,11 @@ public interface BookService {
 
     List<BookDto> getList();
 
+    List<String> categoryNameList();
+
     Long bookCreate(BookDto dto);
+
+    BookDto getRow(Long id);
 
     public default BookDto entityToDto(Book book) {
         return BookDto.builder().id(book.getId()).title(book.getTitle()).writer(book.getWriter())

@@ -7,16 +7,22 @@
       <div class="mb-3 row">
         <label for="category" class="col-sm-2 col-form-label">분류</label>
 
+        <!-- DB에서 가져올 때 -->
         <div class="col-sm-10">
           <select name="categoryName" id="" class="form-select">
-            <!-- th:selected="${bookDto.categoryName} == '컴퓨터'" : 컴퓨터 선택하고 등록 눌렀을 때 계속 selected상태 -->
+            <option value="" th:selected="${bookDto.categoryName} == ''">선택</option>
+            <option th:each="cate : ${categories}" th:value="${cate}" th:text="${cate}" th:selected="${bookDto.categoryName} == ${cate}"></option>
+          </select>
+
+          <!-- <select name="categoryName" id="" class="form-select">
+            th:selected="${bookDto.categoryName} == '컴퓨터'" : 컴퓨터 선택하고 등록 눌렀을 때 계속 selected상태
             <option value="" th:selected="${bookDto.categoryName} == ''">선택</option>
             <option value="컴퓨터" th:selected="${bookDto.categoryName} == '컴퓨터'">컴퓨터</option>
             <option value="인문" th:selected="${bookDto.categoryName} == '인문'">인문</option>
             <option value="소설" th:selected="${bookDto.categoryName} == '소설'">소설</option>
             <option value="경제경영" th:selected="${bookDto.categoryName} == '경제경영'">경제경영</option>
             <option value="자기계발" th:selected="${bookDto.categoryName} == '자기계발'">자기계발</option>
-          </select>
+          </select> -->
           <div th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}" class="text-danger"></div>
         </div>
       </div>
