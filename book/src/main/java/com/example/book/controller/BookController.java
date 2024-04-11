@@ -67,7 +67,7 @@ public class BookController {
         return "redirect:/book/list";
     }
 
-    @GetMapping("/read")
+    @GetMapping(value = { "/read", "/modify" })
     public void readGet(Long id, Model model) {
         BookDto dto = service.getRow(id);
         model.addAttribute("dto", dto);
