@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
@@ -116,5 +117,37 @@ public class JpqlRepositoryTest {
     public void teamMemberTest() {
         List<Member2> list = member2Repository.findByTeamEqual(new Team2(1L, "Team1"));
         System.out.println(list);
+
+        List<Member2> list2 = member2Repository.findByTeamIdEqual(2L);
+        System.out.println(list2);
+    }
+
+    @Test
+    public void aggregateTest() {
+        List<Object[]> list = member2Repository.aggregate();
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+            System.out.println("회원수 = " + objects[0]);
+            System.out.println("나이합계 = " + objects[1]);
+            System.out.println("나이평균 = " + objects[2]);
+            System.out.println("최대나이 = " + objects[3]);
+            System.out.println("최소나이 = " + objects[4]);
+        }
+    }
+
+    @Test
+    public void joinTest() {
+        System.out.println(member2Repository.findByTeamMember("Team1"));
+
+        List<Object[]> list = member2Repository.findByTeamMember2("Team2");
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+            Member2 member2 = (Member2) objects[0];
+            Team2 team2 = (Team2) objects[1];
+
+            System.out.println(member2);
+            System.out.println(team2);
+        }
     }
 }

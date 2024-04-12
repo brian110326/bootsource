@@ -29,4 +29,18 @@ public interface Member2Repository extends JpaRepository<Member2, Long> {
     // 특정 팀의 회원 조회
     @Query("select m from Member2 m where m.team2 = ?1")
     List<Member2> findByTeamEqual(Team2 team2);
+
+    @Query("select m from Member2 m where m.team2.id = ?1")
+    List<Member2> findByTeamIdEqual(Long id);
+
+    // 집계함수
+    @Query("select count(m), sum(m.age), avg(m.age), max(m.age), min(m.age) from Member2 m")
+    List<Object[]> aggregate();
+
+    // Join(on 쓰지 않음)
+    @Query("select m from Member2 m join m.team2 t where t.name = :teamName")
+    List<Member2> findByTeamMember(String teamName);
+
+    @Query("select m, t from Member2 m join m.team2 t where t.name = :teamName")
+    List<Object[]> findByTeamMember2(String teamName);
 }
