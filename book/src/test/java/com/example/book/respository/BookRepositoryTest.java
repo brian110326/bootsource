@@ -8,6 +8,10 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.book.entity.Book;
@@ -127,5 +131,16 @@ public class BookRepositoryTest {
         List<String> cateList = list.stream().map(entity -> entity.getName()).collect(Collectors.toList());
 
         cateList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testSearchList() {
+
+        // Spring Data JPA 페이지 처리 객체
+
+        // Pageable pageable = PageRequest.of(0, 10);
+        // Pageable pageable = PageRequest.of(0, 10, Direction.DESC);
+        // Pageable pageable = PageRequest.of(0, 10, Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
     }
 }
