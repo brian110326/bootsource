@@ -203,4 +203,27 @@ public class MartRepositoryTest {
 
         System.out.println(delivery.getOrder());
     }
+
+    @Test
+    public void testJoinTest() {
+        List<Object[]> list = orderRepository.joinList();
+
+        System.out.println(list);
+        // [[Order(id=2, member=Member(id=1, name=UserName1, zipcode=Zipcode1,
+        // city=Boston, street=Street1), orderDate=2024-04-08T10:17:02.350265,
+        // orderStatus=ORDER), Member(id=1, name=UserName1, zipcode=Zipcode1,
+        // city=Boston, street=Street1)], [Order(id=1, member=Member(id=1,
+        // name=UserName1, zipcode=Zipcode1, city=Boston, street=Street1),
+        // orderDate=2024-04-05T15:22:18.177321, orderStatus=CANCEL), Member(id=1,
+        // name=UserName1, zipcode=Zipcode1, city=Boston, street=Street1)]]
+
+        for (Object[] objects : list) {
+            Order order = (Order) objects[0];
+            Member member = (Member) objects[1];
+
+            System.out.println("========================== test 메소드==================");
+            System.out.println(order);
+            System.out.println(member);
+        }
+    }
 }
