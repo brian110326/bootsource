@@ -43,4 +43,8 @@ public interface Member2Repository extends JpaRepository<Member2, Long> {
 
     @Query("select m, t from Member2 m join m.team2 t where t.name = :teamName")
     List<Object[]> findByTeamMember2(String teamName);
+
+    // 외부 join시 on 사용
+    @Query("select m, t from Member2 m left join m.team2 t on t.name = :teamName")
+    List<Object[]> findByTeamMember3(String teamName);
 }
