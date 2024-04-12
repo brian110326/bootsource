@@ -229,4 +229,14 @@ public class MartRepositoryTest {
             System.out.println(orderItem);
         }
     }
+
+    @Test
+    public void whereTest() {
+        System.out.println(orderRepository.members());
+    }
+
+    @Test
+    public void whereTest2() {
+        System.out.println(orderRepository.items());
+    }
 }
