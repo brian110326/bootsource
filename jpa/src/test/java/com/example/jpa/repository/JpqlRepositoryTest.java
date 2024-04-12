@@ -83,5 +83,38 @@ public class JpqlRepositoryTest {
     public void findAddressTest() {
         List<Address> list = orderRepository.findByHomeAddress();
         System.out.println(list);
+
+    }
+
+    @Test
+    public void findOrdersTest() {
+        List<Object[]> list = orderRepository.findByOrders();
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+
+            Member2 member2 = (Member2) objects[0];
+            Product product = (Product) objects[1];
+            Long id = (Long) objects[2];
+
+            System.out.println(member2);
+            System.out.println(product);
+            System.out.println(id);
+        }
+
+        // [Member2(id=1, userName=User1, age=1), Product(id=2, name=Product2,
+        // price=2000, stockAmount=10), 1]
+
+    }
+
+    @Test
+    public void ageTest() {
+        List<Member2> list = member2Repository.findByAgeList(5);
+        System.out.println(list);
+    }
+
+    @Test
+    public void teamMemberTest() {
+        List<Member2> list = member2Repository.findByTeamEqual(new Team2(1L, "Team1"));
+        System.out.println(list);
     }
 }
