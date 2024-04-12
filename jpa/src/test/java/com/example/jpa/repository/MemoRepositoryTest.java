@@ -2,6 +2,7 @@ package com.example.jpa.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,16 @@ public class MemoRepositoryTest {
         // 삭제
         memoRepository.delete(memo);
         System.out.println("삭제된 memo : " + memoRepository.findById(24L));
+    }
+
+    @Test
+    public void queryMethodTest() {
+        List<Memo> list = memoRepository.findByMnoLessThan(5L);
+        System.out.println(list.size());
+
+        List<Memo> list2 = memoRepository.findByMnoBetween(1L, 6L);
+        list2.forEach(item -> {
+            System.out.println(item);
+        });
     }
 }

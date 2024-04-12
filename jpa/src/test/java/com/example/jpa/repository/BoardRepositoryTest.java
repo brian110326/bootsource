@@ -64,6 +64,8 @@ public class BoardRepositoryTest {
 
     @Test
     public void queryMethodTest() {
+        List<Board> list = boardRepository.findList();
+        System.out.println(list.size());
         // where b1_0.title=?
         // List<Board> list = boardRepository.findByTitle("Title");
 
@@ -106,8 +108,9 @@ public class BoardRepositoryTest {
         // System.out.println(list2.size());
 
         // PageRequest.of(페이지번호, 페이지당 게시물 수); , 페이지번호는 0부터 시작
-        Pageable pageable = PageRequest.of(0, 10);
-        List<Board> list = boardRepository.findByIdGreaterThanOrderByIdDesc(0L, pageable);
-        list.forEach(System.out::println);
+        // Pageable pageable = PageRequest.of(0, 10);
+        // List<Board> list = boardRepository.findByIdGreaterThanOrderByIdDesc(0L,
+        // pageable);
+        // list.forEach(System.out::println);
     }
 }
