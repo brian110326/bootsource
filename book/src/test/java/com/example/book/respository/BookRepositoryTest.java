@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -141,6 +142,17 @@ public class BookRepositoryTest {
         // Pageable pageable = PageRequest.of(0, 10);
         // Pageable pageable = PageRequest.of(0, 10, Direction.DESC);
         // Pageable pageable = PageRequest.of(0, 10, Direction.DESC, "id");
+        // 1페이지부터 10개씩, id를 기준으로 내림차순 정렬
         Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+        // Page 객체 : 페이지 나누기에 필요한 메소드 제공
+        // == PageDto와 같은 역할
+        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate(), pageable);
+
+        System.out.println("전체 행 수 : " + result.getTotalElements());
+        System.out.println("페이지 수 : " + result.getTotalPages());
+        result.getContent().forEach(book -> {
+            System.out.println(book);
+        });
     }
 }
