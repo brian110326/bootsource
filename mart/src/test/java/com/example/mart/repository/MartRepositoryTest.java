@@ -205,6 +205,7 @@ public class MartRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testJoinTest() {
         List<Object[]> list = orderRepository.joinList();
 
@@ -220,10 +221,12 @@ public class MartRepositoryTest {
         for (Object[] objects : list) {
             Order order = (Order) objects[0];
             Member member = (Member) objects[1];
+            OrderItem orderItem = (OrderItem) objects[2];
 
             System.out.println("========================== test 메소드==================");
             System.out.println(order);
             System.out.println(member);
+            System.out.println(orderItem);
         }
     }
 }

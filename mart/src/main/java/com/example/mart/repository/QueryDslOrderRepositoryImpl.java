@@ -34,9 +34,9 @@ public class QueryDslOrderRepositoryImpl extends QuerydslRepositorySupport imple
         // join(조인대상, 별칭으로 사용할 쿼리타입)
         // on o.member_id = m.member_id 같은 뜻
         // query.innerJoin(order.member, member);
-        query.join(order.member, member);
+        query.join(order.member, member).leftJoin(order.orderItems, orderItem);
         // select m, t
-        JPQLQuery<Tuple> tuple = query.select(order, member);
+        JPQLQuery<Tuple> tuple = query.select(order, member, orderItem);
         List<Tuple> result = tuple.fetch();
 
         System.out.println(result);
