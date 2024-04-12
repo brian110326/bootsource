@@ -144,6 +144,7 @@ public class BookRepositoryTest {
         // Pageable pageable = PageRequest.of(0, 10, Direction.DESC, "id");
         // 1페이지부터 10개씩, id를 기준으로 내림차순 정렬
         Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+        // 나중 controller에서 넘겨줘야함 ==> Dto 만든 이유
 
         // Page 객체 : 페이지 나누기에 필요한 메소드 제공
         // == PageDto와 같은 역할
