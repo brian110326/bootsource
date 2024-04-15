@@ -23,6 +23,12 @@ public class BookServiceTest {
         PageRequestDto requestDto = PageRequestDto.builder().page(1).size(10).build();
         PageResultDto<BookDto, Book> pageResultDto = bookService.getList(requestDto);
 
+        System.out.println("===============페이지 나누기 정보===============");
+        System.out.println("prev : " + pageResultDto.isPrev());
+        System.out.println("next : " + pageResultDto.isNext());
+        System.out.println("total : " + pageResultDto.getTotalPage());
+        System.out.println("pageList : " + pageResultDto.getPageList());
+
         pageResultDto.getDtoList().forEach(System.out::println);
     }
 }
