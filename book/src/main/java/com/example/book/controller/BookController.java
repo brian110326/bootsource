@@ -34,7 +34,7 @@ public class BookController {
     private final BookServiceImpl service;
 
     @GetMapping("/list")
-    public String listGet(Model model, PageRequestDto requestDto) {
+    public String listGet(Model model, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         PageResultDto<BookDto, Book> result = service.getList(requestDto);
 
         model.addAttribute("result", result);
@@ -71,23 +71,37 @@ public class BookController {
     }
 
     @GetMapping(value = { "/read", "/modify" })
-    public void readGet(Long id, Model model) {
+    public void readGet(Long id, Model model, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         BookDto dto = service.getRow(id);
         model.addAttribute("dto", dto);
 
     }
 
     @PostMapping("/modify")
-    public String modifyPost(BookDto dto, RedirectAttributes rttr) {
+    public String modifyPost(BookDto dto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
+
+        log.info("page 나누기 정보 {}", requestDto);
         Long id = service.update(dto);
         rttr.addAttribute("id", id);
+        // 페이지 나누기 정보
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
 
         return "redirect:/book/read";
     }
 
     @PostMapping("/delete")
-    public String deletePost(Long id) {
+    public String deletePost(Long id, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
         service.delete(id);
+
+        // 페이지 나누기 정보
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
+
         return "redirect:/book/list";
     }
 

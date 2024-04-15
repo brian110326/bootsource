@@ -31,4 +31,13 @@ public class BookServiceTest {
 
         pageResultDto.getDtoList().forEach(System.out::println);
     }
+
+    @Test
+    @Transactional
+    public void testsearchList() {
+        PageRequestDto requestDto = PageRequestDto.builder().page(1).size(10).type("t").keyword("Title").build();
+        PageResultDto<BookDto, Book> pageResultDto = bookService.getList(requestDto);
+
+        pageResultDto.getDtoList().forEach(System.out::println);
+    }
 }

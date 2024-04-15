@@ -148,7 +148,7 @@ public class BookRepositoryTest {
 
         // Page 객체 : 페이지 나누기에 필요한 메소드 제공
         // == PageDto와 같은 역할
-        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate(), pageable);
+        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate("t", "Title"), pageable);
 
         System.out.println("전체 행 수 : " + result.getTotalElements());
         System.out.println("페이지 수 : " + result.getTotalPages());
