@@ -2,6 +2,8 @@ package com.example.guestbook.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -28,15 +30,10 @@ public class GuestBookServiceImpl implements GuestBookService {
         });
 
         return list;
-    }
 
-    private GuestBookDto entityToDto(GuestBook entity) {
-        GuestBookDto dto = GuestBookDto.builder().gno(entity.getGno()).writer(entity.getWriter())
-                .title(entity.getTitle())
-                .content(entity.getContent()).createdDate(entity.getCreatedDate())
-                .lastModifiedDate(entity.getLastModifiedDate()).build();
+        // Function<GuestBook,GuestBookDto> fn = (entity -> entityToDto(entity));
+        // return entities.stream().map(fn).collect(Collectors.toList());
 
-        return dto;
     }
 
     @Override
