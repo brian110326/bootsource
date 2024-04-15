@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.book.dto.BookDto;
+import com.example.book.dto.PageRequestDto;
+import com.example.book.dto.PageResultDto;
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
 import com.example.book.entity.Publisher;
@@ -13,7 +15,11 @@ import com.example.book.repository.BookRepository;
 
 public interface BookService {
 
-    List<BookDto> getList();
+    // 페이지나누기 전
+    // List<BookDto> getList();
+
+    // 페이지 나누기 적용
+    PageResultDto<BookDto, Book> getList(PageRequestDto requestDto);
 
     List<String> categoryNameList();
 

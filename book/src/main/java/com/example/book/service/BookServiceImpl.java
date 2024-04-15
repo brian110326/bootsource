@@ -2,12 +2,18 @@ package com.example.book.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.book.dto.BookDto;
+import com.example.book.dto.PageRequestDto;
+import com.example.book.dto.PageResultDto;
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
 import com.example.book.entity.Publisher;
@@ -25,17 +31,32 @@ public class BookServiceImpl implements BookService {
     private final CategoryRepository categoryRepository;
     private final PublisherRepository publisherRepository;
 
+    // @Override
+    // public List<BookDto> getList() {
+    // List<Book> books = bookRepository.findAll(Sort.by("id").descending());
+
+    // // books.forEach(book -> {
+    // // list.add(entityToDto(book));
+    // // });
+
+    // List<BookDto> list = books.stream().map(book ->
+    // entityToDto(book)).collect(Collectors.toList());
+
+    // return list;
+    // }
+
     @Override
-    public List<BookDto> getList() {
-        List<Book> books = bookRepository.findAll(Sort.by("id").descending());
+    public PageResultDto<BookDto, Book> getList(PageRequestDto requestDto) {
 
-        // books.forEach(book -> {
-        // list.add(entityToDto(book));
-        // });
+        // 페이지번호를 0으로 계속 고정할 순 X
+        // Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
 
-        List<BookDto> list = books.stream().map(book -> entityToDto(book)).collect(Collectors.toList());
+        // 매개변수의 requestDto에 페이지 정보와 사이즈 정보가 있기 때문에 Sort만 함
+        Pageable pageable = requestDto.getPageable(Sort.by("id").descending());
 
-        return list;
+        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate(), pageable);
+        Function<Book, BookDto> fn = (entity -> entityToDto(entity));
+        return new PageResultDto(result, fn);
     }
 
     @Override
