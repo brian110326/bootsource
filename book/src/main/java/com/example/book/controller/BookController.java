@@ -42,7 +42,7 @@ public class BookController {
     }
 
     @GetMapping("/create")
-    public void createGet(BookDto dto, Model model) {
+    public void createGet(BookDto dto, Model model, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("/book/create 주소 요청");
         // Post에서 Valid를 주면 get방식에도 null dto형태로 같이 보내야함
 
@@ -52,7 +52,8 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public String createPost(@Valid BookDto dto, BindingResult result, RedirectAttributes rttr, Model model) {
+    public String createPost(@Valid BookDto dto, BindingResult result, RedirectAttributes rttr, Model model,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
 
         // @ModelAttribute : 이름 바꾸거나 model.addAttribute, 혹은 매개변수로 예를들어 int page 개별로 가져왔을
         // 때 필요 다른 페이지에서 사용X
@@ -66,6 +67,10 @@ public class BookController {
         Long id = service.bookCreate(dto);
 
         rttr.addFlashAttribute("msg", id);
+        // 페이지 나누기 정보
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
 
         return "redirect:/book/list";
     }

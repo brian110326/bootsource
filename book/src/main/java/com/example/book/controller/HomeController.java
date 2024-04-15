@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.book.dto.BookDto;
@@ -19,7 +20,7 @@ import com.example.book.service.BookServiceImpl;
 public class HomeController {
 
     @GetMapping("/")
-    public String home() {
+    public String home(@ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("/home 주소 요청");
         return "/home";
     }
