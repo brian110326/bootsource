@@ -15,7 +15,7 @@
       </thead>
 
       <tbody>
-        <tr th:each="dto : ${list}">
+        <tr th:each="dto : ${result.dtoList}">
           <th scope="row" th:text="${dto.id}"></th>
           <td th:text="${dto.categoryName}"></td>
           <td>
@@ -31,16 +31,18 @@
     <!-- page -->
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item">
-          <a class="page-link">Previous</a>
+        <!-- result.prev 값에 따라 -->
+        <li class="page-item" th:if="${result.prev == true}">
+          <a class="page-link" th:href="@{/book/list(page=${result.start-1})}">Previous</a>
         </li>
 
-        <li class="page-item">
-          <a class="page-link"></a>
+        <li th:class="'page-item ' + ${result.page == page ? 'active':''}" th:each="page : ${result.pageList}">
+          <a class="page-link" th:text="${page}" th:href="@{/book/list(page=${page})}"></a>
         </li>
 
-        <li class="page-item">
-          <a class="page-link">Next</a>
+        <!-- result.next 값에 따라 -->
+        <li class="page-item" th:if="${result.next == true}">
+          <a class="page-link" th:href="@{/book/list(page=${result.end+1})}">Next</a>
         </li>
       </ul>
     </nav>
@@ -48,8 +50,8 @@
 
   <th:block layout:fragment="script">
     <script>
-      const result = "[[${result}]]";
-      if (result) {
+      const msg = "[[${msg}]]";
+      if (msg) {
         alert("입력 성공");
       }
     </script>

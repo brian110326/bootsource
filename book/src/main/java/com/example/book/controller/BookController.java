@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.book.dto.BookDto;
+import com.example.book.dto.PageRequestDto;
+import com.example.book.dto.PageResultDto;
+import com.example.book.entity.Book;
 import com.example.book.service.BookServiceImpl;
 
 import jakarta.validation.Valid;
@@ -30,13 +33,13 @@ public class BookController {
 
     private final BookServiceImpl service;
 
-    // @GetMapping("/list")
-    // public String listGet(Model model) {
-    // // List<BookDto> list = service.getList();
+    @GetMapping("/list")
+    public String listGet(Model model, PageRequestDto requestDto) {
+        PageResultDto<BookDto, Book> result = service.getList(requestDto);
 
-    // // model.addAttribute("list", list);
-    // // return "/book/list";
-    // }
+        model.addAttribute("result", result);
+        return "/book/list";
+    }
 
     @GetMapping("/create")
     public void createGet(BookDto dto, Model model) {
@@ -62,7 +65,7 @@ public class BookController {
 
         Long id = service.bookCreate(dto);
 
-        rttr.addFlashAttribute("result", id);
+        rttr.addFlashAttribute("msg", id);
 
         return "redirect:/book/list";
     }
