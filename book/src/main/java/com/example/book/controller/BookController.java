@@ -30,13 +30,13 @@ public class BookController {
 
     private final BookServiceImpl service;
 
-    @GetMapping("/list")
-    public String listGet(Model model) {
-        List<BookDto> list = service.getList();
+    // @GetMapping("/list")
+    // public String listGet(Model model) {
+    // // List<BookDto> list = service.getList();
 
-        model.addAttribute("list", list);
-        return "/book/list";
-    }
+    // // model.addAttribute("list", list);
+    // // return "/book/list";
+    // }
 
     @GetMapping("/create")
     public void createGet(BookDto dto, Model model) {
