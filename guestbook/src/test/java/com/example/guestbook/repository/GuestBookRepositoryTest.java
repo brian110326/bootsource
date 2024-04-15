@@ -23,4 +23,29 @@ public class GuestBookRepositoryTest {
             guestBookRepository.save(guestBook);
         });
     }
+
+    @Test
+    public void testList() {
+        guestBookRepository.findAll().forEach(guestbook -> {
+            System.out.println(guestbook);
+        });
+    }
+
+    @Test
+    public void readTest() {
+        GuestBook guestBook = guestBookRepository.findById(300L).get();
+        System.out.println(guestBook);
+    }
+
+    @Test
+    public void modifyTest() {
+        GuestBook guestBook = guestBookRepository.findById(300L).get();
+        guestBook.setTitle("The First 300");
+        guestBookRepository.save(guestBook);
+    }
+
+    @Test
+    public void deleteTest() {
+        guestBookRepository.deleteById(301L);
+    }
 }
