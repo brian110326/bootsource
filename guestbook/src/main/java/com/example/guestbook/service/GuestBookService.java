@@ -26,4 +26,8 @@ public interface GuestBookService {
     }
 
     public GuestBookDto getRow(Long gno);
+
+    public Long update(GuestBookDto dto);
+
+    public void delete(Long gno);
 }
