@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,9 @@ import com.example.guestbook.dto.PageRequestDto;
 import com.example.guestbook.dto.PageResultDto;
 import com.example.guestbook.entity.GuestBook;
 import com.example.guestbook.service.GuestBookService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -53,6 +57,22 @@ public class GuestBookController {
     @PostMapping("/delete")
     public String deletePost(Long gno) {
         service.delete(gno);
+        return "redirect:/guestbook/list";
+    }
+
+    @GetMapping("/create")
+    public void createGet(GuestBookDto dto) {
+        // Post에서 Valid있으면 비어있는거라도 일단 보내야함
+    }
+
+    @PostMapping("/create")
+    public String createPost(@Valid GuestBookDto dto, BindingResult result, RedirectAttributes rttr) {
+        // @Valid다음에 바로 매개변수가 BindingResult가 와야함
+        if (result.hasErrors()) {
+            return "/guestbook/create";
+        }
+        Long gno = service.create(dto);
+        rttr.addAttribute("msg", gno);
         return "redirect:/guestbook/list";
     }
 

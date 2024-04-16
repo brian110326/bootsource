@@ -74,4 +74,16 @@ public class GuestBookServiceImpl implements GuestBookService {
         guestBookRepository.deleteById(gno);
     }
 
+    @Override
+    public Long create(GuestBookDto dto) {
+        GuestBook guestBook = dtoToEntity(dto);
+        guestBook.setContent(dto.getContent());
+        guestBook.setTitle(dto.getTitle());
+        guestBook.setWriter(dto.getWriter());
+
+        guestBookRepository.save(guestBook);
+
+        return guestBook.getGno();
+    }
+
 }

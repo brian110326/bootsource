@@ -34,4 +34,6 @@ public interface GuestBookService {
     public Long update(GuestBookDto dto);
 
     public void delete(Long gno);
+
+    public Long create(GuestBookDto dto);
 }
