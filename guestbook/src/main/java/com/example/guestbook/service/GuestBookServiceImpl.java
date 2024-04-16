@@ -14,7 +14,9 @@ import com.example.guestbook.dto.GuestBookDto;
 import com.example.guestbook.dto.PageRequestDto;
 import com.example.guestbook.dto.PageResultDto;
 import com.example.guestbook.entity.GuestBook;
+import com.example.guestbook.entity.QGuestBook;
 import com.example.guestbook.repository.GuestBookRepository;
+import com.querydsl.core.BooleanBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,7 +48,11 @@ public class GuestBookServiceImpl implements GuestBookService {
         // 1. PageRequestDto, PageResultDto만들기
         // 2. getList부분 수정하기(paging처리가 되는 findAll 호출)
         Pageable pageable = requestDto.getPageable(Sort.by("gno").descending());
-        Page<GuestBook> result = guestBookRepository.findAll(pageable);
+        // Page<GuestBook> result = guestBookRepository.findAll(pageable);
+
+        BooleanBuilder builder = getSearch(requestDto);
+
+        Page<GuestBook> result = guestBookRepository.findAll(builder, pageable);
 
         Function<GuestBook, GuestBookDto> fn = (entity -> entityToDto(entity));
         return new PageResultDto<GuestBookDto, GuestBook>(result, fn);
@@ -84,6 +90,44 @@ public class GuestBookServiceImpl implements GuestBookService {
         guestBookRepository.save(guestBook);
 
         return guestBook.getGno();
+    }
+
+    // Book 프로젝트에서는 BookRepository에서 작성함
+    private BooleanBuilder getSearch(PageRequestDto requestDto) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        // Q클래스 사용
+        QGuestBook guestBook = QGuestBook.guestBook;
+
+        // type, keyword 가져오기
+        String type = requestDto.getType();
+        String keyword = requestDto.getKeyword();
+
+        // gno > 0
+        // where gno > 0 and title like ~~ or content like ~~
+        builder.and(guestBook.gno.gt(0L));
+
+        if (type == null || type.trim().length() == 0) {
+            return builder;
+        }
+
+        BooleanBuilder conditionBuilder = new BooleanBuilder();
+
+        if (type.contains("t")) {
+            conditionBuilder.or(guestBook.title.containsIgnoreCase(keyword));
+        }
+
+        if (type.contains("c")) {
+            conditionBuilder.or(guestBook.content.contains(keyword));
+        }
+
+        if (type.contains("w")) {
+            conditionBuilder.or(guestBook.writer.contains(keyword));
+        }
+
+        builder.and(conditionBuilder);
+
+        return builder;
     }
 
 }

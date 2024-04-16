@@ -17,7 +17,7 @@ public class GuestBookServiceTest {
 
     @Test
     public void testList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(11).build();
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).type("tc").keyword("11111").build();
 
         PageResultDto<GuestBookDto, GuestBook> result = service.getList(requestDto);
 
