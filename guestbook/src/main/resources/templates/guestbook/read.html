@@ -48,7 +48,11 @@
         />
       </div>
       <div class="mb-3">
-        <a class="btn btn-success" th:href="@{/guestbook/modify(gno=${dto.gno})}">Modify</a>
+        <a
+          class="btn btn-success"
+          th:href="@{/guestbook/modify(gno=${dto.gno},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
+          >Modify</a
+        >
         <a class="btn btn-info" th:href="@{/guestbook/list(page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">List</a>
       </div>
     </form>
