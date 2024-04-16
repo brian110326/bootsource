@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,46 +34,60 @@ public class GuestBookController {
     private final GuestBookService service;
 
     @GetMapping("/list")
-    public void listGet(Model model, PageRequestDto requestDto) {
+    public void listGet(Model model, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         PageResultDto<GuestBookDto, GuestBook> result = service.getList(requestDto);
         model.addAttribute("result", result);
 
     }
 
     @GetMapping({ "/read", "/modify" })
-    public void readGet(Long gno, Model model) {
+    public void readGet(Long gno, Model model, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         GuestBookDto dto = service.getRow(gno);
         model.addAttribute("dto", dto);
     }
 
     @PostMapping("/modify")
-    public String modifyPost(GuestBookDto dto, RedirectAttributes rttr) {
+    public String modifyPost(GuestBookDto dto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
         Long gno = service.update(dto);
         rttr.addAttribute("gno", gno);
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
+
         return "redirect:/guestbook/read";
         // String => LocalDateTime type mismatch
         // form이 post방식으로 넘어갈 때 String 형태로 감 ==> LocalDateTime의 name속성을 없애면 가능
     }
 
     @PostMapping("/delete")
-    public String deletePost(Long gno) {
+    public String deletePost(Long gno, @ModelAttribute("requestDto") PageRequestDto requestDto,
+            RedirectAttributes rttr) {
         service.delete(gno);
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
         return "redirect:/guestbook/list";
     }
 
     @GetMapping("/create")
-    public void createGet(GuestBookDto dto) {
+    public void createGet(GuestBookDto dto, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         // Post에서 Valid있으면 비어있는거라도 일단 보내야함
     }
 
     @PostMapping("/create")
-    public String createPost(@Valid GuestBookDto dto, BindingResult result, RedirectAttributes rttr) {
+    public String createPost(@Valid GuestBookDto dto, BindingResult result, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
         // @Valid다음에 바로 매개변수가 BindingResult가 와야함
         if (result.hasErrors()) {
             return "/guestbook/create";
         }
         Long gno = service.create(dto);
-        rttr.addAttribute("msg", gno);
+        rttr.addFlashAttribute("msg", gno);
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
+
         return "redirect:/guestbook/list";
     }
 
