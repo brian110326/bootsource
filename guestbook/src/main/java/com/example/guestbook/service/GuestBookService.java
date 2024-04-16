@@ -3,10 +3,14 @@ package com.example.guestbook.service;
 import java.util.List;
 
 import com.example.guestbook.dto.GuestBookDto;
+import com.example.guestbook.dto.PageRequestDto;
+import com.example.guestbook.dto.PageResultDto;
 import com.example.guestbook.entity.GuestBook;
 
 public interface GuestBookService {
-    public List<GuestBookDto> getList();
+    // public List<GuestBookDto> getList();
+
+    public PageResultDto<GuestBookDto, GuestBook> getList(PageRequestDto requestDto);
 
     public default GuestBookDto entityToDto(GuestBook entity) {
         GuestBookDto dto = GuestBookDto.builder().gno(entity.getGno()).writer(entity.getWriter())

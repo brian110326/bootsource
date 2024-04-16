@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.guestbook.dto.GuestBookDto;
+import com.example.guestbook.dto.PageRequestDto;
+import com.example.guestbook.dto.PageResultDto;
 import com.example.guestbook.entity.GuestBook;
 import com.example.guestbook.repository.GuestBookRepository;
 
@@ -20,20 +24,32 @@ public class GuestBookServiceImpl implements GuestBookService {
 
     private final GuestBookRepository guestBookRepository;
 
+    // @Override
+    // public List<GuestBookDto> getList() {
+    // List<GuestBook> entities =
+    // guestBookRepository.findAll(Sort.by("gno").descending());
+    // List<GuestBookDto> list = new ArrayList<>();
+
+    // entities.forEach(entity -> {
+    // list.add(entityToDto(entity));
+    // });
+
+    // return list;
+
+    // // Function<GuestBook,GuestBookDto> fn = (entity -> entityToDto(entity));
+    // // return entities.stream().map(fn).collect(Collectors.toList());
+
+    // }
+
     @Override
-    public List<GuestBookDto> getList() {
-        List<GuestBook> entities = guestBookRepository.findAll(Sort.by("gno").descending());
-        List<GuestBookDto> list = new ArrayList<>();
+    public PageResultDto<GuestBookDto, GuestBook> getList(PageRequestDto requestDto) {
+        // 1. PageRequestDto, PageResultDto만들기
+        // 2. getList부분 수정하기(paging처리가 되는 findAll 호출)
+        Pageable pageable = requestDto.getPageable(Sort.by("gno").descending());
+        Page<GuestBook> result = guestBookRepository.findAll(pageable);
 
-        entities.forEach(entity -> {
-            list.add(entityToDto(entity));
-        });
-
-        return list;
-
-        // Function<GuestBook,GuestBookDto> fn = (entity -> entityToDto(entity));
-        // return entities.stream().map(fn).collect(Collectors.toList());
-
+        Function<GuestBook, GuestBookDto> fn = (entity -> entityToDto(entity));
+        return new PageResultDto<GuestBookDto, GuestBook>(result, fn);
     }
 
     @Override

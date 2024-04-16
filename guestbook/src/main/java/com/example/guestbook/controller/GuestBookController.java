@@ -27,8 +27,8 @@ public class GuestBookController {
 
     @GetMapping("/list")
     public void listGet(Model model) {
-        List<GuestBookDto> list = service.getList();
-        model.addAttribute("list", list);
+        // List<GuestBookDto> list = service.getList();
+        // model.addAttribute("list", list);
 
     }
 
