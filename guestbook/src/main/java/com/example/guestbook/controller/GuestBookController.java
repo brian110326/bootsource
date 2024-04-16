@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.guestbook.dto.GuestBookDto;
+import com.example.guestbook.dto.PageRequestDto;
+import com.example.guestbook.dto.PageResultDto;
+import com.example.guestbook.entity.GuestBook;
 import com.example.guestbook.service.GuestBookService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,9 +29,9 @@ public class GuestBookController {
     private final GuestBookService service;
 
     @GetMapping("/list")
-    public void listGet(Model model) {
-        // List<GuestBookDto> list = service.getList();
-        // model.addAttribute("list", list);
+    public void listGet(Model model, PageRequestDto requestDto) {
+        PageResultDto<GuestBookDto, GuestBook> result = service.getList(requestDto);
+        model.addAttribute("result", result);
 
     }
 

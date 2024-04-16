@@ -17,9 +17,14 @@ public class GuestBookServiceTest {
 
     @Test
     public void testList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(11).build();
 
         PageResultDto<GuestBookDto, GuestBook> result = service.getList(requestDto);
+
+        System.out.println("prev : " + result.isPrev());
+        System.out.println("next : " + result.isNext());
+        System.out.println("total : " + result.getTotalPage());
+        result.getPageList().forEach(System.out::println);
 
         // 목록 확인
         result.getDtoList().forEach(System.out::println);

@@ -41,7 +41,7 @@
       </thead>
 
       <tbody>
-        <tr th:each="dto : ${list}">
+        <tr th:each="dto : ${result.dtoList}">
           <th scope="row" th:text="${dto.gno}"></th>
           <td th:text="${dto.writer}"></td>
           <td>
