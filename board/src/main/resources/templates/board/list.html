@@ -40,7 +40,7 @@
       </thead>
 
       <tbody>
-        <tr th:each="dto : ${list}">
+        <tr th:each="dto : ${result.dtoList}">
           <th scope="row" th:text="${dto.bno}"></th>
           <td th:text="${dto.writerEmail}"></td>
 

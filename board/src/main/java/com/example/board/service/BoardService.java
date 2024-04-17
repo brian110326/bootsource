@@ -3,12 +3,14 @@ package com.example.board.service;
 import java.util.List;
 
 import com.example.board.dto.BoardDto;
+import com.example.board.dto.PageRequestDto;
+import com.example.board.dto.PageResultDto;
 import com.example.board.entity.Board;
 import com.example.board.entity.Member;
 
 public interface BoardService {
 
-    public List<BoardDto> getList();
+    public PageResultDto<BoardDto, Object[]> getList(PageRequestDto requestDto);
 
     public BoardDto getRow(Long bno);
 

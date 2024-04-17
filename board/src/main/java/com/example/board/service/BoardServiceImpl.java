@@ -4,10 +4,15 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.board.dto.BoardDto;
+import com.example.board.dto.PageRequestDto;
+import com.example.board.dto.PageResultDto;
 import com.example.board.entity.Board;
 import com.example.board.entity.Member;
 import com.example.board.repository.BoardRepository;
@@ -23,16 +28,32 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
 
+    // @Override
+    // public List<BoardDto> getList() {
+    // List<Object[]> result = boardRepository.list();
+
+    // Function<Object[], BoardDto> fn = (entity -> entityToDto((Board) entity[0],
+    // (Member) entity[1],
+    // (Long) entity[2]));
+
+    // List<BoardDto> list = result.stream().map(fn).collect(Collectors.toList());
+
+    // return list;
+    // }
+
     @Override
-    public List<BoardDto> getList() {
-        List<Object[]> result = boardRepository.list();
+    public PageResultDto<BoardDto, Object[]> getList(PageRequestDto requestDto) {
+
+        Page<Object[]> result = boardRepository.list(requestDto.getPageable(Sort.by("bno").descending()));
+
+        // List<Object[]> result = boardRepository.list(pageable);
 
         Function<Object[], BoardDto> fn = (entity -> entityToDto((Board) entity[0], (Member) entity[1],
                 (Long) entity[2]));
 
-        List<BoardDto> list = result.stream().map(fn).collect(Collectors.toList());
+        // List<BoardDto> list = result.stream().map(fn).collect(Collectors.toList());
 
-        return list;
+        return new PageResultDto<>(result, fn);
     }
 
     @Override

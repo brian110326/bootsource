@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.board.dto.BoardDto;
+import com.example.board.dto.PageRequestDto;
+import com.example.board.dto.PageResultDto;
 import com.example.board.service.BoardService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,9 +28,9 @@ public class BoardController {
     private final BoardService service;
 
     @GetMapping("/list")
-    public String listGet(Model model) {
-        List<BoardDto> list = service.getList();
-        model.addAttribute("list", list);
+    public String listGet(Model model, PageRequestDto requestDto) {
+        PageResultDto<BoardDto, Object[]> result = service.getList(requestDto);
+        model.addAttribute("result", result);
         return "/board/list";
     }
 
@@ -48,7 +50,6 @@ public class BoardController {
     @PostMapping("/delete")
     public String deletePost(Long bno) {
         service.removeWithReplies(bno);
-
         return "redirect:/board/list";
     }
 

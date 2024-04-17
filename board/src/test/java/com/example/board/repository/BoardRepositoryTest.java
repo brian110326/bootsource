@@ -7,6 +7,10 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.example.board.entity.Board;
 import com.example.board.entity.Member;
@@ -47,15 +51,17 @@ public class BoardRepositoryTest {
 
     @Test
     public void testList() {
-        List<Object[]> list = boardRepository.list();
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+
+        Page<Object[]> list = boardRepository.list(pageable);
 
         for (Object[] objects : list) {
-            // System.out.println(Arrays.toString(objects));
-            Board board = (Board) objects[0];
-            Member member = (Member) objects[1];
-            Long replyCnt = (Long) objects[2];
+            System.out.println(Arrays.toString(objects));
+            // Board board = (Board) objects[0];
+            // Member member = (Member) objects[1];
+            // Long replyCnt = (Long) objects[2];
 
-            System.out.println(board + " " + member + " " + replyCnt);
+            // System.out.println(board + " " + member + " " + replyCnt);
         }
     }
 
