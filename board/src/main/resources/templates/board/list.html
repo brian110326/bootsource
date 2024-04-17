@@ -54,16 +54,16 @@
 
     <nav aria-label="...">
       <ul class="pagination justify-content-center">
-        <li class="page-item">
-          <a class="page-link">Previous</a>
+        <li class="page-item" th:if="${result.prev}">
+          <a class="page-link" th:href="@{/board/list(page=${result.start-1},type=${requestDto.type},keyword=${requestDto.keyword})}">Previous</a>
         </li>
 
-        <li th:class="page-item">
-          <a class="page-link"></a>
+        <li th:class="'page-item ' + ${result.page == page ? 'active' : ''}" th:each="page : ${result.pageList}">
+          <a class="page-link" th:href="@{/board/list(page=${page},type=${requestDto.type},keyword=${requestDto.keyword})}" th:text="${page}"></a>
         </li>
 
-        <li class="page-item active">
-          <a class="page-link">Next</a>
+        <li class="page-item active" th:if="${result.next}">
+          <a class="page-link" th:href="@{/board/list(page=${result.end+1},type=${requestDto.type},keyword=${requestDto.keyword})}">Next</a>
         </li>
       </ul>
     </nav>

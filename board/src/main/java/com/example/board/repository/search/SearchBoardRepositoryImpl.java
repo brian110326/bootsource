@@ -13,6 +13,7 @@ import com.example.board.entity.Board;
 import com.example.board.entity.QBoard;
 import com.example.board.entity.QMember;
 import com.example.board.entity.QReply;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -30,7 +31,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
-    public Page<Object[]> list(Pageable pageable) {
+    public Page<Object[]> list(Pageable pageable, String type, String keyword) {
         log.info("Board + Reply + Member Join");
 
         // Q class 사용
@@ -49,6 +50,30 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 .groupBy(reply.board);
 
         JPQLQuery<Tuple> tuple = query.select(board, member, replyCount);
+
+        // 검색
+        BooleanBuilder builder = new BooleanBuilder();
+
+        // gno > 0
+        // where gno > 0 and title like ~~ or content like ~~
+        builder.and(board.bno.gt(0L));
+
+        BooleanBuilder conditionBuilder = new BooleanBuilder();
+
+        if (type.contains("t")) {
+            conditionBuilder.or(board.title.contains(keyword));
+        }
+
+        if (type.contains("c")) {
+            conditionBuilder.or(board.content.contains(keyword));
+        }
+
+        if (type.contains("w")) {
+            conditionBuilder.or(member.email.contains(keyword));
+        }
+
+        builder.and(conditionBuilder);
+        tuple.where(builder);
 
         // 페이지 나누기
         // sort 지정
