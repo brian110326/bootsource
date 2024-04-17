@@ -29,4 +29,10 @@ public class BoardController {
         return "/board/list";
     }
 
+    @GetMapping({ "/read", "/modify" })
+    public void readGet(Model model, Long bno) {
+        BoardDto dto = service.getRow(bno);
+        model.addAttribute("dto", dto);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.board.repository.search;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.example.board.entity.Board;
@@ -48,6 +49,30 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         List<Object[]> list = result.stream().map(t -> t.toArray()).collect(Collectors.toList());
 
         return list;
+    }
+
+    @Override
+    public Object[] getRow(Long bno) {
+        QBoard board = QBoard.board;
+        QMember member = QMember.member;
+        QReply reply = QReply.reply;
+
+        // @Query("select b,m from Board b left join b.writer m")
+        JPQLQuery<Board> query = from(board);
+        query.leftJoin(board.writer, member);
+        query.where(board.bno.eq(bno));
+
+        // 댓글 개수도 같이 보여주기
+        // subquery => JPAExpressions
+        JPQLQuery<Long> replyCount = JPAExpressions.select(reply.rno.count().as("replycnt")).from(reply)
+                .where(reply.board.eq(board))
+                .groupBy(reply.board);
+
+        JPQLQuery<Tuple> tuple = query.select(board, member, replyCount);
+
+        Tuple result = tuple.fetch().get(0);
+
+        return result.toArray();
     }
 
 }

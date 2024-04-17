@@ -10,9 +10,11 @@ public interface BoardService {
 
     public List<BoardDto> getList();
 
+    public BoardDto getRow(Long bno);
+
     public default BoardDto entityToDto(Board board, Member member, Long replyCount) {
         BoardDto dto = BoardDto.builder().bno(board.getBno()).writerEmail(member.getEmail())
-                .writerName(member.getName()).replyCount(replyCount)
+                .writerName(member.getName()).replyCount(replyCount != null ? replyCount : 0)
                 .title(board.getTitle())
                 .content(board.getContent()).createdDate(board.getCreatedDate())
                 .lastModifiedDate(board.getLastModifiedDate()).build();
@@ -30,4 +32,5 @@ public interface BoardService {
 
         return entity;
     }
+
 }

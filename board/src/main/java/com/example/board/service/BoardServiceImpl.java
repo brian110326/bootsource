@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.board.dto.BoardDto;
@@ -29,6 +30,13 @@ public class BoardServiceImpl implements BoardService {
         List<BoardDto> list = result.stream().map(fn).collect(Collectors.toList());
 
         return list;
+    }
+
+    @Override
+    public BoardDto getRow(Long bno) {
+        Object[] objects = boardRepository.getRow(bno);
+
+        return entityToDto((Board) objects[0], (Member) objects[1], bno);
     }
 
 }

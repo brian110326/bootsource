@@ -55,4 +55,10 @@ public class BoardRepositoryTest {
             System.out.println(board + " " + member + " " + replyCnt);
         }
     }
+
+    @Test
+    public void testGetRow() {
+        Object[] row = boardRepository.getRow(3L);
+        System.out.println(Arrays.toString(row));
+    }
 }

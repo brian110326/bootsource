@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
     @GetMapping("/")
     public String home() {
-        return "/board/list";
+
+        return "redirect:/board/list";
     }
 
 }
