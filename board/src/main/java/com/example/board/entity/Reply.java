@@ -18,17 +18,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Board extends BaseEntity {
+public class Reply extends BaseEntity {
 
     @Id
-    @SequenceGenerator(name = "board_seq_gen", sequenceName = "board_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq_gen")
-    private Long bno;
+    @SequenceGenerator(name = "reply_seq_gen", sequenceName = "reply_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reply_seq_gen")
+    private Long rno;
 
-    private String title;
+    private String text; // 댓글내용
 
-    private String content;
+    private String replyer; // 댓글작성자
 
     @ManyToOne
-    private Member writer;
+    private Board board;
 }
