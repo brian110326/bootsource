@@ -19,6 +19,9 @@ public class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
 
+    @Autowired
+    private ReplyRepository replyRepository;
+
     @Test
     public void insertTest() {
         IntStream.rangeClosed(1, 100).forEach(i -> {
@@ -60,5 +63,15 @@ public class BoardRepositoryTest {
     public void testGetRow() {
         Object[] row = boardRepository.getRow(3L);
         System.out.println(Arrays.toString(row));
+    }
+
+    @Test
+    @Transactional // 자식삭제와 부모삭제가 같이 이루어져야함(부모삭제가 안될 시 자식 삭제를 막아야함)
+    public void deleteTest() {
+        // 자식(댓글) 삭제
+        replyRepository.deleteByBno(49L);
+
+        // 부모(원본글) 삭제
+        boardRepository.deleteById(49L);
     }
 }

@@ -16,7 +16,7 @@
 
       <div class="mb-3">
         <label for="writer" class="form-label">Writer</label>
-        <input type="text" class="form-control" id="writer" name="writer" th:value="${dto.writer}" />
+        <input type="text" class="form-control" id="writer" name="writer" th:value="${dto.writerName}" />
       </div>
 
       <div class="mb-3">
@@ -36,15 +36,12 @@
       <div class="mb-3">
         <button class="btn btn-success" type="submit">Modify</button>
         <button class="btn btn-danger" type="button">Delete</button>
-        <a class="btn btn-info" th:href="@{/guestbook/list(page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">List</a>
+        <a class="btn btn-info" th:href="@{/board/list}">List</a>
       </div>
     </form>
 
-    <form action="" method="post" id="actionForm">
+    <form th:action="@{delete}" method="post" id="actionForm">
       <input type="hidden" name="bno" th:value="${dto.bno}" />
-      <input type="hidden" name="page" th:value="${requestDto.page}" />
-      <input type="hidden" name="type" th:value="${requestDto.type}" />
-      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
     </form>
 
     <th:block layout:fragment="script">
