@@ -31,6 +31,7 @@ public class Board extends BaseEntity {
     private String content;
 
     // fetch 방식 : FetchType.EAGER(즉시 로딩)
+    // ==> left join 방식으로 데이터 처리
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
 }
