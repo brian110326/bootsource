@@ -1,6 +1,7 @@
 package com.example.board.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "writer")
 public class Board extends BaseEntity {
 
     @Id
@@ -29,6 +30,7 @@ public class Board extends BaseEntity {
 
     private String content;
 
-    @ManyToOne
+    // fetch 방식 : FetchType.EAGER(즉시 로딩)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
 }
