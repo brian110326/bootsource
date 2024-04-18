@@ -53,7 +53,7 @@ public class BoardRepositoryTest {
     public void testList() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
 
-        Page<Object[]> list = boardRepository.list(pageable);
+        Page<Object[]> list = boardRepository.list(pageable, "tcw", "Title");
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));

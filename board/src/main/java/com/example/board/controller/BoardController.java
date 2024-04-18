@@ -36,21 +36,30 @@ public class BoardController {
     }
 
     @GetMapping({ "/read", "/modify" })
-    public void readGet(Model model, Long bno) {
+    public void readGet(Model model, Long bno, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         BoardDto dto = service.getRow(bno);
         model.addAttribute("dto", dto);
     }
 
     @PostMapping("/modify")
-    public String modfiyPost(BoardDto dto, RedirectAttributes rttr) {
+    public String modfiyPost(BoardDto dto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
         Long bno = service.update(dto);
         rttr.addAttribute("bno", bno);
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
         return "redirect:/board/read";
     }
 
     @PostMapping("/delete")
-    public String deletePost(Long bno) {
+    public String deletePost(Long bno, @ModelAttribute("requestDto") PageRequestDto requestDto,
+            RedirectAttributes rttr) {
         service.removeWithReplies(bno);
+
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
         return "redirect:/board/list";
     }
 
