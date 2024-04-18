@@ -16,9 +16,9 @@ public class HomeController {
     @GetMapping("/")
     public String home(RedirectAttributes rttr, @ModelAttribute("requestDto") PageRequestDto requestDto) {
 
-        rttr.addAttribute("page", 1);
-        rttr.addAttribute("type", "");
-        rttr.addAttribute("keyword", "");
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
 
         return "redirect:/board/list";
     }

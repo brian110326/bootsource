@@ -4,7 +4,7 @@
     <h2>
       Board List Page
       <span>
-        <a th:href="@{/board/create}">
+        <a th:href="@{/board/create(page=1,type=${requestDto.type},keyword=${requestDto.keyword})}">
           <button class="btn btn-outline-primary">REGISTER</button>
         </a>
       </span>

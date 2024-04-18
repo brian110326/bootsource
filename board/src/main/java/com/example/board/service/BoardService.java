@@ -18,6 +18,8 @@ public interface BoardService {
 
     public void removeWithReplies(Long bno);
 
+    public Long create(BoardDto dto);
+
     public default BoardDto entityToDto(Board board, Member member, Long replyCount) {
         BoardDto dto = BoardDto.builder().bno(board.getBno()).writerEmail(member.getEmail())
                 .writerName(member.getName()).replyCount(replyCount != null ? replyCount : 0)

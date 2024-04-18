@@ -17,12 +17,16 @@ public class PageRequestDto {
     private int size;
 
     // 검색
+    // 초기화 안하면 null값
     private String type;
     private String keyword;
 
     public PageRequestDto() {
         this.page = 1;
         this.size = 10;
+
+        this.type = "";
+        this.keyword = "";
     }
 
     public Pageable getPageable(Sort sort) {

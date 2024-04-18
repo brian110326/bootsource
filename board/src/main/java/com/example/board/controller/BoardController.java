@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,9 @@ import com.example.board.dto.BoardDto;
 import com.example.board.dto.PageRequestDto;
 import com.example.board.dto.PageResultDto;
 import com.example.board.service.BoardService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -60,6 +64,28 @@ public class BoardController {
         rttr.addAttribute("page", requestDto.getPage());
         rttr.addAttribute("type", requestDto.getType());
         rttr.addAttribute("keyword", requestDto.getKeyword());
+        return "redirect:/board/list";
+    }
+
+    @GetMapping("/create")
+    public void createGet(BoardDto dto, @ModelAttribute("requestDto") PageRequestDto requestDto) {
+
+    }
+
+    @PostMapping("/create")
+    public String createPost(@Valid BoardDto dto, BindingResult result,
+            @ModelAttribute("requestDto") PageRequestDto requestDto, RedirectAttributes rttr) {
+
+        if (result.hasErrors()) {
+            return "/board/create";
+        }
+
+        Long bno = service.create(dto);
+
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
+
         return "redirect:/board/list";
     }
 

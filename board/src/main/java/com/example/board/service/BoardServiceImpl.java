@@ -1,6 +1,7 @@
 package com.example.board.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import com.example.board.dto.PageResultDto;
 import com.example.board.entity.Board;
 import com.example.board.entity.Member;
 import com.example.board.repository.BoardRepository;
+import com.example.board.repository.MemberRepository;
 import com.example.board.repository.ReplyRepository;
 
 import jakarta.transaction.Transactional;
@@ -27,6 +29,7 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
+    private final MemberRepository memberRepository;
 
     // @Override
     // public List<BoardDto> getList() {
@@ -80,6 +83,24 @@ public class BoardServiceImpl implements BoardService {
     public void removeWithReplies(Long bno) {
         replyRepository.deleteByBno(bno);
         boardRepository.deleteById(bno);
+    }
+
+    @Override
+    public Long create(BoardDto dto) {
+        // dto가 이미 회원이메일을 담고 있기 때문에 새로 작성 시 writer 부분에 기존회원이메일 기입
+
+        Optional<Member> member = memberRepository.findById(dto.getWriterEmail());
+
+        if (member.isPresent()) {
+            Board entity = Board.builder().title(dto.getTitle()).content(dto.getContent()).writer(member.get()).build();
+
+            entity = boardRepository.save(entity);
+
+            return entity.getBno();
+        }
+
+        return null;
+
     }
 
 }
