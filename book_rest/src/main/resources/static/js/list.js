@@ -2,6 +2,7 @@
 // data-id에 있는 값 가져오기
 
 document.querySelector("tbody").addEventListener("click", (e) => {
+  // a태그 중지시켰기 때문에 read.html로 넘어가지 않음
   e.preventDefault();
 
   const target = e.target;
@@ -20,5 +21,6 @@ document.querySelector("tbody").addEventListener("click", (e) => {
       document.querySelector("#writer").value = data.writer;
       document.querySelector("#price").value = data.price;
       document.querySelector("#salePrice").value = data.salePrice;
+      document.querySelector("#id").value = data.id;
     });
 });
