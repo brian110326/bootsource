@@ -6,10 +6,12 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,12 +59,15 @@ public class BookRestController {
 
         Long id = service.bookCreate(dto);
 
+        // Valid 검증이 성공한 경우
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    // Valid 검증에 실패한 경우
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
+        // key, value값은 Map으로
 
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             String fieldName = error.getField();
@@ -71,5 +76,21 @@ public class BookRestController {
         });
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    // /modify/3 + 데이터
+    @PutMapping("/modify/{id}")
+    public ResponseEntity<String> modifyPost(@RequestBody BookDto updateDto, @PathVariable("id") Long id) {
+
+        service.update(updateDto);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable("id") Long id) {
+        service.delete(id);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
