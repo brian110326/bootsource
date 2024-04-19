@@ -57,4 +57,11 @@ public class ReplyController {
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
+    // /replies/{rno} + Get
+    @GetMapping("/{rno}")
+    public ResponseEntity<ReplyDto> getRowGet(@PathVariable("rno") Long rno) {
+        log.info("댓글 하나 요청 {}", rno);
+        return new ResponseEntity<ReplyDto>(service.getReply(rno), HttpStatus.OK);
+    }
+
 }
