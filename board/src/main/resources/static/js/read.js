@@ -15,6 +15,14 @@
 // var로 선언된 변수는 호이스팅 가능
 // const, let은 호이스팅 불가능
 
+// 날짜 포맷 변경 함수
+const formatDate = (data) => {
+  const date = new Date(data);
+
+  return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+};
+
+// 댓글 목록 가져오기
 const replyList = () => {
   // 댓글목록 보여줄 영역 가져오기
   const replyList = document.querySelector(".replyList");
@@ -30,7 +38,7 @@ const replyList = () => {
         result += `<div class="p-3"><img src="/img/default.png" alt="" class="rounded-circle mx-auto d-block" style="width: 60px; height: 60px" /></div>`;
         result += `<div class="flex-grow-1 align-self-center"><div>${reply.replyer}</div>`;
         result += `<div><span class="fs-5">${reply.text}</span></div>`;
-        result += `<div class="text-muted"><span class="small">${reply.createdDate}</span></div></div>`;
+        result += `<div class="text-muted"><span class="small">${formatDate(reply.createdDate)}</span></div></div>`;
         result += `<div class="d-flex flex-column align-self-center">`;
         result += `<div class="mb-2"><button class="btn btn-outline-danger btn-sm">삭제</button></div>`;
         result += `<div class="mb-2"><button class="btn btn-outline-success btn-sm">수정</button></div>`;
