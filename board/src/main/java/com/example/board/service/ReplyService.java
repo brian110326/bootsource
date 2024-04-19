@@ -1,5 +1,7 @@
 package com.example.board.service;
 
+import java.util.List;
+
 import com.example.board.dto.BoardDto;
 import com.example.board.dto.ReplyDto;
 import com.example.board.entity.Board;
@@ -7,6 +9,9 @@ import com.example.board.entity.Member;
 import com.example.board.entity.Reply;
 
 public interface ReplyService {
+
+    List<ReplyDto> getReplise(Long bno);
+
     public default ReplyDto entityToDto(Reply reply) {
         ReplyDto dto = ReplyDto.builder().rno(reply.getRno()).text(reply.getText()).replyer(reply.getReplyer())
                 .bno(reply.getBoard().getBno()).createdDate(reply.getCreatedDate())

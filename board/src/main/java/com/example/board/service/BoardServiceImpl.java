@@ -64,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
     public BoardDto getRow(Long bno) {
         Object[] objects = boardRepository.getRow(bno);
 
-        return entityToDto((Board) objects[0], (Member) objects[1], bno);
+        return entityToDto((Board) objects[0], (Member) objects[1], (Long) objects[2]);
     }
 
     @Override
