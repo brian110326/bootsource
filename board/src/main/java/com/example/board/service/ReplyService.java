@@ -14,6 +14,10 @@ public interface ReplyService {
 
     Long create(ReplyDto dto);
 
+    void remove(Long rno);
+
+    ReplyDto getReply(Long rno);
+
     public default ReplyDto entityToDto(Reply reply) {
         ReplyDto dto = ReplyDto.builder().rno(reply.getRno()).text(reply.getText()).replyer(reply.getReplyer())
                 .bno(reply.getBoard().getBno()).createdDate(reply.getCreatedDate())

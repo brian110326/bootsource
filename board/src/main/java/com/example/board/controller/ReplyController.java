@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,15 @@ public class ReplyController {
 
         Long rno = service.create(dto);
         return new ResponseEntity<Long>(rno, HttpStatus.OK);
+    }
+
+    // /{rno} + Delete
+    @DeleteMapping("/{rno}")
+    public ResponseEntity<String> postMethodName(@PathVariable("rno") Long rno) {
+        log.info("댓글 삭제 {}", rno);
+        service.remove(rno);
+
+        return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
 }

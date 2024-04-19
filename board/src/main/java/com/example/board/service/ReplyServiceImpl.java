@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class ReplyServiceImple implements ReplyService {
+public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;
 
@@ -36,6 +36,16 @@ public class ReplyServiceImple implements ReplyService {
         Reply reply = dtoToEntity(dto);
 
         return replyRepository.save(reply).getRno();
+    }
+
+    @Override
+    public void remove(Long rno) {
+        replyRepository.deleteById(rno);
+    }
+
+    @Override
+    public ReplyDto getReply(Long rno) {
+        return entityToDto(replyRepository.findById(rno).get());
     }
 
 }

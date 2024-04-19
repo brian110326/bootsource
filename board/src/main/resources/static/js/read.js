@@ -23,9 +23,9 @@ const formatDate = (data) => {
 };
 
 // 댓글 목록 가져오기
-const replyList = () => {
+const replyList = document.querySelector(".replyList");
+const replyLoaded = () => {
   // 댓글목록 보여줄 영역 가져오기
-  const replyList = document.querySelector(".replyList");
 
   fetch(`/replies/board/${bno}`)
     .then((response) => response.json())
@@ -54,7 +54,7 @@ const replyList = () => {
 };
 
 // 함수호출
-replyList();
+replyLoaded();
 
 // 새 댓글 등록
 // 새 댓글 등록 폼 submit 시
@@ -90,7 +90,29 @@ replyForm.addEventListener("submit", (e) => {
         replyer.value = "";
         text.value = "";
 
-        replyList();
+        replyLoaded();
+      }
+    });
+});
+
+// 이벤트 전파 : 자식요소에 일어난 이벤트는 상위요소에 전달
+// 댓글 삭제/수정 버튼 클릭 시 이벤트 전파로 찾아오기
+// rno 가져오기
+replyList.addEventListener("click", (e) => {
+  // 실제 이벤트가 일어난 대상 찾기 : e.target
+  const btn = e.target;
+
+  // closest("요소") : 제일 가까운 상위요소 찾기
+  const rno = btn.closest(".reply-row").dataset.rno;
+
+  console.log("rno", rno);
+
+  fetch(`/replies/${rno}`, { method: "delete" })
+    .then((response) => response.text())
+    .then((data) => {
+      if (data == "success") {
+        alert("댓글 삭제 성공");
+        replyLoaded();
       }
     });
 });
