@@ -26,7 +26,7 @@ document.querySelector("#createForm").addEventListener("submit", (e) => {
     .then((data) => {
       if (data == "success") {
         alert("입력 성공");
+        location.href = "/book/list?page=1&type=&keyword=";
       }
-      location.href = "/book/list?page=1&type=&keyword=";
     });
 });

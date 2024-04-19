@@ -21,6 +21,58 @@ document.querySelector("tbody").addEventListener("click", (e) => {
       document.querySelector("#writer").value = data.writer;
       document.querySelector("#price").value = data.price;
       document.querySelector("#salePrice").value = data.salePrice;
-      document.querySelector("#id").value = data.id;
+      document.querySelector("#book_id").value = data.id;
+    });
+});
+
+// 삭제 클릭 시 id 가져오기
+document.querySelector(".btn-primary").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const id = document.querySelector("#book_id").value;
+
+  console.log(id);
+
+  // /delete/{id} + Delete
+  fetch(`/delete/${id}`, { method: "delete" })
+    .then((response) => response.text())
+    .then((data) => {
+      if (data == "success") {
+        alert("삭제성공");
+        location.href = "/book/list?page=1&type=&keyword=";
+      }
+    });
+});
+
+// 수정
+document.querySelector(".btn-secondary").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const myForm = document.querySelector("#myForm");
+
+  const book_id = document.querySelector("#book_id").value;
+
+  const data = {
+    price: document.querySelector("#price").value,
+    salePrice: document.querySelector("#salePrice").value,
+    id: book_id,
+  };
+
+  console.log(data);
+
+  // method 지정 안하면 get방식으로 전송
+  fetch(`/modify/${book_id}`, {
+    method: "put",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data), // JSON.stringify() : javascript 객체 ==> JSON 형태로 변환
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      if (data == "success") {
+        alert("수정 성공");
+        location.href = "/book/list?page=1&type=&keyword=";
+      }
     });
 });
