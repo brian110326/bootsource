@@ -1,5 +1,6 @@
 package com.example.board.repository;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.board.entity.Board;
 import com.example.board.entity.Reply;
+
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 public class ReplyRepositoryTest {
@@ -26,5 +29,26 @@ public class ReplyRepositoryTest {
 
             replyRepository.save(reply);
         });
+    }
+
+    @Test
+    @Transactional
+    public void getRow() {
+
+        Reply reply = replyRepository.findById(2L).get();
+        System.out.println(reply);
+
+        System.out.println(reply.getBoard());
+    }
+
+    @Test
+    @Transactional
+    public void getReplies() {
+
+        Board board = Board.builder().bno(98L).build();
+        List<Reply> replies = replyRepository.getRepliesByBoardOrderByRno(board);
+        for (Reply reply : replies) {
+            System.out.println(reply);
+        }
     }
 }

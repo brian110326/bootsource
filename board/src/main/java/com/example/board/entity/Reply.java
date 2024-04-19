@@ -1,6 +1,7 @@
 package com.example.board.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "board")
 public class Reply extends BaseEntity {
 
     @Id
@@ -29,6 +30,6 @@ public class Reply extends BaseEntity {
 
     private String replyer; // 댓글작성자
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 }
