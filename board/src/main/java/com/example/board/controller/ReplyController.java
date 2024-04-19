@@ -11,9 +11,13 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -32,6 +36,15 @@ public class ReplyController {
         List<ReplyDto> replies = service.getReplise(bno);
 
         return replies;
+    }
+
+    // replies/new + Post
+    @PostMapping("/new")
+    public ResponseEntity<Long> postReply(@RequestBody ReplyDto dto) {
+        log.info("댓글 등록 {}", dto);
+
+        Long rno = service.create(dto);
+        return new ResponseEntity<Long>(rno, HttpStatus.OK);
     }
 
 }

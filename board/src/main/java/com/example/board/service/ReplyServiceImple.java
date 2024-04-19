@@ -31,4 +31,11 @@ public class ReplyServiceImple implements ReplyService {
         return replies.stream().map(reply -> entityToDto(reply)).collect(Collectors.toList());
     }
 
+    @Override
+    public Long create(ReplyDto dto) {
+        Reply reply = dtoToEntity(dto);
+
+        return replyRepository.save(reply).getRno();
+    }
+
 }

@@ -12,6 +12,8 @@ public interface ReplyService {
 
     List<ReplyDto> getReplise(Long bno);
 
+    Long create(ReplyDto dto);
+
     public default ReplyDto entityToDto(Reply reply) {
         ReplyDto dto = ReplyDto.builder().rno(reply.getRno()).text(reply.getText()).replyer(reply.getReplyer())
                 .bno(reply.getBoard().getBno()).createdDate(reply.getCreatedDate())

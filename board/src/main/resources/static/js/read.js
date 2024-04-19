@@ -51,3 +51,20 @@ const replyList = () => {
 
 // 함수호출
 replyList();
+
+// 새 댓글 등록
+// 새 댓글 등록 폼 submit 시
+// submit 기능 중지/ 작성자/ 댓글 가져오기 => 스크립트 객체로 변경
+document.querySelector("#replyForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  fetch(`/replies/new`, {
+    method: "post",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then();
+});
