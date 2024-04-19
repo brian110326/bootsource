@@ -55,8 +55,20 @@ replyList();
 // 새 댓글 등록
 // 새 댓글 등록 폼 submit 시
 // submit 기능 중지/ 작성자/ 댓글 가져오기 => 스크립트 객체로 변경
-document.querySelector("#replyForm").addEventListener("submit", (e) => {
+const replyForm = document.querySelector("#replyForm");
+replyForm.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  const replyer = replyForm.querySelector("#replyer");
+  const text = replyForm.querySelector("#text");
+
+  const data = {
+    bno: document.querySelector("#bno").value,
+    replyer: replyer.value,
+    text: text.value,
+  };
+
+  console.log(data);
 
   fetch(`/replies/new`, {
     method: "post",
@@ -66,5 +78,10 @@ document.querySelector("#replyForm").addEventListener("submit", (e) => {
     body: JSON.stringify(data),
   })
     .then((response) => response.json())
-    .then();
+    .then((data) => {
+      if (data) {
+        alert(data + "번 댓글 등록");
+        replyList();
+      }
+    });
 });
