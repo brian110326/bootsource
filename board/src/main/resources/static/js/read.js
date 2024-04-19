@@ -32,6 +32,10 @@ const replyList = () => {
     .then((data) => {
       console.log(data);
 
+      // 댓글 총 개수 확인
+      const span = document.querySelector(".d-inline-block");
+      span.innerHTML = data.length;
+
       let result = "";
       data.forEach((reply) => {
         result += `<div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="${reply.rno}">`;
@@ -81,6 +85,11 @@ replyForm.addEventListener("submit", (e) => {
     .then((data) => {
       if (data) {
         alert(data + "번 댓글 등록");
+
+        // replyForm에 남아있는 내용 제거
+        replyer.value = "";
+        text.value = "";
+
         replyList();
       }
     });
