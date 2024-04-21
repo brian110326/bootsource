@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- header 영역 불러오기 -->
+    <div th:replace="/fragments/seperate :: header"></div>
+    <h1>EX5</h1>
+    <div th:insert="/fragments/seperate :: content"></div>
+    <div th:insert="/fragments/seperate :: footer"></div>
+  </body>
+</html>

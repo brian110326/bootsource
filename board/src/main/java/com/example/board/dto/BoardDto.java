@@ -19,6 +19,7 @@ import lombok.ToString;
 public class BoardDto {
     private Long bno;
 
+    // github 테스트
     @NotBlank(message = "제목 입력")
     private String title;
 
