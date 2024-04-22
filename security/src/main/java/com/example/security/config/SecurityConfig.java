@@ -32,8 +32,12 @@ public class SecurityConfig {
                                 .requestMatchers("/security/admin").hasRole("ADMIN"))
                 // .formLogin(Customizer.withDefaults()); // default 로그인 페이지 보여주기
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
-                .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))); // custom
-                                                                                                             // logout
+                // .usernameParameter("userid") username 요소 이름 변경시 name="userid"
+                // .passwordParameter("pwd") password 요소 이름 변경 name="pwd"
+                // .successForwardUrl("")) 로그인 성공 후 갈곳
+                .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                        .logoutSuccessUrl("/")); // 로그아웃 성공시 갈 경로
+
         // 인증처리(웹에서는 대부분 폼 로그인 작업)
         // http로 들어오는 요청에 대하여 모두 허용을 함
         return http.build();
