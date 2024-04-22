@@ -66,33 +66,60 @@ replyForm.addEventListener("submit", (e) => {
   const replyer = replyForm.querySelector("#replyer");
   const text = replyForm.querySelector("#text");
 
-  const data = {
+  // 수정인 경우
+  const rno = replyForm.querySelector("#rno");
+
+  const reply = {
     bno: document.querySelector("#bno").value,
     replyer: replyer.value,
     text: text.value,
+    rno: rno.value,
   };
 
-  console.log(data);
+  if (!rno.value) {
+    // rno가 없으면 새댓글이 등록
+    fetch(`/replies/new`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(reply),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          alert(data + "번 댓글 등록");
 
-  fetch(`/replies/new`, {
-    method: "post",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data) {
-        alert(data + "번 댓글 등록");
+          // replyForm에 남아있는 내용 제거
+          replyer.value = "";
+          text.value = "";
 
-        // replyForm에 남아있는 내용 제거
-        replyer.value = "";
-        text.value = "";
+          replyLoaded();
+        }
+      });
+  } else {
+    // rno가 있으면 수정을 하는 작업
 
-        replyLoaded();
-      }
-    });
+    fetch(`/replies/${rno.value}`, {
+      method: "put",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(reply),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        if (data) {
+          alert("수정 성공");
+          replyer.value = "";
+          text.value = "";
+          rno.value = "";
+          replyLoaded();
+        }
+      });
+  }
+
+  //console.log(data);
 });
 
 // 이벤트 전파 : 자식요소에 일어난 이벤트는 상위요소에 전달
@@ -107,12 +134,31 @@ replyList.addEventListener("click", (e) => {
 
   console.log("rno", rno);
 
-  fetch(`/replies/${rno}`, { method: "delete" })
-    .then((response) => response.text())
-    .then((data) => {
-      if (data == "success") {
-        alert("댓글 삭제 성공");
-        replyLoaded();
-      }
-    });
+  // 삭제 or 수정 버튼이 눌러졌을 때에만 동작
+  // 삭제 or 수정 버튼이 클릭 되었는지 여부로 구분
+  if (btn.classList.contains("btn-outline-danger")) {
+    fetch(`/replies/${rno}`, { method: "delete" })
+      .then((response) => response.text())
+      .then((data) => {
+        if (data == "success") {
+          alert("댓글 삭제 성공");
+          replyLoaded();
+        }
+      });
+  } else if (btn.classList.contains("btn-outline-success")) {
+    // rno에 해당하는 댓글을 가져온 후
+    // reply작성폼에 넣기
+    fetch(`/replies/${rno}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const replyer = replyForm.querySelector("#replyer");
+        const text = replyForm.querySelector("#text");
+
+        // replyForm.querySelector("")
+        replyForm.querySelector("#rno").value = data.rno;
+        replyer.value = data.replyer;
+        text.value = data.text;
+      });
+  }
 });

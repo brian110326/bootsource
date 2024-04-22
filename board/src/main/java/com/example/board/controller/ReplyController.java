@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -62,6 +63,14 @@ public class ReplyController {
     public ResponseEntity<ReplyDto> getRowGet(@PathVariable("rno") Long rno) {
         log.info("댓글 하나 요청 {}", rno);
         return new ResponseEntity<ReplyDto>(service.getReply(rno), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePut(@PathVariable("id") String id, @RequestBody ReplyDto dto) {
+        // log.info("수정 요청 {} {}", id, dto);
+        Long rno = service.update(dto);
+
+        return new ResponseEntity<String>(String.valueOf(rno), HttpStatus.OK);
     }
 
 }
