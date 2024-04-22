@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @Log4j2
-@RequestMapping("/security")
 public class HomeController {
 
     @GetMapping("/")
