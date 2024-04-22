@@ -13,11 +13,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@ToString
 @Entity
 public class ClubMember extends BaseEntity {
 

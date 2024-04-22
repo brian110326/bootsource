@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.club.constant.ClubMemberRole;
 import com.example.club.entity.ClubMember;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 public class ClubRepositoryTest {
 
@@ -44,5 +46,20 @@ public class ClubRepositoryTest {
             clubMemberRepository.save(clubMember);
 
         });
+    }
+
+    // FetchType
+    // EAGER : left outer join을 기본으로 실행
+    // LAZY : select 2번으로 처리
+
+    // 웹 개발 시 굳이 EAGER를 자주 사용하지 않음 : 처음부터 사용하지 않는 정보를 가지고 나올 필요 X
+
+    // @OneToOne, @ManyToOne : EAGER인 것들은 LAZY로 변경
+
+    @Test
+    // @Transactional
+    public void testFind() {
+        ClubMember clubMember = clubMemberRepository.findByEmailAndFromSocial("user95@gmail.com", false).get();
+        System.out.println(clubMember);
     }
 }
