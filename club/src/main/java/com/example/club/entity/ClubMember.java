@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Entity
 public class ClubMember extends BaseEntity {
 
