@@ -26,9 +26,10 @@ public class SecurityConfig {
 
         http
                 // 요청 확인
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/", "/security/guest").permitAll()
-                        .requestMatchers("/security/member").hasRole("USER")
-                        .requestMatchers("/security/admin").hasRole("ADMIN"))
+                .authorizeHttpRequests(
+                        authorize -> authorize.requestMatchers("/", "/security/guest", "/auth").permitAll()
+                                .requestMatchers("/security/member").hasRole("USER")
+                                .requestMatchers("/security/admin").hasRole("ADMIN"))
                 // .formLogin(Customizer.withDefaults()); // default 로그인 페이지 보여주기
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))); // custom
@@ -55,7 +56,7 @@ public class SecurityConfig {
 
         UserDetails admin = User.builder().username("admin1")
                 .password("{bcrypt}$2a$10$cpqOG0ASIyJotiDshBmuTuY.vmsvsR/mFiHUyjgqj9y2KJL/WAzdu")
-                .roles("ADMIN")
+                .roles("USER", "ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
     }

@@ -15,6 +15,7 @@
     <div class="container">
       <!-- thymeleaf에서 th:action 값을 부여 시 자동으로 csrf 값을 삽입해줌 -->
       <form th:action="@{login}" method="post">
+        <div th:if="${param.error}" class="alert alert-danger">아이디나 비밀번호 확인</div>
         <div class="mb-3">
           <label for="username" class="form-label">ID</label>
           <input type="text" class="form-control" id="username" aria-describedby="username" name="username" />
