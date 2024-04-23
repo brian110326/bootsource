@@ -23,6 +23,29 @@
       <div class="my-3">
         <a href="/club/admin">ADMIN</a>
       </div>
+      <!-- thymeleaf 유틸리티 객체 표현식 -->
+      <div th:text="${#authentication.name}"></div>
+      <div th:text="${#authentication.authorities}"></div>
+      <div th:text="${#authentication.details}"></div>
+
+      <!-- #authentication == sec:authentication-->
+      <div sec:authentication="name"></div>
+      <div sec:authentication="authorities"></div>
+      <div sec:authentication="details"></div>
+      <div sec:authentication="principal"></div>
+      <div sec:authentication="principal.username"></div>
+
+      <h3>
+        권한 확인
+        <span sec:authentication="principal.authorities"></span>
+      </h3>
+      <h3>
+        username(ID)
+        <span sec:authentication="principal.username"></span>
+      </h3>
+      <div sec:authorize="isAuthenticated()">이 부분은 Authenticated 된 사용자만 보는 부분입니다</div>
+      <div sec:authorize="hasRole('ROLE_ADMIN')">이 부분은 Authenticated 되어 권한이 ADMIN인 사용자만 보는 부분입니다</div>
+      <div sec:authorize="hasRole('ROLE_USER')">이 부분은 Authenticated 되어 일반 USER가 보는 부분입니다</div>
     </div>
   </body>
 </html>

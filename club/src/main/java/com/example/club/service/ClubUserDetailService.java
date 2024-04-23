@@ -42,9 +42,10 @@ public class ClubUserDetailService implements UserDetailsService {
         log.info("================");
 
         // entity ==> dto
+        // db에서 만든 데이터 직접 권한 허가
         ClubAuthMemberDto clubAuthMemberDto = new ClubAuthMemberDto(clubMember.getEmail(), clubMember.getPassword(),
                 clubMember.isFromSocial(),
-                clubMember.getRoleSet().stream().map(role -> new SimpleGrantedAuthority("ROLE" + role.name()))
+                clubMember.getRoleSet().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                         .collect(Collectors.toSet()));
 
         clubAuthMemberDto.setName(clubMember.getName());
