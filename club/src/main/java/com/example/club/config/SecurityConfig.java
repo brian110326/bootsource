@@ -14,6 +14,12 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/club/member").hasAnyRole("USER", "MANAGER", "ADMIN")
+                .requestMatchers("/club/manager").hasAnyRole("MANAGER")
+                .requestMatchers("/club/admin").hasAnyRole("ADMIN"))
+                .formLogin(login -> login.loginPage("/club/member/login").permitAll());
         return http.build();
     }
 

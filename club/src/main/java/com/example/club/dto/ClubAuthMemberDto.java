@@ -15,6 +15,7 @@ public class ClubAuthMemberDto extends User {
     // db에서 인증된 정보를 담을 객체
 
     private String email;
+    private String password;
     private String name;
     private boolean fromSocial;
 
@@ -24,6 +25,7 @@ public class ClubAuthMemberDto extends User {
 
         this.email = username;
         this.fromSocial = fromSocial;
+        this.password = password;
     }
 
 }

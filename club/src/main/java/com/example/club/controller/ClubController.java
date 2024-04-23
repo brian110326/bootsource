@@ -27,4 +27,10 @@ public class ClubController {
         log.info("member page 요청");
     }
 
+    @GetMapping("/member/login")
+    public void getLogin() {
+        log.info("로그인 페이지 요청");
+
+    }
+
 }
