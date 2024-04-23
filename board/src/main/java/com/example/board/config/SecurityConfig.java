@@ -18,8 +18,9 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/static/**").permitAll()
-                .anyRequest().authenticated())
+        http.authorizeHttpRequests(
+                authorize -> authorize.requestMatchers("/static/**", "/css/*", "/assets/*", "/js/*").permitAll()
+                        .anyRequest().permitAll())
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                         .logoutSuccessUrl("/"));
