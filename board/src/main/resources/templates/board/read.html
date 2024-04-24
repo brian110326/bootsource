@@ -109,6 +109,8 @@
       // bno 가져오기
       const bno = "[[${dto.bno}]]";
       const csrfValue = document.querySelector("#replyForm").querySelector("[name='_csrf']").value;
+      // 현재 로그인 user email
+      const email = "[[${#authentication.name}]]";
     </script>
     <script th:src="@{/js/read.js}"></script>
   </th:block>

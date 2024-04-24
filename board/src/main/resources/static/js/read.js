@@ -42,8 +42,13 @@ const replyLoaded = () => {
         result += `<div><span class="fs-5">${reply.text}</span></div>`;
         result += `<div class="text-muted"><span class="small">${formatDate(reply.createdDate)}</span></div></div>`;
         result += `<div class="d-flex flex-column align-self-center">`;
-        result += `<div class="mb-2"><button class="btn btn-outline-danger btn-sm">삭제</button></div>`;
-        result += `<div><button class="btn btn-outline-success btn-sm">수정</button></div>`;
+
+        // 로그인 user == 작성자(${reply.writerEmail})
+        if (`${email}` == `${reply.writerEmail}`) {
+          result += `<div class="mb-2"><button class="btn btn-outline-danger btn-sm">삭제</button></div>`;
+          result += `<div><button class="btn btn-outline-success btn-sm">수정</button></div>`;
+        }
+
         result += `</div></div>`;
       });
       // 영역에 result 보여주기
@@ -99,6 +104,7 @@ replyForm.addEventListener("submit", (e) => {
       method: "put",
       headers: {
         "content-type": "application/json",
+        "X-CSRF-TOKEN": csrfValue,
       },
       body: JSON.stringify(reply),
     })
@@ -108,7 +114,7 @@ replyForm.addEventListener("submit", (e) => {
           alert(data + " 번 댓글 수정");
 
           // replyForm 내용 제거
-          replyer.value = "";
+
           text.value = "";
           rno.value = "";
 
@@ -153,7 +159,8 @@ replyList.addEventListener("click", (e) => {
         console.log(data);
 
         replyForm.querySelector("#rno").value = data.rno;
-        replyForm.querySelector("#replyer").value = data.replyer;
+        replyForm.querySelector("#writerName").value = data.writerName;
+        replyForm.querySelector("#writerEmail").value = data.writerEmail;
         replyForm.querySelector("#text").value = data.text;
       });
   }

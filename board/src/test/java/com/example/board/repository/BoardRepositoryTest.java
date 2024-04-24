@@ -30,7 +30,7 @@ public class BoardRepositoryTest {
 
     @Test
     public void testInsert() {
-        IntStream.rangeClosed(1, 100).forEach(i -> {
+        IntStream.rangeClosed(200, 300).forEach(i -> {
             Member member = Member.builder().email("user" + i + "@gmail.com").build();
 
             Board board = Board.builder()
@@ -38,6 +38,7 @@ public class BoardRepositoryTest {
                     .content("content.." + i)
                     .writer(member)
                     .build();
+
             boardRepository.save(board);
         });
     }
