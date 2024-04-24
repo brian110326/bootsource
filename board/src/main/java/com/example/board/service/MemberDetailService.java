@@ -50,7 +50,17 @@ public class MemberDetailService implements UserDetailsService, MemberService {
 
     @Override
     public void register(MemberDto insertDto) {
+        log.info("회원가입 요청 {}", insertDto);
 
+        // 이메일 중복검사
+        try {
+            validateDuplicationMember(insertDto.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // select => 존재시 / 존재X
+        // update 실행 / insert 실행
         Member member = Member.builder()
                 .email(insertDto.getEmail())
                 .password(passwordEncoder.encode(insertDto.getPassword()))
@@ -59,6 +69,14 @@ public class MemberDetailService implements UserDetailsService, MemberService {
                 .build();
 
         memberRepository.save(member);
+    }
+
+    private void validateDuplicationMember(String email) {
+        Optional<Member> member = memberRepository.findById(email);
+
+        if (member.isPresent()) {
+            throw new IllegalStateException("이미 가입된 회원입니다");
+        }
     }
 
 }

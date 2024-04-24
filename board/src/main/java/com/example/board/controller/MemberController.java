@@ -44,6 +44,8 @@ public class MemberController {
     public String postRegister(@Valid MemberDto memberDto, BindingResult result,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
 
+        log.info("회원가입 요청 {}", memberDto);
+
         if (result.hasErrors()) {
             return "/member/register";
         }
