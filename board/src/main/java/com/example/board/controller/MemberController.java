@@ -39,7 +39,12 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public String postRegister(@Valid MemberDto memberDto, BindingResult result) {
+    public String postRegister(@Valid MemberDto memberDto, BindingResult result,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
+
+        if (result.hasErrors()) {
+            return "/member/register";
+        }
 
         return "redirect:/member/login";
     }
