@@ -1,8 +1,5 @@
 package com.example.board.repository;
 
-import static org.mockito.ArgumentMatchers.isNull;
-
-import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -23,17 +20,15 @@ public class MemberRepositoryTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void insertTest() {
+    public void testInsert() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
-            Member member = Member.builder().email("user" + i + "@naver.com")
+            Member member = Member.builder()
+                    .email("user" + i + "@naver.com")
                     .password(passwordEncoder.encode("1111"))
-                    .name("User" + i)
+                    .name("USER" + i)
                     .memberRole(MemberRole.MEMBER)
-
                     .build();
-
             memberRepository.save(member);
         });
     }
-
 }

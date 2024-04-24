@@ -9,22 +9,25 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.AntPathMatcher;
 
 @EnableMethodSecurity
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                authorize -> authorize.requestMatchers("/static/**", "/css/*", "/assets/*", "/js/*").permitAll()
-                        .requestMatchers("/board/read").permitAll()
-                        .anyRequest().permitAll())
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/static/**", "/css/*", "/assets/*", "/img/*", "/js/*").permitAll()
+                .requestMatchers("/board/read").permitAll()
+                .anyRequest().permitAll())
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
-                .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                        .logoutSuccessUrl("/"));
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                        .logoutSuccessUrl("/")
+
+                );
+
         return http.build();
     }
 

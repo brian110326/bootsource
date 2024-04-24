@@ -7,6 +7,7 @@ import com.example.board.dto.ReplyDto;
 import com.example.board.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -36,41 +37,43 @@ public class ReplyController {
 
         log.info("댓글 가져오기 {}", bno);
 
-        List<ReplyDto> replies = service.getReplise(bno);
+        List<ReplyDto> replies = service.getReplies(bno);
 
         return replies;
     }
 
-    // replies/new + Post
+    // /replies/new + POST
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/new")
     public ResponseEntity<Long> postReply(@RequestBody ReplyDto dto) {
         log.info("댓글 등록 {}", dto);
 
-        Long rno = service.create(dto);
-        return new ResponseEntity<Long>(rno, HttpStatus.OK);
+        return new ResponseEntity<Long>(service.create(dto), HttpStatus.OK);
     }
 
-    // /{rno} + Delete
+    // /replies/{rno} + DELETE
     @DeleteMapping("/{rno}")
-    public ResponseEntity<String> postMethodName(@PathVariable("rno") Long rno) {
-        log.info("댓글 삭제 {}", rno);
+    public ResponseEntity<String> deleteReply(@PathVariable("rno") Long rno) {
+        log.info("댓글 제거 {}", rno);
+
         service.remove(rno);
 
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
-    // /replies/{rno} + Get
+    // /replies/{rno} + GET
     @GetMapping("/{rno}")
-    public ResponseEntity<ReplyDto> getRowGet(@PathVariable("rno") Long rno) {
+    public ResponseEntity<ReplyDto> getRow(@PathVariable("rno") Long rno) {
         log.info("댓글 하나 요청 {}", rno);
         return new ResponseEntity<ReplyDto>(service.getReply(rno), HttpStatus.OK);
     }
 
+    // /replies/{rno} + PUT
     @PutMapping("/{id}")
-    public ResponseEntity<String> updatePut(@PathVariable("id") String id, @RequestBody ReplyDto dto) {
-        // log.info("수정 요청 {} {}", id, dto);
-        Long rno = service.update(dto);
+    public ResponseEntity<String> putMethodName(@PathVariable("id") String id, @RequestBody ReplyDto replyDto) {
+        log.info("reply 수정 요청 {}, {}", id, replyDto);
+
+        Long rno = service.update(replyDto);
 
         return new ResponseEntity<String>(String.valueOf(rno), HttpStatus.OK);
     }

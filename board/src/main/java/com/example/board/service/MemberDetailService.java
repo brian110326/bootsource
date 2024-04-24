@@ -24,22 +24,20 @@ public class MemberDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // id ==> email ==> username
+        // id == email == username
         Optional<Member> result = memberRepository.findById(username);
 
-        if (!result.isPresent()) {
-            throw new UsernameNotFoundException("이메일 확인");
-        }
+        if (!result.isPresent())
+            throw new UsernameNotFoundException("이메일을 확인해 주세요");
 
         Member member = result.get();
 
         // entity => dto
-        // security 로그인 : member정보 + 허가와 관련된 정보(사이트 접근여부)도 포함
-        // MemberAuthDto
+        // 시큐리티 로그인 ==> 회원 정보 + 허가와 관련된 정보(사이트를 접근 여부)
         MemberDto memberDto = MemberDto.builder()
                 .email(member.getEmail())
-                .password(member.getPassword())
                 .name(member.getName())
+                .password(member.getPassword())
                 .memberRole(member.getMemberRole())
                 .build();
 

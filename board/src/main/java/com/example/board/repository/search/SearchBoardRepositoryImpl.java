@@ -31,10 +31,10 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
-    public Page<Object[]> list(Pageable pageable, String type, String keyword) {
-        log.info("Board + Reply + Member Join");
+    public Page<Object[]> list(String type, String keyword, Pageable pageable) {
+        log.info("Board + Reply + Member join");
 
-        // Q class 사용
+        // Q 클래스 사용
         QBoard board = QBoard.board;
         QMember member = QMember.member;
         QReply reply = QReply.reply;
@@ -42,10 +42,11 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         // @Query("select b,m from Board b left join b.writer m")
         JPQLQuery<Board> query = from(board);
         query.leftJoin(board.writer, member);
+        // query.orderBy(null)
 
-        // 댓글 개수도 같이 보여주기
         // subquery => JPAExpressions
-        JPQLQuery<Long> replyCount = JPAExpressions.select(reply.rno.count().as("replycnt")).from(reply)
+        JPQLQuery<Long> replyCount = JPAExpressions.select(reply.rno.count().as("replycnt"))
+                .from(reply)
                 .where(reply.board.eq(board))
                 .groupBy(reply.board);
 
@@ -53,25 +54,22 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
         // 검색
         BooleanBuilder builder = new BooleanBuilder();
-
-        // gno > 0
-        // where gno > 0 and title like ~~ or content like ~~
         builder.and(board.bno.gt(0L));
 
-        BooleanBuilder conditionBuilder = new BooleanBuilder();
+        // WHERE gno > 0 AND title LIKE '%Title%' OR content LIKE '%content%'
+        // gno > 0
 
+        // 검색 타입이 있는 경우
+        BooleanBuilder conditionBuilder = new BooleanBuilder();
         if (type.contains("t")) {
             conditionBuilder.or(board.title.contains(keyword));
         }
-
         if (type.contains("c")) {
             conditionBuilder.or(board.content.contains(keyword));
         }
-
         if (type.contains("w")) {
             conditionBuilder.or(member.email.contains(keyword));
         }
-
         builder.and(conditionBuilder);
         tuple.where(builder);
 
@@ -85,14 +83,13 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             PathBuilder<Board> orderByExpression = new PathBuilder<>(Board.class, "board");
             tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
         });
-
         // 페이지 처리
         tuple.offset(pageable.getOffset());
         tuple.limit(pageable.getPageSize());
 
         List<Tuple> result = tuple.fetch();
 
-        // 전체개수
+        // 전체 개수
         long count = tuple.fetchCount();
 
         List<Object[]> list = result.stream().map(t -> t.toArray()).collect(Collectors.toList());
@@ -102,6 +99,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
     @Override
     public Object[] getRow(Long bno) {
+        // Q 클래스 사용
         QBoard board = QBoard.board;
         QMember member = QMember.member;
         QReply reply = QReply.reply;
@@ -111,9 +109,9 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         query.leftJoin(board.writer, member);
         query.where(board.bno.eq(bno));
 
-        // 댓글 개수도 같이 보여주기
         // subquery => JPAExpressions
-        JPQLQuery<Long> replyCount = JPAExpressions.select(reply.rno.count().as("replycnt")).from(reply)
+        JPQLQuery<Long> replyCount = JPAExpressions.select(reply.rno.count().as("replycnt"))
+                .from(reply)
                 .where(reply.board.eq(board))
                 .groupBy(reply.board);
 

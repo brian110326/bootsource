@@ -10,10 +10,12 @@ import org.springframework.security.core.userdetails.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
-// 회원정보 + 허가와 관련된 정보(사이트 접근여부)도 포함
+// 회원 정보 + 허가와 관련된 정보(사이트의 접근 여부)
 
 @Data
 public class MemberAuthDto extends User {
@@ -22,7 +24,6 @@ public class MemberAuthDto extends User {
 
     public MemberAuthDto(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
-
     }
 
     public MemberAuthDto(MemberDto memberDto) {

@@ -1,7 +1,5 @@
 package com.example.board.dto;
 
-import java.time.LocalDateTime;
-
 import com.example.board.constant.MemberRole;
 
 import jakarta.validation.constraints.Email;
@@ -12,22 +10,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class MemberDto {
 
-    @Email(message = "이메일 형식이 아닙니다")
-    @NotBlank(message = "이메일 입력")
+    @Email(message = "이메일 형식이 아닙니다.")
+    @NotEmpty(message = "이메일은 필수요소입니다.")
     private String email;
 
-    @NotBlank(message = "비밀번호 입력")
-    private String password;
-
-    @NotBlank(message = "이름 입력")
+    @NotEmpty(message = "이름은 필수요소입니다.")
     private String name;
 
-    private MemberRole memberRole;
+    @NotEmpty(message = "비밀번호는 필수요소입니다.")
+    private String password;
 
+    private MemberRole memberRole;
 }

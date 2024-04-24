@@ -19,9 +19,9 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Controller
 @Log4j2
 @RequiredArgsConstructor
+@Controller
 @RequestMapping("/member")
 public class MemberController {
 
@@ -35,16 +35,14 @@ public class MemberController {
     @GetMapping("/register")
     public void getRegister(MemberDto memberDto, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("회원가입 폼 요청");
-
     }
 
     @PostMapping("/register")
     public String postRegister(@Valid MemberDto memberDto, BindingResult result,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors())
             return "/member/register";
-        }
 
         return "redirect:/member/login";
     }

@@ -9,29 +9,31 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
+@ToString(exclude = "writer")
 @Builder
-@Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "writer")
+@Entity
 public class Board extends BaseEntity {
 
-    @Id
     @SequenceGenerator(name = "board_seq_gen", sequenceName = "board_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq_gen")
+    @Id
     private Long bno;
 
     private String title;
 
     private String content;
 
-    // fetch 방식 : FetchType.EAGER(즉시 로딩)
-    // ==> left join 방식으로 데이터 처리
+    // @ManyToOne - fetch 방식이 즉시 로딩(FetchType.EAGER)
+    // left join 방식으로 데이터 처리
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
 }
