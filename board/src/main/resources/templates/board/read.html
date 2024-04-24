@@ -55,7 +55,7 @@
     <!-- 댓글 폼 영역 -->
     <div class="mt-5">
       <hr />
-      <div class="border p-4">
+      <div class="border p-4" sec:authorize="isAuthenticated()">
         <form th:action="@{/replies/new}" method="post" id="replyForm">
           <input type="hidden" name="rno" id="rno" />
           <div class="input-group mb-3">
