@@ -69,6 +69,7 @@ public class ReplyController {
     }
 
     // /replies/{rno} + PUT
+    @PreAuthorize("authentication.name == #replyDto.writerEmail")
     @PutMapping("/{id}")
     public ResponseEntity<String> putMethodName(@PathVariable("id") String id, @RequestBody ReplyDto replyDto) {
         log.info("reply 수정 요청 {}, {}", id, replyDto);

@@ -140,6 +140,9 @@ replyList.addEventListener("click", (e) => {
   if (btn.classList.contains("btn-outline-danger")) {
     fetch(`/replies/${rno}`, {
       method: "delete",
+      headers: {
+        "X-CSRF-TOKEN": csrfValue,
+      },
     })
       .then((response) => response.text())
       .then((data) => {
