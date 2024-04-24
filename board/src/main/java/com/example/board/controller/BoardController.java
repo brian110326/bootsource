@@ -69,11 +69,13 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public void createGet(BoardDto dto, @ModelAttribute("requestDto") PageRequestDto requestDto) {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createPost(@Valid BoardDto dto, BindingResult result,
             @ModelAttribute("requestDto") PageRequestDto requestDto, RedirectAttributes rttr) {
