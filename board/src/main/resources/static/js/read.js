@@ -40,7 +40,7 @@ const replyLoaded = () => {
       data.forEach((reply) => {
         result += `<div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="${reply.rno}">`;
         result += `<div class="p-3"><img src="/img/default.png" alt="" class="rounded-circle mx-auto d-block" style="width: 60px; height: 60px" /></div>`;
-        result += `<div class="flex-grow-1 align-self-center"><div>${reply.replyer}</div>`;
+        result += `<div class="flex-grow-1 align-self-center"><div>${reply.writerName}</div>`;
         result += `<div><span class="fs-5">${reply.text}</span></div>`;
         result += `<div class="text-muted"><span class="small">${formatDate(reply.createdDate)}</span></div></div>`;
         result += `<div class="d-flex flex-column align-self-center">`;
