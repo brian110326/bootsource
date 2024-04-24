@@ -9,7 +9,7 @@
       </div>
       <div class="mb-3">
         <label for="text" class="form-label">이름</label>
-        <input type="text" class="form-control" id="name" name="name" th:value="${}" readonly />
+        <input type="text" class="form-control" id="name" name="name" th:value="${memberDto.name}" />
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></div>
       </div>
       <div class="mb-3">

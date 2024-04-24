@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.board.dto.MemberDto;
 import com.example.board.dto.PageRequestDto;
+import com.example.board.service.MemberService;
 
 import jakarta.validation.Valid;
 
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
+
+    private final MemberService service;
 
     @PreAuthorize("permitAll()")
     @GetMapping("/login")
@@ -41,8 +44,11 @@ public class MemberController {
     public String postRegister(@Valid MemberDto memberDto, BindingResult result,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
 
-        if (result.hasErrors())
+        if (result.hasErrors()) {
             return "/member/register";
+        }
+
+        service.register(memberDto);
 
         return "redirect:/member/login";
     }
