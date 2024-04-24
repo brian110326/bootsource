@@ -55,7 +55,7 @@
     <!-- 댓글 폼 영역 -->
     <div class="mt-5">
       <hr />
-      <div class="border p-4" sec:authorize="isAuthenticated()">
+      <div class="border p-4" sec:authorize="hasRole('ROLE_MEMBER')">
         <form th:action="@{/replies/new}" method="post" id="replyForm">
           <input type="hidden" name="rno" id="rno" />
           <div class="input-group mb-3">
@@ -108,7 +108,8 @@
     <script>
       // bno 가져오기
       const bno = "[[${dto.bno}]]";
-      const csrfValue = document.querySelector("#replyForm").querySelector("[name='_csrf']").value;
+      //const csrfValue = ector("[name='_csrf']").value;
+      const csrfValue = `[[${_csrf.token}]]`;
       // 현재 로그인 user email
       const email = "[[${#authentication.name}]]";
     </script>
