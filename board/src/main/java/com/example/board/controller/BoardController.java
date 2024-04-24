@@ -2,6 +2,7 @@ package com.example.board.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,7 @@ public class BoardController {
 
     private final BoardService service;
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/list")
     public String listGet(Model model, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         PageResultDto<BoardDto, Object[]> result = service.getList(requestDto);
