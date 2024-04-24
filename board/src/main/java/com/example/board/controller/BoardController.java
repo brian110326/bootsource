@@ -47,6 +47,8 @@ public class BoardController {
         model.addAttribute("dto", dto);
     }
 
+    // input:hidden으로 값이 있어야함
+    @PreAuthorize("authentication.name == #dto.writerEmail")
     @PostMapping("/modify")
     public String modfiyPost(BoardDto dto, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
@@ -58,8 +60,9 @@ public class BoardController {
         return "redirect:/board/read";
     }
 
+    @PreAuthorize("authentication.name == #writerEmail")
     @PostMapping("/delete")
-    public String deletePost(Long bno, @ModelAttribute("requestDto") PageRequestDto requestDto,
+    public String deletePost(Long bno, String writerEmail, @ModelAttribute("requestDto") PageRequestDto requestDto,
             RedirectAttributes rttr) {
         service.removeWithReplies(bno);
 
