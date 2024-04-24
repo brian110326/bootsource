@@ -18,18 +18,19 @@ public class ReplyRepositoryTest {
     @Autowired
     private ReplyRepository replyRepository;
 
-    @Test
-    public void insertTest() {
-        IntStream.rangeClosed(1, 100).forEach(i -> {
-            long bno = (long) (Math.random() * 100) + 1;
+    // @Test
+    // public void insertTest() {
+    // IntStream.rangeClosed(1, 100).forEach(i -> {
+    // long bno = (long) (Math.random() * 100) + 1;
 
-            Board board = Board.builder().bno(bno).build();
+    // Board board = Board.builder().bno(bno).build();
 
-            Reply reply = Reply.builder().text("Reply..." + i).replyer("Guest" + i).board(board).build();
+    // Reply reply = Reply.builder().text("Reply..." + i).replyer("Guest" +
+    // i).board(board).build();
 
-            replyRepository.save(reply);
-        });
-    }
+    // replyRepository.save(reply);
+    // });
+    // }
 
     @Test
     @Transactional

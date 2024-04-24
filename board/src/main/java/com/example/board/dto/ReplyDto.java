@@ -18,7 +18,9 @@ public class ReplyDto {
 
     private String text; // 댓글내용
 
-    private String replyer; // 댓글작성자
+    private String writerEmail; // 작성자 아이디(email)
+
+    private String writerName;
 
     private Long bno;
 

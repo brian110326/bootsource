@@ -21,7 +21,8 @@ public interface ReplyService {
     Long update(ReplyDto dto);
 
     public default ReplyDto entityToDto(Reply reply) {
-        ReplyDto dto = ReplyDto.builder().rno(reply.getRno()).text(reply.getText()).replyer(reply.getReplyer())
+        ReplyDto dto = ReplyDto.builder().rno(reply.getRno()).text(reply.getText())
+                .writerEmail(reply.getReplyer().getEmail()).writerName(reply.getReplyer().getName())
                 .bno(reply.getBoard().getBno()).createdDate(reply.getCreatedDate())
                 .lastModifiedDate(reply.getLastModifiedDate()).build();
 
@@ -31,8 +32,9 @@ public interface ReplyService {
     public default Reply dtoToEntity(ReplyDto dto) {
 
         Board board = Board.builder().bno(dto.getBno()).build();
+        Member member = Member.builder().email(dto.getWriterEmail()).build();
 
-        Reply reply = Reply.builder().rno(dto.getRno()).text(dto.getText()).replyer(dto.getReplyer())
+        Reply reply = Reply.builder().rno(dto.getRno()).text(dto.getText()).replyer(member)
                 .board(board).build();
 
         return reply;

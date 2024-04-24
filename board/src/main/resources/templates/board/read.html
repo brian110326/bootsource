@@ -66,13 +66,14 @@
           <input type="hidden" name="rno" id="rno" value="" />
           <div class="input-group mb-3">
             <span class="input-group-text">작성자</span>
-            <input type="text" name="replyer" id="replyer" class="form-control" value="" />
+            <input type="text" name="replyer" id="replyer" class="form-control" th:value="${#authentication.principal.memberDto.name}" />
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">댓글</span>
             <textarea name="text" id="text" rows="3" class="form-control"></textarea>
             <button class="btn btn-outline-secondary" type="submit">등록</button>
           </div>
+          <input type="hidden" name="writerEmail" th:value="${#authentication.name}" />
         </form>
       </div>
       <!-- 댓글 리스트 영역 -->

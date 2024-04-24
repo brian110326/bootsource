@@ -29,6 +29,7 @@ public class MemberRepositoryTest {
                     .password(passwordEncoder.encode("1111"))
                     .name("User" + i)
                     .memberRole(MemberRole.MEMBER)
+
                     .build();
 
             memberRepository.save(member);

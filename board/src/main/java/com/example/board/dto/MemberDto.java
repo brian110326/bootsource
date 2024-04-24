@@ -1,5 +1,7 @@
 package com.example.board.dto;
 
+import java.time.LocalDateTime;
+
 import com.example.board.constant.MemberRole;
 
 import jakarta.validation.constraints.Email;
@@ -27,4 +29,5 @@ public class MemberDto {
     private String name;
 
     private MemberRole memberRole;
+
 }
