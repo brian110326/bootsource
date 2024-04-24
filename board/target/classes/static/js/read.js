@@ -63,7 +63,7 @@ const replyForm = document.querySelector("#replyForm");
 replyForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const replyer = replyForm.querySelector("#replyer");
+  const writerEmail = replyForm.querySelector("#writerEmail");
   const text = replyForm.querySelector("#text");
 
   // 수정인 경우
@@ -71,7 +71,7 @@ replyForm.addEventListener("submit", (e) => {
 
   const reply = {
     bno: document.querySelector("#bno").value,
-    replyer: replyer.value,
+    writerEmail: writerEmail.value,
     text: text.value,
     rno: rno.value,
   };
@@ -82,6 +82,8 @@ replyForm.addEventListener("submit", (e) => {
       method: "post",
       headers: {
         "content-type": "application/json",
+        // csrf 값
+        "X-CSRF-TOKEN": csrfValue,
       },
       body: JSON.stringify(reply),
     })
@@ -91,7 +93,7 @@ replyForm.addEventListener("submit", (e) => {
           alert(data + "번 댓글 등록");
 
           // replyForm에 남아있는 내용 제거
-          replyer.value = "";
+
           text.value = "";
 
           replyLoaded();
@@ -111,7 +113,7 @@ replyForm.addEventListener("submit", (e) => {
       .then((data) => {
         if (data) {
           alert("수정 성공");
-          replyer.value = "";
+          writerEmail.value = "";
           text.value = "";
           rno.value = "";
           replyLoaded();

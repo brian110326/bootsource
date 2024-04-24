@@ -62,18 +62,18 @@
     <div class="mt-5">
       <hr />
       <div class="border p-4">
-        <form action="" method="post" id="replyForm">
+        <form th:action="@{/replies/new}" method="post" id="replyForm">
           <input type="hidden" name="rno" id="rno" value="" />
           <div class="input-group mb-3">
             <span class="input-group-text">작성자</span>
-            <input type="text" name="replyer" id="replyer" class="form-control" th:value="${#authentication.principal.memberDto.name}" />
+            <input type="text" name="writerName" id="writerName" class="form-control" th:value="${#authentication.principal.memberDto.name}" />
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">댓글</span>
             <textarea name="text" id="text" rows="3" class="form-control"></textarea>
             <button class="btn btn-outline-secondary" type="submit">등록</button>
           </div>
-          <input type="hidden" name="writerEmail" th:value="${#authentication.name}" />
+          <input type="hidden" name="writerEmail" id="writerEmail" th:value="${#authentication.name}" />
         </form>
       </div>
       <!-- 댓글 리스트 영역 -->
@@ -114,6 +114,8 @@
     <script>
       // bno 가져오기
       const bno = "[[${dto.bno}]]";
+      // 콘솔창 input:hidden으로 있음
+      const csrfValue = document.querySelector("#replyForm").querySelector("[name='_csrf']").value;
     </script>
     <script th:src="@{/js/read.js}"></script>
   </th:block>
