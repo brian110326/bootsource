@@ -16,7 +16,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             "left join Review r on r.movie = m group by m")
     Page<Object[]> getListPage2(Pageable pageable);
 
-    // 여러개가 나오는 native query로 할 때 Projection개념 필요(getListPage2와 나오는 형태가 다름)
+    // 여러개가 나오는 native query로 할 때 Projection개념(강의자료참고) 필요(getListPage2와 나오는 형태가 다름)
     // oracle은 group by가 들어간 순간 getListPage2처럼 X
     @Query(value = "SELECT * FROM MOVIE m LEFT JOIN (SELECT r.MOVIE_MNO , COUNT(*) , AVG(r.GRADE) FROM REVIEW r " +
             "GROUP BY r.MOVIE_MNO) r1 ON m.MNO = r1.movie_mno " +
