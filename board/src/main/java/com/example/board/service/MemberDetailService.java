@@ -23,6 +23,10 @@ import lombok.extern.log4j.Log4j2;
 @Service
 public class MemberDetailService implements UserDetailsService, MemberService {
 
+    // Exception
+    // 1) checkedException : 컴파일 시 체크
+    // 2) unCheckedException : 런타임 시 체크
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
