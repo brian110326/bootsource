@@ -1,5 +1,6 @@
 package com.example.movie.repository;
 
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -8,6 +9,9 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.movie.constant.MemberRole;
@@ -84,5 +88,17 @@ public class MovieRepositoryTest {
 
             reviewRepository.save(review);
         });
+    }
+
+    @Test
+    public void movieListTest() {
+
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "mno"));
+
+        Page<Object[]> list = movieRepository.getListPage(pageRequest);
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
     }
 }
