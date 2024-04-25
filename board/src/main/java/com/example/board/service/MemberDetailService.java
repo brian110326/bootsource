@@ -24,8 +24,8 @@ import lombok.extern.log4j.Log4j2;
 public class MemberDetailService implements UserDetailsService, MemberService {
 
     // Exception
-    // 1) checkedException : 컴파일 시 체크
-    // 2) unCheckedException : 런타임 시 체크
+    // 1) checkedException : 컴파일 시 체크 : Class.forName() : ClassNotFoundException
+    // 2) unCheckedException : 런타임 시 체크 : NumberFormatException : Integer.parseInt()
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -53,15 +53,11 @@ public class MemberDetailService implements UserDetailsService, MemberService {
     }
 
     @Override
-    public void register(MemberDto insertDto) {
+    public void register(MemberDto insertDto) throws Exception {
         log.info("회원가입 요청 {}", insertDto);
 
         // 이메일 중복검사
-        try {
-            validateDuplicationMember(insertDto.getEmail());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        validateDuplicationMember(insertDto.getEmail());
 
         // select => 존재시 / 존재X
         // update 실행 / insert 실행
@@ -75,11 +71,13 @@ public class MemberDetailService implements UserDetailsService, MemberService {
         memberRepository.save(member);
     }
 
-    private void validateDuplicationMember(String email) {
+    private void validateDuplicationMember(String email) throws Exception {
         Optional<Member> member = memberRepository.findById(email);
 
         if (member.isPresent()) {
+            // throw : 강제로 Exception을 발생시킴
             throw new IllegalStateException("이미 가입된 회원입니다");
+            // throw new Exception("");
         }
     }
 
