@@ -93,7 +93,7 @@ public class MovieRepositoryTest {
     @Test
     public void movieListTest() {
 
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "mno"));
+        PageRequest pageRequest = PageRequest.of(0, 10);
 
         Page<Object[]> list = movieRepository.getListPage(pageRequest);
 
