@@ -13,29 +13,25 @@ import com.example.board.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Service
 @Log4j2
 @RequiredArgsConstructor
+@Service
 public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;
 
     @Override
-    public List<ReplyDto> getReplise(Long bno) {
-
+    public List<ReplyDto> getReplies(Long bno) {
         Board board = Board.builder().bno(bno).build();
-
         List<Reply> replies = replyRepository.getRepliesByBoardOrderByRno(board);
 
-        // entity list => dto list로 바꾸기
+        // entity 리스트 ==> dto 리스트
         return replies.stream().map(reply -> entityToDto(reply)).collect(Collectors.toList());
     }
 
     @Override
     public Long create(ReplyDto dto) {
-        Reply reply = dtoToEntity(dto);
-
-        return replyRepository.save(reply).getRno();
+        return replyRepository.save(dtoToEntity(dto)).getRno();
     }
 
     @Override
@@ -45,7 +41,20 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public ReplyDto getReply(Long rno) {
+
+        // Reply reply =replyRepository.findById(rno).get();
+        // ReplyDto dto = entityToDto(reply);
+
         return entityToDto(replyRepository.findById(rno).get());
+    }
+
+    @Override
+    public Long update(ReplyDto dto) {
+        Reply reply = replyRepository.findById(dto.getRno()).get();
+        reply.setText(dto.getText());
+
+        reply = replyRepository.save(reply);
+        return reply.getRno();
     }
 
 }

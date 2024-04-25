@@ -10,14 +10,12 @@ import com.example.board.entity.Board;
 import com.example.board.entity.Reply;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
-
     // bno를 이용해서 reply 삭제
-    // @Query("delete from Reply r where r.board.bno = ?1")
-    @Query("delete from Reply r where r.board.bno = :bno")
-    @Modifying // delete, update 구문 작성 시 같이 써야함(select 전용이기 때문)
+    // @Query("delete from Reply r where r.board.bno=?1")
+    @Modifying // delete, update 구문은 반드시 필요
+    @Query("delete from Reply r where r.board.bno=:bno")
     void deleteByBno(Long bno);
 
-    // select * from reply where r.board_bno = ?
     List<Reply> getRepliesByBoardOrderByRno(Board board);
 
 }

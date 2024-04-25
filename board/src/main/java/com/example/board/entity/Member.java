@@ -1,19 +1,26 @@
 package com.example.board.entity;
 
+import com.example.board.constant.MemberRole;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
+@ToString
 @Builder
-@Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Entity
 public class Member extends BaseEntity {
 
     @Id
@@ -22,4 +29,8 @@ public class Member extends BaseEntity {
     private String password;
 
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole memberRole;
+
 }

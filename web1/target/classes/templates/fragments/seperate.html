@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 조각(view로 사용되는 html에 포함될 부분) 만들기 -->
+    <h1 th:fragment="header">Fragment Test - Header File</h1>
+
+    <div th:fragment="content">
+      <nav>
+        <ul>
+          <li>List1</li>
+          <li>List1</li>
+          <li>List1</li>
+          <li>List1</li>
+        </ul>
+      </nav>
+    </div>
+
+    <h1 th:fragment="footer">Fragment Test - Footer File</h1>
+  </body>
+</html>

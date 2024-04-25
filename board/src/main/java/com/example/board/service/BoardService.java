@@ -10,35 +10,41 @@ import com.example.board.entity.Member;
 
 public interface BoardService {
 
-    public PageResultDto<BoardDto, Object[]> getList(PageRequestDto requestDto);
+    PageResultDto<BoardDto, Object[]> getList(PageRequestDto requestDto);
 
-    public BoardDto getRow(Long bno);
+    BoardDto getRow(Long bno);
 
-    public Long update(BoardDto dto);
+    void modify(BoardDto dto);
 
-    public void removeWithReplies(Long bno);
+    void removeWithReplies(Long bno);
 
-    public Long create(BoardDto dto);
+    Long create(BoardDto dto);
 
+    // entity => dto
     public default BoardDto entityToDto(Board board, Member member, Long replyCount) {
-        BoardDto dto = BoardDto.builder().bno(board.getBno()).writerEmail(member.getEmail())
-                .writerName(member.getName()).replyCount(replyCount != null ? replyCount : 0)
-                .title(board.getTitle())
-                .content(board.getContent()).createdDate(board.getCreatedDate())
-                .lastModifiedDate(board.getLastModifiedDate()).build();
 
-        return dto;
+        return BoardDto.builder()
+                .bno(board.getBno())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .writerEmail(member.getEmail())
+                .writerName(member.getName())
+                .replyCount(replyCount != null ? replyCount : 0)
+                .createdDate(board.getCreatedDate())
+                .lastModifiedDate(board.getLastModifiedDate())
+                .build();
     }
 
+    // dto => entity
     public default Board dtoToEntity(BoardDto dto) {
 
         Member member = Member.builder().email(dto.getWriterEmail()).build();
 
-        Board entity = Board.builder().bno(dto.getBno()).writer(member)
+        return Board.builder()
+                .bno(dto.getBno())
                 .title(dto.getTitle())
-                .content(dto.getContent()).build();
-
-        return entity;
+                .content(dto.getContent())
+                .writer(member)
+                .build();
     }
-
 }

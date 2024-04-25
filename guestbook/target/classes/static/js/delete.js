@@ -5,6 +5,6 @@ document.querySelector(".btn-danger").addEventListener("click", (e) => {
     return;
   }
 
-  actionForm.action = "/board/delete";
+  actionForm.action = "/guestbook/delete";
   actionForm.submit();
 });

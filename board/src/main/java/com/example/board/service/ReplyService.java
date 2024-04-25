@@ -2,7 +2,6 @@ package com.example.board.service;
 
 import java.util.List;
 
-import com.example.board.dto.BoardDto;
 import com.example.board.dto.ReplyDto;
 import com.example.board.entity.Board;
 import com.example.board.entity.Member;
@@ -10,7 +9,7 @@ import com.example.board.entity.Reply;
 
 public interface ReplyService {
 
-    List<ReplyDto> getReplise(Long bno);
+    List<ReplyDto> getReplies(Long bno);
 
     Long create(ReplyDto dto);
 
@@ -18,21 +17,33 @@ public interface ReplyService {
 
     ReplyDto getReply(Long rno);
 
-    public default ReplyDto entityToDto(Reply reply) {
-        ReplyDto dto = ReplyDto.builder().rno(reply.getRno()).text(reply.getText()).replyer(reply.getReplyer())
-                .bno(reply.getBoard().getBno()).createdDate(reply.getCreatedDate())
-                .lastModifiedDate(reply.getLastModifiedDate()).build();
+    Long update(ReplyDto dto);
 
-        return dto;
+    // entity => dto
+    public default ReplyDto entityToDto(Reply reply) {
+
+        return ReplyDto.builder()
+                .rno(reply.getRno())
+                .bno(reply.getBoard().getBno())
+                .writerEmail(reply.getReplyer().getEmail())
+                .writerName(reply.getReplyer().getName())
+                .text(reply.getText())
+                .createdDate(reply.getCreatedDate())
+                .lastModifiedDate(reply.getLastModifiedDate())
+                .build();
     }
 
+    // dto => entity
     public default Reply dtoToEntity(ReplyDto dto) {
 
         Board board = Board.builder().bno(dto.getBno()).build();
+        Member member = Member.builder().email(dto.getWriterEmail()).build();
 
-        Reply reply = Reply.builder().rno(dto.getRno()).text(dto.getText()).replyer(dto.getReplyer())
-                .board(board).build();
-
-        return reply;
+        return Reply.builder()
+                .rno(dto.getRno())
+                .board(board)
+                .replyer(member)
+                .text(dto.getText())
+                .build();
     }
 }

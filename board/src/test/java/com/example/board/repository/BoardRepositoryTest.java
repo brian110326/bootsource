@@ -1,5 +1,7 @@
 package com.example.board.repository;
 
+import static org.mockito.ArgumentMatchers.isNull;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -27,40 +29,41 @@ public class BoardRepositoryTest {
     private ReplyRepository replyRepository;
 
     @Test
-    public void insertTest() {
-        IntStream.rangeClosed(1, 100).forEach(i -> {
-            Member member = Member.builder().email("user" + i + "@gmail.com").build();
-            Board board = Board.builder().title("Title" + i).content("Content" + i).writer(member).build();
+    public void testInsert() {
+        IntStream.rangeClosed(1, 200).forEach(i -> {
+            Member member = Member.builder().email("user" + i + "@naver.com").build();
+
+            Board board = Board.builder()
+                    .title("title.." + i)
+                    .content("content.." + i)
+                    .writer(member)
+                    .build();
 
             boardRepository.save(board);
         });
-
     }
 
-    @Test
     @Transactional
+    @Test
     public void readBoard() {
-        Board board = boardRepository.findById(2L).get();
+        Board board = boardRepository.findById(3L).get();
         System.out.println(board);
-
-        // Board(bno=2, title=Title2, content=Content2,
-        // writer=Member(email=user2@gmail.com, password=pwd2, name=User2))
-
+        // Board(bno=3, title=title..1, content=content..1,
+        // writer=Member(email=user1@gmail.com, password=1111, name=USER1))
         System.out.println(board.getWriter());
     }
 
     @Test
     public void testList() {
+
         Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
 
-        Page<Object[]> list = boardRepository.list(pageable, "tcw", "Title");
-
+        Page<Object[]> list = boardRepository.list("tcw", "Title", pageable);
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
             // Board board = (Board) objects[0];
             // Member member = (Member) objects[1];
             // Long replyCnt = (Long) objects[2];
-
             // System.out.println(board + " " + member + " " + replyCnt);
         }
     }
@@ -71,13 +74,12 @@ public class BoardRepositoryTest {
         System.out.println(Arrays.toString(row));
     }
 
+    @Transactional
     @Test
-    @Transactional // 자식삭제와 부모삭제가 같이 이루어져야함(부모삭제가 안될 시 자식 삭제를 막아야함)
-    public void deleteTest() {
+    public void testRemove() {
         // 자식(댓글) 삭제
-        replyRepository.deleteByBno(49L);
-
+        replyRepository.deleteByBno(3L);
         // 부모(원본글) 삭제
-        boardRepository.deleteById(49L);
+        boardRepository.deleteById(3L);
     }
 }
