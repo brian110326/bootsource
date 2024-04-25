@@ -47,6 +47,7 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
         JPQLQuery<MovieImage> query = from(movieImage);
         query.leftJoin(movie).on(movieImage.movie.eq(movie));
 
+        // 서브 쿼리는 from절 안에 사용못함(select절 혹은 where절에 넣기)
         JPQLQuery<Tuple> tuple = query.select(movie, movieImage,
                 JPAExpressions.select(review.countDistinct()).from(review).where(review.movie.eq(movieImage.movie)),
                 JPAExpressions.select(review.grade.avg().round()).from(review)
@@ -54,6 +55,10 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
                 .where(movieImage.inum
                         .in(JPAExpressions.select(movieImage.inum.min()).from(movieImage).groupBy(movieImage.movie)))
                 .orderBy(movie.mno.desc());
+
+        // 페이지 처리
+        tuple.offset(pageable.getOffset());
+        tuple.limit(pageable.getPageSize());
 
         List<Tuple> result = tuple.fetch();
 

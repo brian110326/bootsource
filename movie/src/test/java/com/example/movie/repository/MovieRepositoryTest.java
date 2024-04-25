@@ -102,4 +102,16 @@ public class MovieRepositoryTest {
         }
     }
 
+    @Test
+    public void movieImageListTest() {
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        Page<Object[]> list = movieImageRepository.getTotalList(pageRequest);
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+
+    }
+
 }
