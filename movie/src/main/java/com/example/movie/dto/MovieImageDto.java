@@ -24,6 +24,7 @@ public class MovieImageDto {
 
     private String path;
 
+    // Movie와의 관계
     private Movie movie;
 
     private LocalDateTime createdDate;
