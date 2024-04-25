@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Log4j2
 @RequestMapping("/movie")
 public class MovieController {
+
     @GetMapping("/list")
     public String listGet() {
         return "/movie/list";
