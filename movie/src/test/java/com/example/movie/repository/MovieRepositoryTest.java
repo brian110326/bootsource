@@ -101,4 +101,16 @@ public class MovieRepositoryTest {
             System.out.println(Arrays.toString(objects));
         }
     }
+
+    @Test
+    public void movieListTest2() {
+
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        Page<Object[]> list = movieRepository.getListPage2(pageRequest);
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+    }
 }
