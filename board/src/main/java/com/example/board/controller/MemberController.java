@@ -55,6 +55,7 @@ public class MemberController {
             service.register(memberDto);
         } catch (Exception e) {
             e.printStackTrace();
+            // rttr.addAttribute로도 해보기
             rttr.addFlashAttribute("dupEmail", e.getMessage());
             return "redirect:/member/register";
         }
