@@ -85,4 +85,33 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
         return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
     }
 
+    @Override
+    public List<Object[]> getMovieRow(Long mno) {
+        // SELECT m.MNO ,m.CREATED_DATE ,m.TITLE , mi2.IMG_NAME , mi2."PATH" ,mi2.UUID,
+        // (SELECT COUNT(DISTINCT r.review_no) FROM REVIEW r WHERE r.movie_mno = m.MNO)
+        // AS review_cnt,
+        // (SELECT AVG(r.GRADE) FROM REVIEW r WHERE r.movie_mno = m.MNO) AS grade_avg
+        // FROM MOVIE_IMAGE mi2 LEFT JOIN MOVIE m ON mi2.MOVIE_MNO = m.MNO
+        // WHERE mi2.MOVIE_MNO = 3
+
+        QMovieImage movieImage = QMovieImage.movieImage;
+        QMovie movie = QMovie.movie;
+        QReview review = QReview.review;
+
+        JPQLQuery<MovieImage> query = from(movieImage);
+        query.leftJoin(movie).on(movieImage.movie.eq(movie));
+
+        // 서브 쿼리는 from절 안에 사용못함(select절 혹은 where절에 넣기)
+        JPQLQuery<Tuple> tuple = query.select(movie, movieImage,
+                JPAExpressions.select(review.countDistinct()).from(review).where(review.movie.eq(movieImage.movie)),
+                JPAExpressions.select(review.grade.avg().round()).from(review)
+                        .where(review.movie.eq(movieImage.movie)))
+                .where(movieImage.movie.mno.eq(mno))
+                .orderBy(movieImage.inum.desc());
+
+        List<Tuple> result = tuple.fetch();
+
+        return result.stream().map(t -> t.toArray()).collect(Collectors.toList());
+    }
+
 }

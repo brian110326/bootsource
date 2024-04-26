@@ -27,6 +27,9 @@ public class MovieServiceImpl implements MovieService {
 
     // 사용할것들만 작성(RequiredArgsConstructor)
     private final MovieRepository movieRepository;
+    // MovieImageReviewRepository 넣었다가 오류 : 상속하기 때문에 굳이 2개를 다 넣을 필요 X
+    // MovieImageRepository가 MovieImageReviewRepository의 기능을 다 가지므로
+    // MovieImageRepository만 넣기
     private final MovieImageRepository movieImageRepository;
     private final ReviewRepository reviewRepository;
 
