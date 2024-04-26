@@ -1,8 +1,10 @@
 package com.example.movie.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.movie.dto.MovieDto;
+import com.example.movie.dto.MovieImageDto;
 import com.example.movie.dto.PageRequestDto;
 import com.example.movie.dto.PageResultDto;
 import com.example.movie.entity.Movie;
@@ -50,6 +53,30 @@ public class MovieServiceImpl implements MovieService {
                 (Double) en[3]));
 
         return new PageResultDto<>(result, function);
+    }
+
+    @Override
+    public MovieDto getRow(Long mno) {
+        List<Object[]> result = movieImageRepository.getMovieRow(mno);
+
+        // [Movie(mno=3, title=Movie3), MovieImage(inum=11,
+        // uuid=ebbc2bce-90d2-4287-b8bb-9e6da85f02b2, imgName=img3.jpg, path=null), 3,
+        // 3.0] ==> result[0] 총 4개있음
+        Movie movie = (Movie) result.get(0)[0];
+        Long reviewCnt = (Long) result.get(0)[2];
+        Double avg = (Double) result.get(0)[3];
+
+        // result의 size만큼 반복
+        List<MovieImage> movieImages = new ArrayList<>();
+        result.forEach(arr -> {
+            MovieImage movieImage = (MovieImage) arr[1];
+            movieImages.add(movieImage);
+        });
+
+        // result.stream().map(en -> (MovieImage)en[1]).collect(Collectors.toList());
+
+        return entityToDto(movie, movieImages, reviewCnt, avg);
+
     }
 
 }

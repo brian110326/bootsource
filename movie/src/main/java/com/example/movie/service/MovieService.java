@@ -15,6 +15,8 @@ public interface MovieService {
 
     PageResultDto<MovieDto, Object[]> getList(PageRequestDto pageRequestDto);
 
+    MovieDto getRow(Long mno);
+
     // list로 보여줄 항목(test파일)
     // [Movie(mno=100, title=Movie100), MovieImage(inum=292,
     // uuid=2d8c6c28-38bb-4568-9a22-fd130f9c6f35, imgName=img0.jpg, path=null), 1,

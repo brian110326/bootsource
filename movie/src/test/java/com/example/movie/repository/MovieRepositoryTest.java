@@ -1,6 +1,7 @@
 package com.example.movie.repository;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -112,6 +113,15 @@ public class MovieRepositoryTest {
             System.out.println(Arrays.toString(objects));
         }
 
+    }
+
+    @Test
+    public void movieGetRowTest() {
+        List<Object[]> list = movieImageRepository.getMovieRow(3L);
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
     }
 
 }
