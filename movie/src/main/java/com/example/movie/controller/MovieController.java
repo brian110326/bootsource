@@ -30,4 +30,11 @@ public class MovieController {
         model.addAttribute("result", result);
     }
 
+    @GetMapping({ "/read", "/modify" })
+    public void getRead(Long mno, Model model, @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        MovieDto movieDto = service.getRow(mno);
+        model.addAttribute("dto", movieDto);
+
+    }
+
 }
