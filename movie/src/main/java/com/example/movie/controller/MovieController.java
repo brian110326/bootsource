@@ -14,6 +14,8 @@ import com.example.movie.dto.MovieDto;
 import com.example.movie.dto.PageRequestDto;
 import com.example.movie.dto.PageResultDto;
 import com.example.movie.service.MovieService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @Log4j2
@@ -35,6 +37,12 @@ public class MovieController {
         MovieDto movieDto = service.getRow(mno);
         model.addAttribute("dto", movieDto);
 
+    }
+
+    @PostMapping("/remove")
+    public String removePost(Long mno, @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        service.movieRemove(mno);
+        return "redirect:/movie/list";
     }
 
 }

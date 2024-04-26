@@ -21,6 +21,8 @@ import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
 import com.example.movie.entity.Review;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 public class MovieRepositoryTest {
 
@@ -122,6 +124,22 @@ public class MovieRepositoryTest {
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
         }
+    }
+
+    @Test
+    @Transactional
+    public void movieRemoveTest() {
+
+        Movie movie = Movie.builder().mno(1L).build();
+
+        // 1. 영화이미지 삭제
+        movieImageRepository.deleteByMovie(movie);
+
+        // 2. 리뷰 삭제
+        reviewRepository.deleteByMovie(movie);
+
+        // 3. 영화 삭제
+        movieRepository.delete(movie);
     }
 
 }

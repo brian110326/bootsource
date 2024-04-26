@@ -67,7 +67,7 @@
         class="flex items-center justify-between p-3 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
       >
         <div class="flex items-center">
-          <span>리뷰 작성 [<span class="review-cnt"></span>]</span>
+          <span>리뷰 작성 [<span class="review-cnt" th:text="${dto.reviewCnt}"></span>]</span>
         </div>
         <span>
           <button

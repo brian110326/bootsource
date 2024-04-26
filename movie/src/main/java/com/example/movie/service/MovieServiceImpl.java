@@ -22,6 +22,7 @@ import com.example.movie.repository.MovieRepository;
 import com.example.movie.repository.ReviewRepository;
 import com.example.movie.repository.total.MovieImageReviewRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -77,6 +78,15 @@ public class MovieServiceImpl implements MovieService {
 
         return entityToDto(movie, movieImages, reviewCnt, avg);
 
+    }
+
+    @Override
+    @Transactional
+    public void movieRemove(Long mno) {
+        Movie movie = Movie.builder().mno(mno).build();
+        movieImageRepository.deleteByMovie(movie);
+        reviewRepository.deleteByMovie(movie);
+        movieRepository.delete(movie);
     }
 
 }
