@@ -1,8 +1,11 @@
 package com.example.movie.controller;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -39,6 +42,20 @@ public class UploadController {
             String fileName = oriName.substring(oriName.lastIndexOf("\\") + 1);
             log.info("파일정보 - 전체경로 : {}", oriName);
             log.info("파일정보 - 파일명 : {}", fileName);
+
+            // 폴더생성
+            String saveFolderPath = makeFolder();
+            String uuid = UUID.randomUUID().toString();
+            String saveName = uploadPath + File.separator + saveFolderPath + File.separator + uuid + "_" + fileName;
+
+            // java.nio.Path
+            Path savePath = Paths.get(saveName);
+
+            try {
+                multipartFile.transferTo(savePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
