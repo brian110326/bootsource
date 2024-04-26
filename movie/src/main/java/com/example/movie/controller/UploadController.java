@@ -1,5 +1,10 @@
 package com.example.movie.controller;
 
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Log4j2
 @RequestMapping("/upload")
 public class UploadController {
+
+    // application.properties에서 설정한 변수 가져오기
+    @Value("${com.example.upload.path}")
+    private String uploadPath;
 
     // fetch ==> @RestController
 
@@ -31,6 +40,19 @@ public class UploadController {
             log.info("파일정보 - 전체경로 : {}", oriName);
             log.info("파일정보 - 파일명 : {}", fileName);
         }
+    }
+
+    private String makeFolder() {
+        String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        String folderStr = dateStr.replace("/", File.separator);
+
+        File uploadPathFolder = new File(uploadPath, folderStr);
+
+        if (!uploadPathFolder.exists()) {
+            uploadPathFolder.mkdirs();
+        }
+
+        return folderStr;
     }
 
 }

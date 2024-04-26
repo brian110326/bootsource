@@ -41,7 +41,11 @@
         //   console.log(value);
         // }
 
-        fetch().then().then();
+        fetch("/upload/uploadAjax", { method: "post", body: formData })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          });
       });
     </script>
   </body>
