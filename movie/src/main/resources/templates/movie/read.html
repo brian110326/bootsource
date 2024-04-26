@@ -37,14 +37,18 @@
         </label>
 
         <div>
-          <div>
+          <div class="mt-2">
             <a th:href="@{/movie/modify(mno=${dto.mno},page=${requestDto.page})}">
-              <button type="button"><span>수정</span></button>
+              <button type="button" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white btn btn-success">
+                <span>수정</span>
+              </button>
             </a>
           </div>
-          <div>
+          <div class="mt-2">
             <a th:href="@{/movie/list(page=${requestDto.page})}">
-              <button type="button"><span>목록</span></button>
+              <button type="button" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white btn btn-primary">
+                <span>목록</span>
+              </button>
             </a>
           </div>
         </div>
