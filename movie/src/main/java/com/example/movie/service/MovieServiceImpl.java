@@ -1,5 +1,6 @@
 package com.example.movie.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
@@ -24,10 +25,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
+    // 사용할것들만 작성(RequiredArgsConstructor)
     private final MovieRepository movieRepository;
     private final MovieImageRepository movieImageRepository;
     private final ReviewRepository reviewRepository;
-    private final MovieImageReviewRepository movieImageReviewRepository;
 
     @Override
     public PageResultDto<MovieDto, Object[]> getList(PageRequestDto pageRequestDto) {
@@ -40,9 +41,10 @@ public class MovieServiceImpl implements MovieService {
         // uuid=2d8c6c28-38bb-4568-9a22-fd130f9c6f35, imgName=img0.jpg, path=null), 1,
         // 2.0]]
 
-        Function<Object[], MovieDto> function = (en -> entityToDto((Movie) en[0], (List<MovieImage>) en[1],
-                (Long) en[5],
-                (Double) en[6]));
+        Function<Object[], MovieDto> function = (en -> entityToDto((Movie) en[0],
+                (List<MovieImage>) Arrays.asList((MovieImage) en[1]),
+                (Long) en[2],
+                (Double) en[3]));
 
         return new PageResultDto<>(result, function);
     }

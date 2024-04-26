@@ -26,7 +26,7 @@ public interface MovieService {
                 .title(movie.getTitle())
                 .createdDate(movie.getCreatedDate())
                 .lastModifiedDate(movie.getLastModifiedDate())
-                .avg(avg)
+                .avg(avg != null ? avg : 0.0d)
                 .reviewCnt(reviewCnt).build();
 
         // 영화 상세 조회 => 이미지를 모두 보여줄 계획
