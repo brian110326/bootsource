@@ -5,6 +5,6 @@ document.querySelector(".btn-danger").addEventListener("click", (e) => {
     return;
   }
 
-  actionForm.action = "/movie/remove";
+  //actionForm.action = "/movie/remove";
   actionForm.submit();
 });

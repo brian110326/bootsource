@@ -18,6 +18,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 
+        // remove post시 에러나서 임시방편으로 csrf해제(form의 action값을 안줘서)
         http.csrf(csrf -> csrf.disable());
 
         return http.build();

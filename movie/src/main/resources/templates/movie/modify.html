@@ -83,7 +83,7 @@
         </ul>
       </div>
       <!-- 삭제 폼 -->
-      <form method="post" id="actionForm" action="">
+      <form method="post" id="actionForm" th:action="@{remove}">
         <!-- 수정 / 삭제를 위한 필요 정보 -->
         <input type="hidden" name="mno" th:value="${dto.mno}" />
         <!-- 페이지 나누기에 필요 정보-->
