@@ -6,13 +6,18 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
 import com.example.movie.entity.QMovie;
 import com.example.movie.entity.QMovieImage;
 import com.example.movie.entity.QReview;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 
@@ -53,8 +58,21 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
                 JPAExpressions.select(review.grade.avg().round()).from(review)
                         .where(review.movie.eq(movieImage.movie)))
                 .where(movieImage.inum
-                        .in(JPAExpressions.select(movieImage.inum.min()).from(movieImage).groupBy(movieImage.movie)))
-                .orderBy(movie.mno.desc());
+                        .in(JPAExpressions.select(movieImage.inum.min()).from(movieImage).groupBy(movieImage.movie)));
+        // .orderBy(movie.mno.desc());
+
+        // 페이지 나누기
+        // sort 지정
+        // 정렬기준이 1개가 아니라 기준이 계속 변경될 때 대비용
+        Sort sort = pageable.getSort();
+        sort.stream().forEach(order -> {
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            String prop = order.getProperty();
+
+            // 어떤 클래스를 기준으로 sort할것인지
+            PathBuilder<Movie> orderByExpression = new PathBuilder<>(Movie.class, "movie");
+            tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+        });
 
         // 페이지 처리
         tuple.offset(pageable.getOffset());
