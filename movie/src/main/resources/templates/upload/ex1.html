@@ -12,11 +12,22 @@
         1) 라이브러리
         2) 서블릿
     -->
-    <input type="text" name="" id="" />
+
     <!-- multiple : 여러개 파일 선택 가능 -->
     <input type="file" name="files" id="" multiple />
     <button class="uploadBtn">업로드</button>
+    <div id="output"></div>
     <script>
+      function showUploadImages(arr) {
+        console.log("showUploadImages", arr);
+
+        const output = document.querySelector("#output");
+
+        arr.forEach((element) => {
+          output.insertAdjacentElement("beforeend", `<img src="display?fileName=${element.imageURL}">`);
+        });
+      }
+
       document.querySelector(".uploadBtn").addEventListener("click", (e) => {
         // files에 있는 파일 목록을 가져와서 폼 형태로 만들기
         const inputFile = document.querySelector("[name='files']");
@@ -45,6 +56,8 @@
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
+
+            showUploadImages(data);
           });
       });
     </script>
