@@ -137,4 +137,28 @@ public class UploadController {
         return result;
     }
 
+    @PostMapping("/remove")
+    public ResponseEntity<Boolean> postMethodName(String filePath) {
+        log.info("파일 삭제 요청");
+
+        String srcFileName = null;
+
+        try {
+            srcFileName = URLDecoder.decode(filePath, "UTF-8");
+
+            File file = new File(uploadPath + File.separator + srcFileName);
+            file.delete(); // 원본파일 제거
+
+            File thumbFile = new File(file.getParent(), "s_" + file.getName());
+            boolean result = thumbFile.delete();
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 }

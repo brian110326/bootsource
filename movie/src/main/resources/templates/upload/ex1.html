@@ -27,17 +27,35 @@
     <script>
       // X를 누르면 파일 삭제 요청
       // a tag 기능 중지 => href값 가져와서 화면에 출력하기
-      function xEvent() {
-        document.querySelector("#output").addEventListener("click", (e) => {
-          e.preventDefault();
 
-          console.log("e.target", e.target); // i태그
-          console.log("e.currentTarget", e.currentTarget);
+      document.querySelector("#output").addEventListener("click", (e) => {
+        e.preventDefault();
 
-          const filePath = e.target.closest("a").getAttribute("href");
-          console.log(filePath);
-        });
-      }
+        console.log("e.target", e.target); // i태그
+        console.log("e.currentTarget", e.currentTarget);
+
+        const currentDiv = e.target.closest("div");
+
+        const filePath = e.target.closest("a").getAttribute("href");
+        console.log(filePath);
+
+        const formData = new FormData();
+        formData.append("filePath", filePath);
+
+        fetch("/upload/remove", {
+          method: "post",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            console.log(data);
+
+            if (data) {
+              // 해당 div제거
+              currentDiv.remove();
+            }
+          });
+      });
 
       function showUploadImages(arr) {
         console.log("showUploadImages", arr);
@@ -54,8 +72,6 @@
         });
         output.insertAdjacentHTML("beforeend", tags);
       }
-
-      xEvent();
 
       document.querySelector(".uploadBtn").addEventListener("click", (e) => {
         // files에 있는 파일 목록을 가져와서 폼 형태로 만들기
