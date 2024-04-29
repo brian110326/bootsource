@@ -9,7 +9,7 @@ function checkExtension(fileName) {
   // 이미지 파일 => true, 그 외 파일 => false
   console.log(regex.test(fileName));
 
-  return regex.text(fileName);
+  return regex.test(fileName);
 }
 
 fileInput.addEventListener("change", (e) => {
