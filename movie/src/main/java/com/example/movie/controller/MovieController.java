@@ -45,4 +45,9 @@ public class MovieController {
         return "redirect:/movie/list";
     }
 
+    @GetMapping("/register")
+    public void registerGet() {
+
+    }
+
 }
