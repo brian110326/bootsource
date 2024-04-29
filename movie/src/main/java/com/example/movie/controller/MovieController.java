@@ -50,4 +50,10 @@ public class MovieController {
 
     }
 
+    @PostMapping("/register")
+    public String registerPost(MovieDto movieDto) {
+        log.info("영화 등록 {}", movieDto);
+        return "redirect:/movie/list";
+    }
+
 }
