@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.movie.dto.MovieDto;
 import com.example.movie.dto.PageRequestDto;
@@ -51,8 +52,23 @@ public class MovieController {
     }
 
     @PostMapping("/register")
-    public String registerPost(MovieDto movieDto) {
+    public String registerPost(MovieDto movieDto, RedirectAttributes rttr) {
         log.info("영화 등록 {}", movieDto);
+
+        // MovieDto(mno=null, title=, createdDate=null, lastModifiedDate=null, avg=0.0,
+        // reviewCnt=null, movieImageDtos=[MovieImageDto(inum=null,
+        // uuid=df45c133-0954-4802-991a-8dd7467960e6, imgName=crime1.jpg,
+        // path=2024\04\29, createdDate=null, lastModifiedDate=null),
+        // MovieImageDto(inum=null, uuid=99edc8d2-cabf-4217-94bc-f384eed2fbc9,
+        // imgName=crime2.jpg, path=2024\04\29, createdDate=null,
+        // lastModifiedDate=null), MovieImageDto(inum=null,
+        // uuid=a396ce06-83fb-4b61-b01c-511f1b1f8c43, imgName=crime3.jpg,
+        // path=2024\04\29, createdDate=null, lastModifiedDate=null)])
+
+        Long mno = service.movieInsert(movieDto);
+
+        rttr.addFlashAttribute("msg", mno);
+
         return "redirect:/movie/list";
     }
 

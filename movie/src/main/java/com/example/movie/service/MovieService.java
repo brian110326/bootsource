@@ -1,5 +1,8 @@
 package com.example.movie.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,6 +21,8 @@ public interface MovieService {
     MovieDto getRow(Long mno);
 
     void movieRemove(Long mno);
+
+    Long movieInsert(MovieDto movieDto);
 
     // list로 보여줄 항목(test파일)
     // [Movie(mno=100, title=Movie100), MovieImage(inum=292,
@@ -49,6 +54,40 @@ public interface MovieService {
     // dto => entity
     public default Map<String, Object> dtoToEntity(MovieDto dto) {
 
-        return null;
+        // Movie Entity 생성
+        Movie movie = Movie.builder().mno(dto.getMno()).title(dto.getTitle()).build();
+
+        // 생성된 Movie Entity를 Map에 담기
+        Map<String, Object> entityMap = new HashMap<>();
+        entityMap.put("movie", movie);
+
+        // List<MovieImageDto> => List<MovieImage> 변환
+        List<MovieImageDto> movieImageDtos = dto.getMovieImageDtos();
+        List<MovieImage> movieImages = new ArrayList<>();
+
+        if (movieImageDtos != null && movieImageDtos.size() > 0) {
+            for (MovieImageDto mDto : movieImageDtos) {
+                MovieImage movieImage = MovieImage.builder().movie(movie).imgName(mDto.getImgName())
+                        .uuid(mDto.getUuid())
+                        .path(mDto.getPath()).build();
+
+                movieImages.add(movieImage);
+            }
+        }
+
+        // if (movieImageDtos != null && movieImageDtos.size() > 0) {
+        // List<MovieImage> movieImages = movieImageDtos.stream().map(mDto -> {
+        // MovieImage movieImage =
+        // MovieImage.builder().imgName(mDto.getImgName()).uuid(mDto.getUuid())
+        // .path(mDto.getPath()).build();
+        // return movieImage;
+        // }).collect(Collectors.toList());
+
+        // }
+
+        // 변환이 끝난 entity list를 Map에 담기
+        entityMap.put("imgList", movieImages);
+
+        return entityMap;
     }
 }
