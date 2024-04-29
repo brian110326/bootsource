@@ -24,6 +24,8 @@ public class UploadResultDto implements Serializable {
 
     private String fileName;
 
+    // 저장된 파일의 위치
+    // getImageURL 메소드 생성 시 imageURL 속성 자동으로 생성
     public String getImageURL() {
         String fullPath = "";
 
@@ -35,5 +37,18 @@ public class UploadResultDto implements Serializable {
         }
 
         return fullPath;
+    }
+
+    public String getThumbImageURL() {
+        String thumbFullPath = "";
+
+        try {
+            // 한글이 있을 수 있으니 encoding 작업 필요
+            thumbFullPath = URLEncoder.encode(folderPath + "/" + "s_" + uuid + "_" + fileName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return thumbFullPath;
     }
 }

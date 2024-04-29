@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <title>Document</title>
   </head>
   <body>
@@ -18,15 +25,37 @@
     <button class="uploadBtn">업로드</button>
     <div id="output"></div>
     <script>
+      // X를 누르면 파일 삭제 요청
+      // a tag 기능 중지 => href값 가져와서 화면에 출력하기
+      function xEvent() {
+        document.querySelector("#output").addEventListener("click", (e) => {
+          e.preventDefault();
+
+          console.log("e.target", e.target); // i태그
+          console.log("e.currentTarget", e.currentTarget);
+
+          const filePath = e.target.closest("a").getAttribute("href");
+          console.log(filePath);
+        });
+      }
+
       function showUploadImages(arr) {
         console.log("showUploadImages", arr);
 
         const output = document.querySelector("#output");
 
+        let tags = "";
+
         arr.forEach((element) => {
-          output.insertAdjacentElement("beforeend", `<img src="display?fileName=${element.imageURL}">`);
+          tags += `<div>`;
+          tags += `<img src="display?fileName=${element.thumbImageURL}" />`;
+          tags += `<a href="${element.imageURL}"><i class="fa-solid fa-xmark"></i></a>`;
+          tags += `</div>`;
         });
+        output.insertAdjacentHTML("beforeend", tags);
       }
+
+      xEvent();
 
       document.querySelector(".uploadBtn").addEventListener("click", (e) => {
         // files에 있는 파일 목록을 가져와서 폼 형태로 만들기

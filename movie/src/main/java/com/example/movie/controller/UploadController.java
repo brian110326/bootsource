@@ -22,6 +22,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnailator;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,7 +76,17 @@ public class UploadController {
             Path savePath = Paths.get(saveName);
 
             try {
+                // 원본 파일 저장
                 multipartFile.transferTo(savePath);
+
+                // 썸네일 파일 저장
+                // s_ : small
+                String thumbSaveName = uploadPath + File.separator + saveFolderPath + File.separator + "s_" + uuid + "_"
+                        + fileName;
+                // 파일로 저장
+                File thumbFile = new File(thumbSaveName);
+                // 썸네일 생성
+                Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 100, 100);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -106,8 +118,11 @@ public class UploadController {
         ResponseEntity<byte[]> result = null;
 
         try {
+            // %5c --> /로 decode해야함
             String srcFileName = URLDecoder.decode(fileName, "UTF-8");
 
+            // c:\\upload\\srcFileName
+            // File.separator : \\(운영체제에 따라 /,\)
             File file = new File(uploadPath + File.separator + srcFileName);
 
             HttpHeaders headers = new HttpHeaders();
