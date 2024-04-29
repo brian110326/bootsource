@@ -55,4 +55,6 @@ document.querySelector("#register-form").addEventListener("submit", (e) => {
   form.insertAdjacentHTML("beforeend", result);
 
   console.log(form.innerHTML);
+
+  form.submit();
 });
