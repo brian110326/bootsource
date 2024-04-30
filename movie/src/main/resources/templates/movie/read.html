@@ -1,5 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
-  <th:block layout:fragment="css"> </th:block>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/upload.css}">
+  </th:block>
+
   <div layout:fragment="content" class="container px-6 mx-auto grid">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200" th:text="${dto.title}"></h2>
 
@@ -54,10 +57,11 @@
         </div>
       </form>
 
+      <!-- 영화 이미지 보여주기 영역 -->
       <div class="uploadResult mb-4">
         <ul>
-          <li data-bs-toggle="modal" data-bs-target="#imgModal">
-            <img class="block" />
+          <li th:each="image : ${dto.movieImageDtos}" data-bs-toggle="modal" data-bs-target="#imgModal" th:attr="data-file=${image.getImageURL()}">
+            <img class="block" th:if="${image.path != null}" th:src="|/upload/display?fileName=${image.getThumbImageURL()}|" />
           </li>
         </ul>
       </div>
@@ -166,8 +170,13 @@
         </div>
       </div>
     </div>
-    <th:block layout:fragment="javascript">
-      <script></script>
+    <th:block layout:fragment="script">
+      <script>
+        // 영화명 변수에 담기
+        const title = '[[${dto.title}]]';
+      </script>
+      
+      <script th:src="@{/js/read.js}"></script>
       <!-- 평점 처리-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </th:block>

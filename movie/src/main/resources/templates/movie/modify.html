@@ -1,5 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
-  <th:block layout:fragment="css"></th:block>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/upload.css}">
+  </th:block>
   <div layout:fragment="content" class="container px-6 mx-auto grid">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h2>
 
@@ -69,12 +71,17 @@
       <div class="uploadResult mt-4">
         <!-- 기존에 이미 있는 포스터 보여주기 + 포스터 수정-->
         <ul>
-          <li>
+          <li
+            th:each="image : ${dto.movieImageDtos}"
+            data-bs-toggle="modal"
+            data-bs-target="#imgModal"
+            th:attr="data-attribute=${image.getImageURL()}"
+          >
             <div>
               <a href="">
-                <img class="block" />
+                <img class="block" th:if="${image.path != null}" th:src="|/upload/display?fileName=${image.getThumbImageURL()}|" />
               </a>
-              <span class="text-sm d-inline-block mx-1"></span>
+              <span class="text-sm d-inline-block mx-1" th:text="${image.imgName}"></span>
               <a href="#">
                 <i class="fa-solid fa-xmark"></i>
               </a>
