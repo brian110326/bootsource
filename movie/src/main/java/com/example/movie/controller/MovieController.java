@@ -51,12 +51,13 @@ public class MovieController {
     }
 
     @GetMapping("/register")
-    public void registerGet() {
+    public void registerGet(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
 
     }
 
     @PostMapping("/register")
-    public String registerPost(MovieDto movieDto, RedirectAttributes rttr) {
+    public String registerPost(MovieDto movieDto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("영화 등록 {}", movieDto);
 
         // MovieDto(mno=null, title=, createdDate=null, lastModifiedDate=null, avg=0.0,
