@@ -76,7 +76,9 @@ public class MovieController {
     public String modifyPost(MovieDto movieDto, RedirectAttributes rttr) {
         log.info("movie 수정 요청 {}", movieDto);
 
-        rttr.addAttribute("mno", movieDto.getMno());
+        Long mno = service.movieUpdate(movieDto);
+
+        rttr.addFlashAttribute("mno", mno);
         return "redirect:/movie/read";
     }
 

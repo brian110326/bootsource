@@ -110,4 +110,22 @@ public class MovieServiceImpl implements MovieService {
         return movie.getMno();
     }
 
+    @Override
+    @Transactional
+    public Long movieUpdate(MovieDto movieDto) {
+
+        // dto ==> entity
+        Map<String, Object> entityMap = dtoToEntity(movieDto);
+
+        // movie 기존 이미지 제거
+        Movie movie = (Movie) entityMap.get("movie");
+        movieImageRepository.deleteByMovie(movie);
+
+        // movieImage 삽입
+        List<MovieImage> movieImages = (List<MovieImage>) entityMap.get("imgList");
+        movieImages.forEach(image -> movieImageRepository.save(image));
+
+        return movie.getMno();
+    }
+
 }
