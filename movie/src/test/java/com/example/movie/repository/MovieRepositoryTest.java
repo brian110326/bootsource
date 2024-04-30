@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.movie.constant.MemberRole;
+import com.example.movie.dto.PageRequestDto;
 import com.example.movie.entity.Member;
 import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
@@ -107,9 +108,10 @@ public class MovieRepositoryTest {
 
     @Test
     public void movieImageListTest() {
-        PageRequest pageRequest = PageRequest.of(0, 10);
+        PageRequestDto requestDto = PageRequestDto.builder().type("t").keyword("Movie").size(10).page(2).build();
 
-        Page<Object[]> list = movieImageRepository.getTotalList(pageRequest);
+        Page<Object[]> list = movieImageRepository.getTotalList(requestDto.getType(), requestDto.getKeyword(),
+                requestDto.getPageable(Sort.by("mno").descending()));
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));

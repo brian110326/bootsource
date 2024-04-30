@@ -78,7 +78,9 @@ public class MovieController {
 
         Long mno = service.movieUpdate(movieDto);
 
-        rttr.addFlashAttribute("mno", mno);
+        // 이 부분때문에 eq이상한 오류뜸
+        // 이게 맞는 코드
+        rttr.addAttribute("mno", mno);
         return "redirect:/movie/read";
     }
 
