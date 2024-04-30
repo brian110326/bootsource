@@ -144,4 +144,16 @@ public class MovieRepositoryTest {
         movieRepository.delete(movie);
     }
 
+    @Test
+    public void testFindReview() {
+        Movie movie = Movie.builder().mno(99L).build();
+        List<Review> reviews = reviewRepository.findByMovie(movie);
+
+        reviews.forEach(review -> {
+            System.out.println(review);
+            System.out.println(review.getMember().getEmail());
+            System.out.println(review.getMember().getNickname());
+        });
+    }
+
 }

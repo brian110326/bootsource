@@ -73,6 +73,9 @@ public class MovieController {
         Long mno = service.movieInsert(movieDto);
 
         rttr.addFlashAttribute("msg", mno);
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
 
         return "redirect:/movie/list";
     }
