@@ -72,4 +72,12 @@ public class MovieController {
         return "redirect:/movie/list";
     }
 
+    @PostMapping("/modify")
+    public String modifyPost(MovieDto movieDto, RedirectAttributes rttr) {
+        log.info("movie 수정 요청 {}", movieDto);
+
+        rttr.addAttribute("mno", movieDto.getMno());
+        return "redirect:/movie/read";
+    }
+
 }

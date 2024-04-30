@@ -75,7 +75,7 @@
             th:each="image : ${dto.movieImageDtos}"
             data-bs-toggle="modal"
             data-bs-target="#imgModal"
-            th:attr="data-attribute=${image.getImageURL()}"
+            th:attr="data-file=${image.getImageURL()}, data-name=${image.getImgName()}, data-path=${image.getPath()}, data-uuid=${image.getUuid()}"
           >
             <div>
               <a href="">
@@ -102,5 +102,6 @@
   </div>
   <th:block layout:fragment="script">
     <script th:src="@{/js/modify.js}"></script>
+    <script th:src="@{/js/upload.js}"></script>
   </th:block>
 </html>
