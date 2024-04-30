@@ -18,3 +18,21 @@ if (imgModal) {
     modalBody.innerHTML = `<img src="/upload/display?fileName=${file}" style="width:100%" />`;
   });
 }
+
+// 날짜 포맷 변경 함수
+const formatDate = (data) => {
+  const date = new Date(data);
+
+  return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+};
+
+// /reviews/99/all 요청 처리
+const reviewsLoaded = () => {
+  fetch(`/reviews/${mno}/all`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    });
+};
+
+reviewsLoaded();

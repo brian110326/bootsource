@@ -170,6 +170,10 @@
     </div>
     <th:block layout:fragment="script">
       <script>
+
+        // 영화번호 변수에 담기
+        const mno = '[[${dto.mno}]]';
+
         // 영화명 변수에 담기
         const title = '[[${dto.title}]]';
       </script>
