@@ -41,8 +41,12 @@ public class MovieController {
     }
 
     @PostMapping("/remove")
-    public String removePost(Long mno, @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    public String removePost(Long mno, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            RedirectAttributes rttr) {
         service.movieRemove(mno);
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
         return "redirect:/movie/list";
     }
 
@@ -73,14 +77,19 @@ public class MovieController {
     }
 
     @PostMapping("/modify")
-    public String modifyPost(MovieDto movieDto, RedirectAttributes rttr) {
+    public String modifyPost(MovieDto movieDto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("movie 수정 요청 {}", movieDto);
 
         Long mno = service.movieUpdate(movieDto);
 
-        // 이 부분때문에 eq이상한 오류뜸
-        // 이게 맞는 코드
+        rttr.addFlashAttribute("msg", mno);
+
         rttr.addAttribute("mno", mno);
+
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
         return "redirect:/movie/read";
     }
 
