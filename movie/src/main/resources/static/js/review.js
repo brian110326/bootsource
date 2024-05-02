@@ -49,44 +49,77 @@ const reviewForm = document.querySelector(".review-form");
 reviewForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
+  // 수정이라면 reviewNo가 존재
+  const reviewNo = reviewForm.querySelector("#reviewNo");
+
   const data = {
     text: document.querySelector("#text").value,
     mid: document.querySelector("#mid").value,
     mno: mno,
-    grade: grade,
+    grade: grade || 0,
+    reviewNo: reviewNo.value,
   };
 
-  // 수정이라면 reviewNo가 존재
-  if (condition) {
+  if (!reviewNo.value) {
+    // 새 review 등록
+    fetch(`/reviews/${mno}`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        console.log(data);
+
+        const text = document.querySelector("#text");
+        const mid = document.querySelector("#mid");
+        const nickname = document.querySelector("#nickname");
+
+        // 리뷰작성후 입력값 초기화
+        text.value = "";
+        nickname.value = "";
+        // grade = 0;
+        reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
+
+        if (data) {
+          alert("댓글 등록 성공");
+        }
+
+        reviewsLoaded();
+      });
   } else {
+    // 수정
+    fetch(`/reviews/${mno}/${reviewNo.value}`, {
+      method: "put",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        console.log(data);
+
+        const text = document.querySelector("#text");
+        const mid = document.querySelector("#mid");
+        const nickname = document.querySelector("#nickname");
+
+        // 리뷰작성후 입력값 초기화
+        text.value = "";
+        nickname.value = "";
+        reviewNo.value = "";
+        // grade = 0;
+        reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
+
+        if (data) {
+          alert("댓글 수정 성공");
+        }
+
+        reviewsLoaded();
+      });
   }
-
-  fetch(`/reviews/${mno}`, {
-    method: "post",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      console.log(data);
-
-      const text = document.querySelector("#text");
-      const mid = document.querySelector("#mid");
-      const nickname = document.querySelector("#nickname");
-
-      // 리뷰작성후 입력값 초기화
-      text.value = "";
-      nickname.value = "";
-      grade = 0;
-
-      if (data) {
-        alert("댓글 등록 성공");
-      }
-
-      reviewsLoaded();
-    });
 });
 
 // 삭제 클릭시 reviewNo 가져오기
