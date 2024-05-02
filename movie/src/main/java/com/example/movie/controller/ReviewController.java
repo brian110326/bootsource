@@ -62,6 +62,8 @@ public class ReviewController {
     @GetMapping("/{mno}/{reviewNo}")
     public ResponseEntity<ReviewDto> reviewGet(@PathVariable("reviewNo") Long reviewNo) {
 
+        log.info("review 가져오기 {}", reviewNo);
+
         ReviewDto reviewDto = service.getReview(reviewNo);
 
         return new ResponseEntity<ReviewDto>(reviewDto, HttpStatus.OK);
