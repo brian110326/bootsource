@@ -42,7 +42,7 @@ const reviewsLoaded = () => {
 
 reviewsLoaded();
 
-// 리뷰 등록
+// 리뷰 등록 or 수정
 // 리뷰 폼 submit 중지
 // text, grade, mid, mno
 const reviewForm = document.querySelector(".review-form");
@@ -55,6 +55,11 @@ reviewForm.addEventListener("submit", (e) => {
     mno: mno,
     grade: grade,
   };
+
+  // 수정이라면 reviewNo가 존재
+  if (condition) {
+  } else {
+  }
 
   fetch(`/reviews/${mno}`, {
     method: "post",
@@ -103,6 +108,22 @@ document.querySelector(".reviewList").addEventListener("click", (e) => {
       .then((data) => {
         alert(data + " 번 리뷰 삭제");
         reviewsLoaded();
+      });
+  } else if (target.classList.contains("btn-outline-success")) {
+    // 수정 버튼을 누른다면
+    const reviewForm = document.querySelector(".review-form");
+
+    fetch(`/reviews/${mno}/${reviewNo}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // form 안에있는 것은 다 가져오기
+        reviewForm.querySelector("#reviewNo").value = data.reviewNo;
+        reviewForm.querySelector("#mid").value = data.mid;
+        reviewForm.querySelector("#nickname").value = data.nickname;
+        reviewForm.querySelector("#text").value = data.text;
+        reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click();
+        reviewForm.querySelector("button").innerHTML = "리뷰 수정";
       });
   }
 });

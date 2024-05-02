@@ -19,6 +19,8 @@ public interface ReviewService {
 
     ReviewDto getReview(Long reviewNo);
 
+    Long updateReview(ReviewDto reviewDto);
+
     public default ReviewDto entityToDto(Review review) {
         ReviewDto dto = ReviewDto.builder().reviewNo(review.getReviewNo()).grade(review.getGrade())
                 .text(review.getText()).createdDate(review.getCreatedDate())

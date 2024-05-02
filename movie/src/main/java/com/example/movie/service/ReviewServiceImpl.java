@@ -51,4 +51,14 @@ public class ReviewServiceImpl implements ReviewService {
         return entityToDto(review);
     }
 
+    @Override
+    public Long updateReview(ReviewDto reviewDto) {
+
+        // save() => 1) select, 2) insert or update 결정
+
+        reviewRepository.save(dtoToEntity(reviewDto));
+
+        return reviewDto.getReviewNo();
+    }
+
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,6 +68,15 @@ public class ReviewController {
         ReviewDto reviewDto = service.getReview(reviewNo);
 
         return new ResponseEntity<ReviewDto>(reviewDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/{mno}/{reviewNo}")
+    public ResponseEntity<Long> updateReviewPut(@PathVariable("reviewNo") Long reviewNo,
+            @RequestBody ReviewDto reviewDto) {
+        log.info("수정된 dto {}", reviewDto);
+        Long reviewNum = service.updateReview(reviewDto);
+
+        return new ResponseEntity<Long>(reviewNum, HttpStatus.OK);
     }
 
 }
