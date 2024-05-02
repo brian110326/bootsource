@@ -11,6 +11,9 @@ public interface ReviewService {
     // 특정 영화의 모든 리뷰 가져오기
     List<ReviewDto> getListOfMovie(Long mno);
 
+    // 특정 영화의 리뷰 등록
+    Long addReview(ReviewDto reviewDto);
+
     public default ReviewDto entityToDto(Review review) {
         ReviewDto dto = ReviewDto.builder().reviewNo(review.getReviewNo()).grade(review.getGrade())
                 .text(review.getText()).createdDate(review.getCreatedDate())

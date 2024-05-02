@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +35,18 @@ public class ReviewController {
         List<ReviewDto> list = service.getListOfMovie(mno);
 
         return new ResponseEntity<List<ReviewDto>>(list, HttpStatus.OK);
+    }
+
+    // /3 + POST
+    @PostMapping("/{mno}")
+    public ResponseEntity<Long> postMethodName(@RequestBody ReviewDto reviewDto) {
+
+        log.info("리뷰 등록 {}", reviewDto);
+
+        Long reviewNo = service.addReview(reviewDto);
+
+        return new ResponseEntity<Long>(reviewNo, HttpStatus.OK);
+
     }
 
 }

@@ -31,4 +31,12 @@ public class ReviewServiceImpl implements ReviewService {
         return reviews.stream().map(review -> entityToDto(review)).collect(Collectors.toList());
     }
 
+    @Override
+    public Long addReview(ReviewDto reviewDto) {
+        // dto -> entity
+        Review review = dtoToEntity(reviewDto);
+
+        return reviewRepository.save(review).getReviewNo();
+    }
+
 }
