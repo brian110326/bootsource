@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +48,23 @@ public class ReviewController {
 
         return new ResponseEntity<Long>(reviewNo, HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("/{mno}/{reviewNo}")
+    public ResponseEntity<Long> removePost(@PathVariable("reviewNo") Long reviewNo) {
+
+        service.removeReview(reviewNo);
+
+        return new ResponseEntity<Long>(reviewNo, HttpStatus.OK);
+    }
+
+    // /299/5
+    @GetMapping("/{mno}/{reviewNo}")
+    public ResponseEntity<ReviewDto> reviewGet(@PathVariable("reviewNo") Long reviewNo) {
+
+        ReviewDto reviewDto = service.getReview(reviewNo);
+
+        return new ResponseEntity<ReviewDto>(reviewDto, HttpStatus.OK);
     }
 
 }

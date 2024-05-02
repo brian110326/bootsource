@@ -39,4 +39,16 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.save(review).getReviewNo();
     }
 
+    @Override
+    public void removeReview(Long reviewNo) {
+        reviewRepository.deleteById(reviewNo);
+    }
+
+    @Override
+    public ReviewDto getReview(Long reviewNo) {
+        Review review = reviewRepository.findById(reviewNo).get();
+
+        return entityToDto(review);
+    }
+
 }

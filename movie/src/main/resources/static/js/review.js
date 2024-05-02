@@ -12,9 +12,17 @@ const reviewsLoaded = () => {
     .then((data) => {
       console.log(data);
 
+      // 화면단에 리뷰 총개수 변경
+      const reviewCnt = document.querySelector(".review-cnt");
+      reviewCnt.innerHTML = data.length;
+      const reviewList = document.querySelector(".reviewList");
+      if (data.length > 0) {
+        reviewList.classList.remove("hidden");
+      }
+
       let result = "";
       data.forEach((review) => {
-        result += `<div class="d-flex justify-content-between my-2 border-bottom py-2 review-row" data-rno="1">`;
+        result += `<div class="d-flex justify-content-between my-2 border-bottom py-2 review-row" data-rno="${review.reviewNo}">`;
         result += `<div class="flex-grow-1 align-self-center">`;
         result += `<div><span class="font-semibold">${review.text}</span></div>`;
         result += `<div class="small text-muted">`;
@@ -58,9 +66,43 @@ reviewForm.addEventListener("submit", (e) => {
     .then((response) => response.text())
     .then((data) => {
       console.log(data);
+
+      const text = document.querySelector("#text");
+      const mid = document.querySelector("#mid");
+      const nickname = document.querySelector("#nickname");
+
+      // 리뷰작성후 입력값 초기화
+      text.value = "";
+      nickname.value = "";
+      grade = 0;
+
       if (data) {
         alert("댓글 등록 성공");
       }
+
       reviewsLoaded();
     });
+});
+
+// 삭제 클릭시 reviewNo 가져오기
+document.querySelector(".reviewList").addEventListener("click", (e) => {
+  console.log(e.target);
+
+  const target = e.target;
+
+  // reviewNo 가져오기
+  const reviewNo = target.closest(".review-row").dataset.rno;
+
+  if (target.classList.contains("btn-outline-danger")) {
+    if (!confirm("리뷰를 삭제하시겠습니까?")) {
+      return;
+    }
+
+    fetch(`/reviews/${mno}/${reviewNo}`, { method: "delete" })
+      .then((response) => response.text())
+      .then((data) => {
+        alert(data + " 번 리뷰 삭제");
+        reviewsLoaded();
+      });
+  }
 });
