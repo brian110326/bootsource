@@ -6,13 +6,16 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.movie.dto.AuthMemberDto;
 import com.example.movie.dto.MemberDto;
+import com.example.movie.dto.PasswordChangeDto;
 import com.example.movie.entity.Member;
 import com.example.movie.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,6 +25,8 @@ import lombok.extern.log4j.Log4j2;
 public class MovieUserServiceImpl implements UserDetailsService, MovieUserService {
 
     private final MemberRepository memberRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -62,21 +67,32 @@ public class MovieUserServiceImpl implements UserDetailsService, MovieUserServic
     }
 
     @Override
+    @Transactional
     public void nickNameUpdate(MemberDto upMemberDto) {
 
         // select 결과에 따라 insert or update
-        Member member = dtoToEntity(upMemberDto);
+        // Member member = dtoToEntity(upMemberDto);
 
-        memberRepository.save(member);
+        // memberRepository.save(member);
 
         // save 사용안할 때
-        // memberRepository.updateNickName(upMemberDto.getNickname(),
-        // upMemberDto.getEmail());
+        memberRepository.updateNickName(upMemberDto.getNickname(), upMemberDto.getEmail());
     }
 
     @Override
-    public void passwordUpdate() {
+    public void passwordUpdate(PasswordChangeDto pDto) throws IllegalStateException {
 
+        // 현재 이메일과 비밀번호가 일치하는지 여부
+        // select => 결과 있다면 => update
+        Member member = memberRepository.findByEmail(pDto.getEmail()).get();
+
+        // 비밀번호는 암호화 된 상태
+        if (!passwordEncoder.matches(pDto.getCurrentPassword(), member.getPassword())) {
+            throw new IllegalStateException("현재 비밀번호가 일치하지 않습니다");
+        } else {
+            member.setPassword(passwordEncoder.encode(pDto.getNewPassword()));
+            memberRepository.save(member);
+        }
     }
 
 }
