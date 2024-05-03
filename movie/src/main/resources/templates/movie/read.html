@@ -91,7 +91,7 @@
       <!-- 리뷰 작성 폼-->
       <form action="" method="post" class="review-form">
         <input type="hidden" name="reviewNo" id="reviewNo" />
-        <input type="hidden" name="mid" id="mid" value="2" />
+        <input type="hidden" name="mid" id="mid" th:value="${#authentication.principal.memberDto.mid}" />
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">작성자</span>
           <input

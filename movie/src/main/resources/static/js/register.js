@@ -19,6 +19,7 @@ document.querySelector(".uploadResult").addEventListener("click", (e) => {
   fetch("/upload/remove", {
     method: "post",
     body: formData,
+    headers: { "X-CSRF-TOKEN": csrfValue },
   })
     .then((response) => response.text())
     .then((data) => {
