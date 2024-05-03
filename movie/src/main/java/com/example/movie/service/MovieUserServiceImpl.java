@@ -64,13 +64,19 @@ public class MovieUserServiceImpl implements UserDetailsService, MovieUserServic
     @Override
     public void nickNameUpdate(MemberDto upMemberDto) {
 
-        throw new UnsupportedOperationException("Unimplemented method 'nickNameUpdate'");
+        // select 결과에 따라 insert or update
+        Member member = dtoToEntity(upMemberDto);
+
+        memberRepository.save(member);
+
+        // save 사용안할 때
+        // memberRepository.updateNickName(upMemberDto.getNickname(),
+        // upMemberDto.getEmail());
     }
 
     @Override
     public void passwordUpdate() {
 
-        throw new UnsupportedOperationException("Unimplemented method 'passwordUpdate'");
     }
 
 }
