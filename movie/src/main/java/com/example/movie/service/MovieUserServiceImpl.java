@@ -19,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class MovieUserServiceImpl implements UserDetailsService {
+public class MovieUserServiceImpl implements UserDetailsService, MovieUserService {
 
     private final MemberRepository memberRepository;
 
@@ -51,8 +51,26 @@ public class MovieUserServiceImpl implements UserDetailsService {
 
         // entity => dto
 
-        return new AuthMemberDto(null);
+        return new AuthMemberDto(entityToDto(member));
 
+    }
+
+    @Override
+    public String register(MemberDto insertDto) throws IllegalStateException {
+
+        throw new UnsupportedOperationException("Unimplemented method 'register'");
+    }
+
+    @Override
+    public void nickNameUpdate(MemberDto upMemberDto) {
+
+        throw new UnsupportedOperationException("Unimplemented method 'nickNameUpdate'");
+    }
+
+    @Override
+    public void passwordUpdate() {
+
+        throw new UnsupportedOperationException("Unimplemented method 'passwordUpdate'");
     }
 
 }
