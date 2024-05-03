@@ -112,11 +112,24 @@ public class MemberController {
             return "/member/register";
         }
 
-        String email = service.register(memberDto);
+        String email = "";
+
+        try {
+            email = service.register(memberDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            rttr.addFlashAttribute("error", e.getMessage());
+            return "redirect:/member/register";
+        }
 
         rttr.addFlashAttribute("email", email);
 
         return "redirect:/member/login";
+    }
+
+    @GetMapping("/leave")
+    public void leaveGet(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        log.info("회원 탈퇴");
     }
 
 }

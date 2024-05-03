@@ -64,12 +64,12 @@ public class MovieUserServiceImpl implements UserDetailsService, MovieUserServic
     @Override
     public String register(MemberDto insertDto) throws IllegalStateException {
 
-        validateDuplicateEmail(insertDto.getEmail());
-
         Member member = Member.builder().email(insertDto.getEmail())
                 .password(passwordEncoder.encode(insertDto.getPassword()))
                 .role(MemberRole.MEMBER)
                 .nickname(insertDto.getNickname()).build();
+
+        validateDuplicateEmail(insertDto.getEmail());
 
         memberRepository.save(member);
 

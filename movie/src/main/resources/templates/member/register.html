@@ -27,6 +27,7 @@
                   th:value="${memberDto.email}"
                 />
                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+                <div th:if="${error}" class="text-danger" th:text="${error}"></div>
               </label>
 
               <label class="block mt-4 text-sm">
