@@ -1,5 +1,6 @@
 package com.example.movie.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,6 +23,8 @@ public class MemberController {
         log.info("로그인 폼 요청");
     }
 
+    // 로그인 시 가능함
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public void getProfile(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("프로필 폼 요청");
