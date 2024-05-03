@@ -132,4 +132,23 @@ public class MemberController {
         log.info("회원 탈퇴");
     }
 
+    @PostMapping("/leave")
+    public String leavePost(MemberDto memberDto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto pageRequestDto, HttpSession session) {
+
+        log.info("탈퇴 회원 {}", memberDto);
+
+        try {
+            service.leave(memberDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            rttr.addFlashAttribute("error", "이메일이나 비밀번호를 확인해주세요");
+            return "redirect:/member/leave";
+        }
+
+        session.invalidate();
+
+        return "redirect:/member/login";
+    }
+
 }

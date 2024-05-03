@@ -16,6 +16,9 @@ public interface MovieUserService {
     // 비밀번호 수정
     void passwordUpdate(PasswordChangeDto pDto) throws IllegalStateException;
 
+    // 회원탈퇴
+    void leave(MemberDto leavMemberDto) throws IllegalStateException;
+
     // dto => entity
     public default Member dtoToEntity(MemberDto memberDto) {
         Member member = Member.builder().mid(memberDto.getMid()).email(memberDto.getEmail())

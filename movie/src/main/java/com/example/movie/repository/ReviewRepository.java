@@ -26,6 +26,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @EntityGraph(attributePaths = { "member" }, type = EntityGraphType.FETCH)
     List<Review> findByMovie(Movie movie);
 
+    // @Query(value = "delete from Review r where r.member = :member",
+    // nativeQuery=true)
+
     @Modifying
     @Query("delete from Review r where r.member = :member")
     void deleteByMember(Member member);

@@ -15,6 +15,7 @@ import com.example.movie.dto.MemberDto;
 import com.example.movie.dto.PasswordChangeDto;
 import com.example.movie.entity.Member;
 import com.example.movie.repository.MemberRepository;
+import com.example.movie.repository.ReviewRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class MovieUserServiceImpl implements UserDetailsService, MovieUserServic
     private final MemberRepository memberRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final ReviewRepository reviewRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -112,6 +115,25 @@ public class MovieUserServiceImpl implements UserDetailsService, MovieUserServic
             member.setPassword(passwordEncoder.encode(pDto.getNewPassword()));
             memberRepository.save(member);
         }
+    }
+
+    @Override
+    @Transactional
+    public void leave(MemberDto leavMemberDto) throws IllegalStateException {
+
+        Member member = memberRepository.findByEmail(leavMemberDto.getEmail()).get();
+
+        // 이메일과 비밀번호 일치 시
+        if (!passwordEncoder.matches(leavMemberDto.getPassword(), member.getPassword())
+                || !leavMemberDto.getEmail().equals(member.getEmail())) {
+            throw new IllegalStateException("이메일 또는 비밀번호가 일치하지 않습니다");
+        } else {
+
+            reviewRepository.deleteByMember(member);
+
+            memberRepository.delete(member);
+        }
+
     }
 
 }

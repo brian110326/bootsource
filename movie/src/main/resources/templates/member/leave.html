@@ -18,7 +18,7 @@
                 <input
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                   placeholder="이메일"
-                  name="username"
+                  name="email"
                 />
                 <!-- 로그인 시 id쪽 name은 꼭 username으로!! -->
               </label>
@@ -39,6 +39,7 @@
               >
                 회원 탈퇴
               </button>
+              <div class="text-danger small" th:if="${error}" th:text="${error}"></div>
             </form>
             <div class="text-danger small" th:if="${param.error}">이메일이나 비밀번호를 확인해주세요</div>
 
