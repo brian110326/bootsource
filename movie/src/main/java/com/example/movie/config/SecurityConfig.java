@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .requestMatchers("/upload/display").permitAll()
                 // script에서 restcontroller /reviews 해결
                 .requestMatchers("/reviews/**").permitAll()
+                .requestMatchers("/member/register").permitAll()
                 .anyRequest().authenticated());
 
         // 로그인 페이지는 /member/login 경로 요청 해야함

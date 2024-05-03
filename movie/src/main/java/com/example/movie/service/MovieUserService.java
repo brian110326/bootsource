@@ -1,5 +1,7 @@
 package com.example.movie.service;
 
+import java.util.Optional;
+
 import com.example.movie.dto.MemberDto;
 import com.example.movie.dto.PasswordChangeDto;
 import com.example.movie.entity.Member;
@@ -32,4 +34,5 @@ public interface MovieUserService {
 
         return memberDto;
     }
+
 }

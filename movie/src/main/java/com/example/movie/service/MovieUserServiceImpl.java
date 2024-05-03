@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.movie.constant.MemberRole;
 import com.example.movie.dto.AuthMemberDto;
 import com.example.movie.dto.MemberDto;
 import com.example.movie.dto.PasswordChangeDto;
@@ -63,7 +64,25 @@ public class MovieUserServiceImpl implements UserDetailsService, MovieUserServic
     @Override
     public String register(MemberDto insertDto) throws IllegalStateException {
 
-        throw new UnsupportedOperationException("Unimplemented method 'register'");
+        validateDuplicateEmail(insertDto.getEmail());
+
+        Member member = Member.builder().email(insertDto.getEmail())
+                .password(passwordEncoder.encode(insertDto.getPassword()))
+                .role(MemberRole.MEMBER)
+                .nickname(insertDto.getNickname()).build();
+
+        memberRepository.save(member);
+
+        return member.getEmail();
+    }
+
+    // 중복 이메일 검사
+    public void validateDuplicateEmail(String email) throws IllegalStateException {
+        Optional<Member> result = memberRepository.findByEmail(email);
+
+        if (result.isPresent()) {
+            throw new IllegalStateException("이미 가입된 회원입니다");
+        }
     }
 
     @Override

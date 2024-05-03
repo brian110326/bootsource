@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import com.example.movie.dto.PasswordChangeDto;
 import com.example.movie.service.MovieUserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -93,6 +95,28 @@ public class MemberController {
 
         return "redirect:/member/login";
 
+    }
+
+    @GetMapping("/register")
+    public void getRegister(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, MemberDto memberDto) {
+        log.info("회원가입 폼 요청");
+    }
+
+    @PostMapping("/register")
+    public String postRegister(@Valid MemberDto memberDto, BindingResult result, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+
+        log.info("회원가입 요청 {}", memberDto);
+
+        if (result.hasErrors()) {
+            return "/member/register";
+        }
+
+        String email = service.register(memberDto);
+
+        rttr.addFlashAttribute("email", email);
+
+        return "redirect:/member/login";
     }
 
 }
