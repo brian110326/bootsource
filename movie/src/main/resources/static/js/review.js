@@ -51,6 +51,7 @@ reviewForm.addEventListener("submit", (e) => {
 
   // 수정이라면 reviewNo가 존재
   const reviewNo = reviewForm.querySelector("#reviewNo");
+  const email = reviewForm.querySelector("#email");
 
   const data = {
     text: document.querySelector("#text").value,
@@ -58,6 +59,7 @@ reviewForm.addEventListener("submit", (e) => {
     mno: mno,
     grade: grade || 0,
     reviewNo: reviewNo.value,
+    email: email.value,
   };
 
   if (!reviewNo.value) {
@@ -66,7 +68,9 @@ reviewForm.addEventListener("submit", (e) => {
       method: "post",
       headers: {
         "content-type": "application/json",
+        "X-CSRF-TOKEN": csrfValue,
       },
+
       body: JSON.stringify(data),
     })
       .then((response) => response.text())
