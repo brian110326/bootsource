@@ -43,7 +43,7 @@ public class HomeController {
     public String getError(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("404");
 
-        return "/except/ur1404";
+        return "/except/url404";
     }
 
 }
