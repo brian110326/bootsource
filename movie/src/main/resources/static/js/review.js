@@ -29,11 +29,16 @@ const reviewsLoaded = () => {
         result += `<span class="d-inline-block mr-3">${review.nickname}</span>평점 : ${review.grade}점<span class="grade"></span></div>`;
         result += `<div class="text-muted"><span class="small">${formatDate(review.createdDate)}</span></div></div>`;
         result += `<div class="d-flex flex-column align-self-center">`;
-        result += `<div class="mb-2">`;
-        result += `<button class="btn btn-outline-danger btn-sm">삭제</button>`;
-        result += `</div><div>`;
-        result += `<button class="btn btn-outline-success btn-sm">수정</button>`;
-        result += `</div></div></div>`;
+        // 작성자 == 로그인사용자
+        if (`${review.email}` == user) {
+          result += `<div class="mb-2">`;
+          result += `<button class="btn btn-outline-danger btn-sm">삭제</button>`;
+          result += `</div><div>`;
+          result += `<button class="btn btn-outline-success btn-sm">수정</button>`;
+          result += `</div>`;
+        }
+
+        result += `</div></div>`;
       });
 
       reviewList.innerHTML = result;
@@ -134,13 +139,24 @@ document.querySelector(".reviewList").addEventListener("click", (e) => {
 
   // reviewNo 가져오기
   const reviewNo = target.closest(".review-row").dataset.rno;
+  // 컨트롤러에서 작성자와 로그인유저가 같은지 다시 한번 확인
+  const email = reviewForm.querySelector("#email");
 
   if (target.classList.contains("btn-outline-danger")) {
     if (!confirm("리뷰를 삭제하시겠습니까?")) {
       return;
     }
 
-    fetch(`/reviews/${mno}/${reviewNo}`, { method: "delete" })
+    const form = new FormData();
+    form.append("email", email.value);
+
+    fetch(`/reviews/${mno}/${reviewNo}`, {
+      method: "delete",
+      headers: {
+        "X-CSRF-TOKEN": csrfValue,
+      },
+      body: form,
+    })
       .then((response) => response.text())
       .then((data) => {
         alert(data + " 번 리뷰 삭제");

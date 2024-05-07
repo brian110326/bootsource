@@ -193,6 +193,9 @@
         if(reviewCnt > 0){
           reviewList.classList.remove("hidden");
         }
+
+        // 로그인 유저
+        const user = '[[${#authentication.name}]]';
       </script>
       
       <script th:src="@{/js/read.js}"></script>
