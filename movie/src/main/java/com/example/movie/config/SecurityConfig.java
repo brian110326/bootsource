@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.movie.handler.CustomAccessDeniedHandler;
+
 @Configuration
 @EnableMethodSecurity
 @EnableWebSecurity
@@ -44,11 +46,22 @@ public class SecurityConfig {
         // 로그인 페이지가 안떠서....
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
+        // 403(접근제한) : 정적 페이지와 연결
+        // http.exceptionHandling(exception ->
+        // exception.accessDeniedPage("/access-denied.html"));
+
+        http.exceptionHandling(exception -> exception.accessDeniedHandler(customAccessDeniedHandler()));
+
         return http.build();
     }
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    CustomAccessDeniedHandler customAccessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 }
