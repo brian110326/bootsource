@@ -72,6 +72,7 @@ public class ReviewController {
         return new ResponseEntity<ReviewDto>(reviewDto, HttpStatus.OK);
     }
 
+    @PreAuthorize("authentication.name == #reviewDto.email")
     @PutMapping("/{mno}/{reviewNo}")
     public ResponseEntity<Long> updateReviewPut(@PathVariable("reviewNo") Long reviewNo,
             @RequestBody ReviewDto reviewDto) {

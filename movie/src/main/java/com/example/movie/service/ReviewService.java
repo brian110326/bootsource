@@ -39,11 +39,20 @@ public interface ReviewService {
         Movie movie = Movie.builder().mno(reviewDto.getMno()).build();
         Member member = Member.builder().mid(reviewDto.getMid()).build();
 
-        Review review = Review.builder().reviewNo(reviewDto.getReviewNo()).grade(reviewDto.getGrade())
-                .text(reviewDto.getText())
-                .member(member)
-                .movie(movie)
-                .build();
+        // Review review =
+        // Review.builder().reviewNo(reviewDto.getReviewNo()).grade(reviewDto.getGrade())
+        // .text(reviewDto.getText())
+        // .member(member)
+        // .movie(movie)
+        // .build();
+
+        Review review = new Review();
+        review.setCreatedDate(reviewDto.getCreatedDate());
+        review.setReviewNo(reviewDto.getReviewNo());
+        review.setMember(member);
+        review.setMovie(movie);
+        review.setText(reviewDto.getText());
+        review.setGrade(reviewDto.getGrade());
 
         return review;
     }

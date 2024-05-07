@@ -88,7 +88,7 @@ reviewForm.addEventListener("submit", (e) => {
 
         // 리뷰작성후 입력값 초기화
         text.value = "";
-        nickname.value = "";
+
         // grade = 0;
         reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
@@ -104,6 +104,7 @@ reviewForm.addEventListener("submit", (e) => {
       method: "put",
       headers: {
         "content-type": "application/json",
+        "X-CSRF-TOKEN": csrfValue,
       },
       body: JSON.stringify(data),
     })
@@ -117,7 +118,6 @@ reviewForm.addEventListener("submit", (e) => {
 
         // 리뷰작성후 입력값 초기화
         text.value = "";
-        nickname.value = "";
         reviewNo.value = "";
         // grade = 0;
         reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
@@ -175,6 +175,7 @@ document.querySelector(".reviewList").addEventListener("click", (e) => {
         reviewForm.querySelector("#mid").value = data.mid;
         reviewForm.querySelector("#nickname").value = data.nickname;
         reviewForm.querySelector("#text").value = data.text;
+        reviewForm.querySelector("#email").value = data.email;
         reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click();
         reviewForm.querySelector("button").innerHTML = "리뷰 수정";
       });
